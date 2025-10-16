@@ -2,6 +2,11 @@ const helpers = @import("helpers.zig");
 /// Bytes 0-3 of the SETUP packet from the host.
 pub const SETUP_PACKET_LOW = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100000),
+    pub const FieldMasks = struct {
+        pub const WVALUE: u32 = helpers.generateMask(16, 32);
+        pub const BREQUEST: u32 = helpers.generateMask(8, 16);
+        pub const BMREQUESTTYPE: u32 = helpers.generateMask(0, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -50,7 +55,20 @@ pub const SETUP_PACKET_LOW = struct {
         return Value.BMREQUESTTYPE(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -59,6 +77,10 @@ pub const SETUP_PACKET_LOW = struct {
 /// Bytes 4-7 of the setup packet from the host.
 pub const SETUP_PACKET_HIGH = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100004),
+    pub const FieldMasks = struct {
+        pub const WLENGTH: u32 = helpers.generateMask(16, 32);
+        pub const WINDEX: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -94,7 +116,20 @@ pub const SETUP_PACKET_HIGH = struct {
         return Value.WINDEX(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -102,6 +137,16 @@ pub const SETUP_PACKET_HIGH = struct {
 };
 pub const EP1_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100008),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -236,7 +281,20 @@ pub const EP1_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -244,6 +302,16 @@ pub const EP1_IN_CONTROL = struct {
 };
 pub const EP1_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5010000c),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -378,7 +446,20 @@ pub const EP1_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -386,6 +467,16 @@ pub const EP1_OUT_CONTROL = struct {
 };
 pub const EP2_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100010),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -520,7 +611,20 @@ pub const EP2_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -528,6 +632,16 @@ pub const EP2_IN_CONTROL = struct {
 };
 pub const EP2_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100014),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -662,7 +776,20 @@ pub const EP2_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -670,6 +797,16 @@ pub const EP2_OUT_CONTROL = struct {
 };
 pub const EP3_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100018),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -804,7 +941,20 @@ pub const EP3_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -812,6 +962,16 @@ pub const EP3_IN_CONTROL = struct {
 };
 pub const EP3_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5010001c),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -946,7 +1106,20 @@ pub const EP3_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -954,6 +1127,16 @@ pub const EP3_OUT_CONTROL = struct {
 };
 pub const EP4_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100020),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -1088,7 +1271,20 @@ pub const EP4_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1096,6 +1292,16 @@ pub const EP4_IN_CONTROL = struct {
 };
 pub const EP4_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100024),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -1230,7 +1436,20 @@ pub const EP4_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1238,6 +1457,16 @@ pub const EP4_OUT_CONTROL = struct {
 };
 pub const EP5_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100028),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -1372,7 +1601,20 @@ pub const EP5_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1380,6 +1622,16 @@ pub const EP5_IN_CONTROL = struct {
 };
 pub const EP5_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5010002c),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -1514,7 +1766,20 @@ pub const EP5_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1522,6 +1787,16 @@ pub const EP5_OUT_CONTROL = struct {
 };
 pub const EP6_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100030),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -1656,7 +1931,20 @@ pub const EP6_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1664,6 +1952,16 @@ pub const EP6_IN_CONTROL = struct {
 };
 pub const EP6_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100034),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -1798,7 +2096,20 @@ pub const EP6_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1806,6 +2117,16 @@ pub const EP6_OUT_CONTROL = struct {
 };
 pub const EP7_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100038),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -1940,7 +2261,20 @@ pub const EP7_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1948,6 +2282,16 @@ pub const EP7_IN_CONTROL = struct {
 };
 pub const EP7_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5010003c),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -2082,7 +2426,20 @@ pub const EP7_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2090,6 +2447,16 @@ pub const EP7_OUT_CONTROL = struct {
 };
 pub const EP8_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100040),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -2224,7 +2591,20 @@ pub const EP8_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2232,6 +2612,16 @@ pub const EP8_IN_CONTROL = struct {
 };
 pub const EP8_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100044),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -2366,7 +2756,20 @@ pub const EP8_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2374,6 +2777,16 @@ pub const EP8_OUT_CONTROL = struct {
 };
 pub const EP9_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100048),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -2508,7 +2921,20 @@ pub const EP9_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2516,6 +2942,16 @@ pub const EP9_IN_CONTROL = struct {
 };
 pub const EP9_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5010004c),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -2650,7 +3086,20 @@ pub const EP9_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2658,6 +3107,16 @@ pub const EP9_OUT_CONTROL = struct {
 };
 pub const EP10_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100050),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -2792,7 +3251,20 @@ pub const EP10_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2800,6 +3272,16 @@ pub const EP10_IN_CONTROL = struct {
 };
 pub const EP10_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100054),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -2934,7 +3416,20 @@ pub const EP10_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2942,6 +3437,16 @@ pub const EP10_OUT_CONTROL = struct {
 };
 pub const EP11_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100058),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -3076,7 +3581,20 @@ pub const EP11_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3084,6 +3602,16 @@ pub const EP11_IN_CONTROL = struct {
 };
 pub const EP11_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5010005c),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -3218,7 +3746,20 @@ pub const EP11_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3226,6 +3767,16 @@ pub const EP11_OUT_CONTROL = struct {
 };
 pub const EP12_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100060),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -3360,7 +3911,20 @@ pub const EP12_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3368,6 +3932,16 @@ pub const EP12_IN_CONTROL = struct {
 };
 pub const EP12_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100064),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -3502,7 +4076,20 @@ pub const EP12_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3510,6 +4097,16 @@ pub const EP12_OUT_CONTROL = struct {
 };
 pub const EP13_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100068),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -3644,7 +4241,20 @@ pub const EP13_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3652,6 +4262,16 @@ pub const EP13_IN_CONTROL = struct {
 };
 pub const EP13_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5010006c),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -3786,7 +4406,20 @@ pub const EP13_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3794,6 +4427,16 @@ pub const EP13_OUT_CONTROL = struct {
 };
 pub const EP14_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100070),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -3928,7 +4571,20 @@ pub const EP14_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3936,6 +4592,16 @@ pub const EP14_IN_CONTROL = struct {
 };
 pub const EP14_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100074),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -4070,7 +4736,20 @@ pub const EP14_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -4078,6 +4757,16 @@ pub const EP14_OUT_CONTROL = struct {
 };
 pub const EP15_IN_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100078),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -4212,7 +4901,20 @@ pub const EP15_IN_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -4220,6 +4922,16 @@ pub const EP15_IN_CONTROL = struct {
 };
 pub const EP15_OUT_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5010007c),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(31, 32);
+        pub const DOUBLE_BUFFERED: u32 = helpers.generateMask(30, 31);
+        pub const INTERRUPT_PER_BUFF: u32 = helpers.generateMask(29, 30);
+        pub const INTERRUPT_PER_DOUBLE_BUFF: u32 = helpers.generateMask(28, 29);
+        pub const ENDPOINT_TYPE: u32 = helpers.generateMask(26, 28);
+        pub const INTERRUPT_ON_STALL: u32 = helpers.generateMask(17, 18);
+        pub const INTERRUPT_ON_NAK: u32 = helpers.generateMask(16, 17);
+        pub const BUFFER_ADDRESS: u32 = helpers.generateMask(0, 16);
+    };
     const ENDPOINT_TYPE_e = enum(u2) {
         Control = 0,
         Isochronous = 1,
@@ -4354,7 +5066,20 @@ pub const EP15_OUT_CONTROL = struct {
         return Value.BUFFER_ADDRESS(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -4364,6 +5089,21 @@ pub const EP15_OUT_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP0_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100080),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -4577,7 +5317,20 @@ pub const EP0_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -4587,6 +5340,21 @@ pub const EP0_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP0_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100084),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -4800,7 +5568,20 @@ pub const EP0_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -4810,6 +5591,21 @@ pub const EP0_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP1_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100088),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -5023,7 +5819,20 @@ pub const EP1_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -5033,6 +5842,21 @@ pub const EP1_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP1_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5010008c),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -5246,7 +6070,20 @@ pub const EP1_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -5256,6 +6093,21 @@ pub const EP1_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP2_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100090),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -5469,7 +6321,20 @@ pub const EP2_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -5479,6 +6344,21 @@ pub const EP2_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP2_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100094),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -5692,7 +6572,20 @@ pub const EP2_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -5702,6 +6595,21 @@ pub const EP2_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP3_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50100098),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -5915,7 +6823,20 @@ pub const EP3_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -5925,6 +6846,21 @@ pub const EP3_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP3_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5010009c),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -6138,7 +7074,20 @@ pub const EP3_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -6148,6 +7097,21 @@ pub const EP3_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP4_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000a0),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -6361,7 +7325,20 @@ pub const EP4_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -6371,6 +7348,21 @@ pub const EP4_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP4_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000a4),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -6584,7 +7576,20 @@ pub const EP4_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -6594,6 +7599,21 @@ pub const EP4_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP5_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000a8),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -6807,7 +7827,20 @@ pub const EP5_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -6817,6 +7850,21 @@ pub const EP5_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP5_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000ac),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -7030,7 +8078,20 @@ pub const EP5_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -7040,6 +8101,21 @@ pub const EP5_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP6_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000b0),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -7253,7 +8329,20 @@ pub const EP6_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -7263,6 +8352,21 @@ pub const EP6_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP6_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000b4),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -7476,7 +8580,20 @@ pub const EP6_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -7486,6 +8603,21 @@ pub const EP6_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP7_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000b8),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -7699,7 +8831,20 @@ pub const EP7_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -7709,6 +8854,21 @@ pub const EP7_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP7_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000bc),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -7922,7 +9082,20 @@ pub const EP7_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -7932,6 +9105,21 @@ pub const EP7_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP8_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000c0),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -8145,7 +9333,20 @@ pub const EP8_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -8155,6 +9356,21 @@ pub const EP8_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP8_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000c4),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -8368,7 +9584,20 @@ pub const EP8_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -8378,6 +9607,21 @@ pub const EP8_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP9_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000c8),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -8591,7 +9835,20 @@ pub const EP9_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -8601,6 +9858,21 @@ pub const EP9_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP9_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000cc),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -8814,7 +10086,20 @@ pub const EP9_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -8824,6 +10109,21 @@ pub const EP9_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP10_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000d0),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -9037,7 +10337,20 @@ pub const EP10_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -9047,6 +10360,21 @@ pub const EP10_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP10_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000d4),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -9260,7 +10588,20 @@ pub const EP10_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -9270,6 +10611,21 @@ pub const EP10_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP11_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000d8),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -9483,7 +10839,20 @@ pub const EP11_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -9493,6 +10862,21 @@ pub const EP11_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP11_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000dc),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -9706,7 +11090,20 @@ pub const EP11_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -9716,6 +11113,21 @@ pub const EP11_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP12_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000e0),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -9929,7 +11341,20 @@ pub const EP12_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -9939,6 +11364,21 @@ pub const EP12_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP12_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000e4),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -10152,7 +11592,20 @@ pub const EP12_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -10162,6 +11615,21 @@ pub const EP12_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP13_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000e8),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -10375,7 +11843,20 @@ pub const EP13_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -10385,6 +11866,21 @@ pub const EP13_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP13_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000ec),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -10598,7 +12094,20 @@ pub const EP13_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -10608,6 +12117,21 @@ pub const EP13_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP14_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000f0),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -10821,7 +12345,20 @@ pub const EP14_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -10831,6 +12368,21 @@ pub const EP14_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP14_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000f4),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -11044,7 +12596,20 @@ pub const EP14_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -11054,6 +12619,21 @@ pub const EP14_OUT_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP15_IN_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000f8),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -11267,7 +12847,20 @@ pub const EP15_IN_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -11277,6 +12870,21 @@ pub const EP15_IN_BUFFER_CONTROL = struct {
 /// Fields ending in a _0 are for buffer 0. Buffer 1 controls are only valid if the endpoint is in double buffered mode.
 pub const EP15_OUT_BUFFER_CONTROL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x501000fc),
+    pub const FieldMasks = struct {
+        pub const FULL_1: u32 = helpers.generateMask(31, 32);
+        pub const LAST_1: u32 = helpers.generateMask(30, 31);
+        pub const PID_1: u32 = helpers.generateMask(29, 30);
+        pub const DOUBLE_BUFFER_ISO_OFFSET: u32 = helpers.generateMask(27, 29);
+        pub const AVAILABLE_1: u32 = helpers.generateMask(26, 27);
+        pub const LENGTH_1: u32 = helpers.generateMask(16, 26);
+        pub const FULL_0: u32 = helpers.generateMask(15, 16);
+        pub const LAST_0: u32 = helpers.generateMask(14, 15);
+        pub const PID_0: u32 = helpers.generateMask(13, 14);
+        pub const RESET: u32 = helpers.generateMask(12, 13);
+        pub const STALL: u32 = helpers.generateMask(11, 12);
+        pub const AVAILABLE_0: u32 = helpers.generateMask(10, 11);
+        pub const LENGTH_0: u32 = helpers.generateMask(0, 10);
+    };
     const DOUBLE_BUFFER_ISO_OFFSET_e = enum(u2) {
         @"128" = 0,
         @"256" = 1,
@@ -11490,7 +13098,20 @@ pub const EP15_OUT_BUFFER_CONTROL = struct {
         return Value.LENGTH_0(.{}, v);
     }
     pub fn write(self: @This(), v: Value) void {
-        helpers.hwWriteMasked(self.reg, v.val, v.mask);
+        var content = self.reg.*;
+        content &= ~v.mask;
+        content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };

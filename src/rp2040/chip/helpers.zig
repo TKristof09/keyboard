@@ -26,22 +26,34 @@ pub fn generateMask(comptime start: u8, comptime end: u8) u32 {
 // the SIO on the rp2040 doesnt support these
 // also the processor's registers don't support it either
 pub inline fn hwAtomicClear(reg: *volatile u32, mask: u32) void {
-    std.debug.assert(@intFromPtr(reg) < 0xd0000000 or @intFromPtr(reg) > 0xdfffffff);
-    std.debug.assert(@intFromPtr(reg) < 0xe0000000 or @intFromPtr(reg) > 0xefffffff);
+    // SIO
+    std.debug.assert(!(0xd0000000 < @intFromPtr(reg) and @intFromPtr(reg) < 0xdfffffff));
+    // Processor registers
+    std.debug.assert(!(0xe0000000 < @intFromPtr(reg) and @intFromPtr(reg) < 0xefffffff));
+    // USB DPRAM
+    std.debug.assert(!(0x50100000 < @intFromPtr(reg) and @intFromPtr(reg) < 0x50110000));
 
     const addr: *volatile u32 = @ptrFromInt(@intFromPtr(reg) + 0x3000);
     addr.* = mask;
 }
 pub inline fn hwAtomicSet(reg: *volatile u32, mask: u32) void {
-    std.debug.assert(@intFromPtr(reg) < 0xd0000000 or @intFromPtr(reg) > 0xdfffffff);
-    std.debug.assert(@intFromPtr(reg) < 0xe0000000 or @intFromPtr(reg) > 0xefffffff);
+    // SIO
+    std.debug.assert(!(0xd0000000 < @intFromPtr(reg) and @intFromPtr(reg) < 0xdfffffff));
+    // Processor registers
+    std.debug.assert(!(0xe0000000 < @intFromPtr(reg) and @intFromPtr(reg) < 0xefffffff));
+    // USB DPRAM
+    std.debug.assert(!(0x50100000 < @intFromPtr(reg) and @intFromPtr(reg) < 0x50110000));
 
     const addr: *volatile u32 = @ptrFromInt(@intFromPtr(reg) + 0x2000);
     addr.* = mask;
 }
 pub inline fn hwAtomicXOR(reg: *volatile u32, mask: u32) void {
-    std.debug.assert(@intFromPtr(reg) < 0xd0000000 or @intFromPtr(reg) > 0xdfffffff);
-    std.debug.assert(@intFromPtr(reg) < 0xe0000000 or @intFromPtr(reg) > 0xefffffff);
+    // SIO
+    std.debug.assert(!(0xd0000000 < @intFromPtr(reg) and @intFromPtr(reg) < 0xdfffffff));
+    // Processor registers
+    std.debug.assert(!(0xe0000000 < @intFromPtr(reg) and @intFromPtr(reg) < 0xefffffff));
+    // USB DPRAM
+    std.debug.assert(!(0x50100000 < @intFromPtr(reg) and @intFromPtr(reg) < 0x50110000));
 
     const addr: *volatile u32 = @ptrFromInt(@intFromPtr(reg) + 0x1000);
     addr.* = mask;

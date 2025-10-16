@@ -2,6 +2,15 @@ const helpers = @import("helpers.zig");
 /// Control and status register
 pub const CH0_CSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050000),
+    pub const FieldMasks = struct {
+        pub const PH_ADV: u32 = helpers.generateMask(7, 8);
+        pub const PH_RET: u32 = helpers.generateMask(6, 7);
+        pub const DIVMODE: u32 = helpers.generateMask(4, 6);
+        pub const B_INV: u32 = helpers.generateMask(3, 4);
+        pub const A_INV: u32 = helpers.generateMask(2, 3);
+        pub const PH_CORRECT: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const DIVMODE_e = enum(u2) {
         div = 0,
         level = 1,
@@ -121,6 +130,12 @@ pub const CH0_CSR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -130,6 +145,10 @@ pub const CH0_CSR = struct {
 /// Fractional division uses simple 1st-order sigma-delta.
 pub const CH0_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050004),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(4, 12);
+        pub const FRAC: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -166,6 +185,12 @@ pub const CH0_DIV = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -178,6 +203,14 @@ pub const CH0_CTR = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -186,6 +219,10 @@ pub const CH0_CTR = struct {
 /// Counter compare values
 pub const CH0_CC = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4005000c),
+    pub const FieldMasks = struct {
+        pub const B: u32 = helpers.generateMask(16, 32);
+        pub const A: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -222,6 +259,12 @@ pub const CH0_CC = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -234,6 +277,14 @@ pub const CH0_TOP = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -242,6 +293,15 @@ pub const CH0_TOP = struct {
 /// Control and status register
 pub const CH1_CSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050014),
+    pub const FieldMasks = struct {
+        pub const PH_ADV: u32 = helpers.generateMask(7, 8);
+        pub const PH_RET: u32 = helpers.generateMask(6, 7);
+        pub const DIVMODE: u32 = helpers.generateMask(4, 6);
+        pub const B_INV: u32 = helpers.generateMask(3, 4);
+        pub const A_INV: u32 = helpers.generateMask(2, 3);
+        pub const PH_CORRECT: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const DIVMODE_e = enum(u2) {
         div = 0,
         level = 1,
@@ -361,6 +421,12 @@ pub const CH1_CSR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -370,6 +436,10 @@ pub const CH1_CSR = struct {
 /// Fractional division uses simple 1st-order sigma-delta.
 pub const CH1_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050018),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(4, 12);
+        pub const FRAC: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -406,6 +476,12 @@ pub const CH1_DIV = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -418,6 +494,14 @@ pub const CH1_CTR = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -426,6 +510,10 @@ pub const CH1_CTR = struct {
 /// Counter compare values
 pub const CH1_CC = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050020),
+    pub const FieldMasks = struct {
+        pub const B: u32 = helpers.generateMask(16, 32);
+        pub const A: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -462,6 +550,12 @@ pub const CH1_CC = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -474,6 +568,14 @@ pub const CH1_TOP = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -482,6 +584,15 @@ pub const CH1_TOP = struct {
 /// Control and status register
 pub const CH2_CSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050028),
+    pub const FieldMasks = struct {
+        pub const PH_ADV: u32 = helpers.generateMask(7, 8);
+        pub const PH_RET: u32 = helpers.generateMask(6, 7);
+        pub const DIVMODE: u32 = helpers.generateMask(4, 6);
+        pub const B_INV: u32 = helpers.generateMask(3, 4);
+        pub const A_INV: u32 = helpers.generateMask(2, 3);
+        pub const PH_CORRECT: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const DIVMODE_e = enum(u2) {
         div = 0,
         level = 1,
@@ -601,6 +712,12 @@ pub const CH2_CSR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -610,6 +727,10 @@ pub const CH2_CSR = struct {
 /// Fractional division uses simple 1st-order sigma-delta.
 pub const CH2_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4005002c),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(4, 12);
+        pub const FRAC: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -646,6 +767,12 @@ pub const CH2_DIV = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -658,6 +785,14 @@ pub const CH2_CTR = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -666,6 +801,10 @@ pub const CH2_CTR = struct {
 /// Counter compare values
 pub const CH2_CC = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050034),
+    pub const FieldMasks = struct {
+        pub const B: u32 = helpers.generateMask(16, 32);
+        pub const A: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -702,6 +841,12 @@ pub const CH2_CC = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -714,6 +859,14 @@ pub const CH2_TOP = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -722,6 +875,15 @@ pub const CH2_TOP = struct {
 /// Control and status register
 pub const CH3_CSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4005003c),
+    pub const FieldMasks = struct {
+        pub const PH_ADV: u32 = helpers.generateMask(7, 8);
+        pub const PH_RET: u32 = helpers.generateMask(6, 7);
+        pub const DIVMODE: u32 = helpers.generateMask(4, 6);
+        pub const B_INV: u32 = helpers.generateMask(3, 4);
+        pub const A_INV: u32 = helpers.generateMask(2, 3);
+        pub const PH_CORRECT: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const DIVMODE_e = enum(u2) {
         div = 0,
         level = 1,
@@ -841,6 +1003,12 @@ pub const CH3_CSR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -850,6 +1018,10 @@ pub const CH3_CSR = struct {
 /// Fractional division uses simple 1st-order sigma-delta.
 pub const CH3_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050040),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(4, 12);
+        pub const FRAC: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -886,6 +1058,12 @@ pub const CH3_DIV = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -898,6 +1076,14 @@ pub const CH3_CTR = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -906,6 +1092,10 @@ pub const CH3_CTR = struct {
 /// Counter compare values
 pub const CH3_CC = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050048),
+    pub const FieldMasks = struct {
+        pub const B: u32 = helpers.generateMask(16, 32);
+        pub const A: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -942,6 +1132,12 @@ pub const CH3_CC = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -954,6 +1150,14 @@ pub const CH3_TOP = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -962,6 +1166,15 @@ pub const CH3_TOP = struct {
 /// Control and status register
 pub const CH4_CSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050050),
+    pub const FieldMasks = struct {
+        pub const PH_ADV: u32 = helpers.generateMask(7, 8);
+        pub const PH_RET: u32 = helpers.generateMask(6, 7);
+        pub const DIVMODE: u32 = helpers.generateMask(4, 6);
+        pub const B_INV: u32 = helpers.generateMask(3, 4);
+        pub const A_INV: u32 = helpers.generateMask(2, 3);
+        pub const PH_CORRECT: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const DIVMODE_e = enum(u2) {
         div = 0,
         level = 1,
@@ -1081,6 +1294,12 @@ pub const CH4_CSR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1090,6 +1309,10 @@ pub const CH4_CSR = struct {
 /// Fractional division uses simple 1st-order sigma-delta.
 pub const CH4_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050054),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(4, 12);
+        pub const FRAC: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1126,6 +1349,12 @@ pub const CH4_DIV = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1138,6 +1367,14 @@ pub const CH4_CTR = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1146,6 +1383,10 @@ pub const CH4_CTR = struct {
 /// Counter compare values
 pub const CH4_CC = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4005005c),
+    pub const FieldMasks = struct {
+        pub const B: u32 = helpers.generateMask(16, 32);
+        pub const A: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1182,6 +1423,12 @@ pub const CH4_CC = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1194,6 +1441,14 @@ pub const CH4_TOP = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1202,6 +1457,15 @@ pub const CH4_TOP = struct {
 /// Control and status register
 pub const CH5_CSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050064),
+    pub const FieldMasks = struct {
+        pub const PH_ADV: u32 = helpers.generateMask(7, 8);
+        pub const PH_RET: u32 = helpers.generateMask(6, 7);
+        pub const DIVMODE: u32 = helpers.generateMask(4, 6);
+        pub const B_INV: u32 = helpers.generateMask(3, 4);
+        pub const A_INV: u32 = helpers.generateMask(2, 3);
+        pub const PH_CORRECT: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const DIVMODE_e = enum(u2) {
         div = 0,
         level = 1,
@@ -1321,6 +1585,12 @@ pub const CH5_CSR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1330,6 +1600,10 @@ pub const CH5_CSR = struct {
 /// Fractional division uses simple 1st-order sigma-delta.
 pub const CH5_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050068),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(4, 12);
+        pub const FRAC: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1366,6 +1640,12 @@ pub const CH5_DIV = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1378,6 +1658,14 @@ pub const CH5_CTR = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1386,6 +1674,10 @@ pub const CH5_CTR = struct {
 /// Counter compare values
 pub const CH5_CC = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050070),
+    pub const FieldMasks = struct {
+        pub const B: u32 = helpers.generateMask(16, 32);
+        pub const A: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1422,6 +1714,12 @@ pub const CH5_CC = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1434,6 +1732,14 @@ pub const CH5_TOP = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1442,6 +1748,15 @@ pub const CH5_TOP = struct {
 /// Control and status register
 pub const CH6_CSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050078),
+    pub const FieldMasks = struct {
+        pub const PH_ADV: u32 = helpers.generateMask(7, 8);
+        pub const PH_RET: u32 = helpers.generateMask(6, 7);
+        pub const DIVMODE: u32 = helpers.generateMask(4, 6);
+        pub const B_INV: u32 = helpers.generateMask(3, 4);
+        pub const A_INV: u32 = helpers.generateMask(2, 3);
+        pub const PH_CORRECT: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const DIVMODE_e = enum(u2) {
         div = 0,
         level = 1,
@@ -1561,6 +1876,12 @@ pub const CH6_CSR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1570,6 +1891,10 @@ pub const CH6_CSR = struct {
 /// Fractional division uses simple 1st-order sigma-delta.
 pub const CH6_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4005007c),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(4, 12);
+        pub const FRAC: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1606,6 +1931,12 @@ pub const CH6_DIV = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1618,6 +1949,14 @@ pub const CH6_CTR = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1626,6 +1965,10 @@ pub const CH6_CTR = struct {
 /// Counter compare values
 pub const CH6_CC = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050084),
+    pub const FieldMasks = struct {
+        pub const B: u32 = helpers.generateMask(16, 32);
+        pub const A: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1663,6 +2006,12 @@ pub const CH6_CC = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1674,6 +2023,14 @@ pub const CH6_TOP = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1682,6 +2039,15 @@ pub const CH6_TOP = struct {
 /// Control and status register
 pub const CH7_CSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4005008c),
+    pub const FieldMasks = struct {
+        pub const PH_ADV: u32 = helpers.generateMask(7, 8);
+        pub const PH_RET: u32 = helpers.generateMask(6, 7);
+        pub const DIVMODE: u32 = helpers.generateMask(4, 6);
+        pub const B_INV: u32 = helpers.generateMask(3, 4);
+        pub const A_INV: u32 = helpers.generateMask(2, 3);
+        pub const PH_CORRECT: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const DIVMODE_e = enum(u2) {
         div = 0,
         level = 1,
@@ -1801,6 +2167,12 @@ pub const CH7_CSR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1810,6 +2182,10 @@ pub const CH7_CSR = struct {
 /// Fractional division uses simple 1st-order sigma-delta.
 pub const CH7_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050090),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(4, 12);
+        pub const FRAC: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1847,6 +2223,12 @@ pub const CH7_DIV = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1858,6 +2240,14 @@ pub const CH7_CTR = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1866,6 +2256,10 @@ pub const CH7_CTR = struct {
 /// Counter compare values
 pub const CH7_CC = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40050098),
+    pub const FieldMasks = struct {
+        pub const B: u32 = helpers.generateMask(16, 32);
+        pub const A: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1903,6 +2297,12 @@ pub const CH7_CC = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1913,6 +2313,14 @@ pub const CH7_TOP = struct {
     pub fn write(self: @This(), v: u16) void {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
@@ -1926,6 +2334,16 @@ pub const CH7_TOP = struct {
 /// which can be accessed through here or CHx_CSR.
 pub const EN = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400500a0),
+    pub const FieldMasks = struct {
+        pub const CH7: u32 = helpers.generateMask(7, 8);
+        pub const CH6: u32 = helpers.generateMask(6, 7);
+        pub const CH5: u32 = helpers.generateMask(5, 6);
+        pub const CH4: u32 = helpers.generateMask(4, 5);
+        pub const CH3: u32 = helpers.generateMask(3, 4);
+        pub const CH2: u32 = helpers.generateMask(2, 3);
+        pub const CH1: u32 = helpers.generateMask(1, 2);
+        pub const CH0: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2040,6 +2458,12 @@ pub const EN = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2048,6 +2472,16 @@ pub const EN = struct {
 /// Raw Interrupts
 pub const INTR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400500a4),
+    pub const FieldMasks = struct {
+        pub const CH7: u32 = helpers.generateMask(7, 8);
+        pub const CH6: u32 = helpers.generateMask(6, 7);
+        pub const CH5: u32 = helpers.generateMask(5, 6);
+        pub const CH4: u32 = helpers.generateMask(4, 5);
+        pub const CH3: u32 = helpers.generateMask(3, 4);
+        pub const CH2: u32 = helpers.generateMask(2, 3);
+        pub const CH1: u32 = helpers.generateMask(1, 2);
+        pub const CH0: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2162,6 +2596,12 @@ pub const INTR = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2170,6 +2610,16 @@ pub const INTR = struct {
 /// Interrupt Enable
 pub const INTE = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400500a8),
+    pub const FieldMasks = struct {
+        pub const CH7: u32 = helpers.generateMask(7, 8);
+        pub const CH6: u32 = helpers.generateMask(6, 7);
+        pub const CH5: u32 = helpers.generateMask(5, 6);
+        pub const CH4: u32 = helpers.generateMask(4, 5);
+        pub const CH3: u32 = helpers.generateMask(3, 4);
+        pub const CH2: u32 = helpers.generateMask(2, 3);
+        pub const CH1: u32 = helpers.generateMask(1, 2);
+        pub const CH0: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2284,6 +2734,12 @@ pub const INTE = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2292,6 +2748,16 @@ pub const INTE = struct {
 /// Interrupt Force
 pub const INTF = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400500ac),
+    pub const FieldMasks = struct {
+        pub const CH7: u32 = helpers.generateMask(7, 8);
+        pub const CH6: u32 = helpers.generateMask(6, 7);
+        pub const CH5: u32 = helpers.generateMask(5, 6);
+        pub const CH4: u32 = helpers.generateMask(4, 5);
+        pub const CH3: u32 = helpers.generateMask(3, 4);
+        pub const CH2: u32 = helpers.generateMask(2, 3);
+        pub const CH1: u32 = helpers.generateMask(1, 2);
+        pub const CH0: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2407,6 +2873,12 @@ pub const INTF = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2414,6 +2886,16 @@ pub const INTF = struct {
 /// Interrupt status after masking &amp; forcing
 pub const INTS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400500b0),
+    pub const FieldMasks = struct {
+        pub const CH7: u32 = helpers.generateMask(7, 8);
+        pub const CH6: u32 = helpers.generateMask(6, 7);
+        pub const CH5: u32 = helpers.generateMask(5, 6);
+        pub const CH4: u32 = helpers.generateMask(4, 5);
+        pub const CH3: u32 = helpers.generateMask(3, 4);
+        pub const CH2: u32 = helpers.generateMask(2, 3);
+        pub const CH1: u32 = helpers.generateMask(1, 2);
+        pub const CH0: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2455,6 +2937,12 @@ pub const INTS = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };

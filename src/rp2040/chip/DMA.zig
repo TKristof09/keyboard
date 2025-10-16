@@ -6,6 +6,14 @@ pub const CH0_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -17,6 +25,14 @@ pub const CH0_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -30,6 +46,14 @@ pub const CH0_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -38,6 +62,24 @@ pub const CH0_TRANS_COUNT = struct {
 /// DMA Channel 0 Control and Status
 pub const CH0_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000000c),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -363,6 +405,12 @@ pub const CH0_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -373,6 +421,14 @@ pub const CH0_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -386,6 +442,14 @@ pub const CH0_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -397,6 +461,14 @@ pub const CH0_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -412,6 +484,14 @@ pub const CH0_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -423,6 +503,14 @@ pub const CH0_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -436,6 +524,14 @@ pub const CH0_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -447,6 +543,14 @@ pub const CH0_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -462,6 +566,14 @@ pub const CH0_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -473,6 +585,14 @@ pub const CH0_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -486,6 +606,14 @@ pub const CH0_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -497,6 +625,14 @@ pub const CH0_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -512,6 +648,14 @@ pub const CH0_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -523,6 +667,14 @@ pub const CH1_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -536,6 +688,14 @@ pub const CH1_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -548,6 +708,14 @@ pub const CH1_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -556,6 +724,24 @@ pub const CH1_TRANS_COUNT = struct {
 /// DMA Channel 1 Control and Status
 pub const CH1_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000004c),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -881,6 +1067,12 @@ pub const CH1_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -891,6 +1083,14 @@ pub const CH1_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -904,6 +1104,14 @@ pub const CH1_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -915,6 +1123,14 @@ pub const CH1_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -930,6 +1146,14 @@ pub const CH1_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -941,6 +1165,14 @@ pub const CH1_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -954,6 +1186,14 @@ pub const CH1_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -965,6 +1205,14 @@ pub const CH1_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -980,6 +1228,14 @@ pub const CH1_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -991,6 +1247,14 @@ pub const CH1_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1004,6 +1268,14 @@ pub const CH1_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1015,6 +1287,14 @@ pub const CH1_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1030,6 +1310,14 @@ pub const CH1_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1041,6 +1329,14 @@ pub const CH2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1054,6 +1350,14 @@ pub const CH2_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1066,6 +1370,14 @@ pub const CH2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1074,6 +1386,24 @@ pub const CH2_TRANS_COUNT = struct {
 /// DMA Channel 2 Control and Status
 pub const CH2_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000008c),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -1399,6 +1729,12 @@ pub const CH2_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1409,6 +1745,14 @@ pub const CH2_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1422,6 +1766,14 @@ pub const CH2_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1433,6 +1785,14 @@ pub const CH2_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1448,6 +1808,14 @@ pub const CH2_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1459,6 +1827,14 @@ pub const CH2_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1472,6 +1848,14 @@ pub const CH2_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1483,6 +1867,14 @@ pub const CH2_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1498,6 +1890,14 @@ pub const CH2_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1509,6 +1909,14 @@ pub const CH2_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1522,6 +1930,14 @@ pub const CH2_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1533,6 +1949,14 @@ pub const CH2_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1548,6 +1972,14 @@ pub const CH2_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1559,6 +1991,14 @@ pub const CH3_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1572,6 +2012,14 @@ pub const CH3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1584,6 +2032,14 @@ pub const CH3_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1592,6 +2048,24 @@ pub const CH3_TRANS_COUNT = struct {
 /// DMA Channel 3 Control and Status
 pub const CH3_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x500000cc),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -1917,6 +2391,12 @@ pub const CH3_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1927,6 +2407,14 @@ pub const CH3_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1940,6 +2428,14 @@ pub const CH3_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1951,6 +2447,14 @@ pub const CH3_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1966,6 +2470,14 @@ pub const CH3_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1977,6 +2489,14 @@ pub const CH3_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -1990,6 +2510,14 @@ pub const CH3_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2001,6 +2529,14 @@ pub const CH3_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2016,6 +2552,14 @@ pub const CH3_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2027,6 +2571,14 @@ pub const CH3_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2040,6 +2592,14 @@ pub const CH3_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2051,6 +2611,14 @@ pub const CH3_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2066,6 +2634,14 @@ pub const CH3_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2077,6 +2653,14 @@ pub const CH4_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2090,6 +2674,14 @@ pub const CH4_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2102,6 +2694,14 @@ pub const CH4_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2110,6 +2710,24 @@ pub const CH4_TRANS_COUNT = struct {
 /// DMA Channel 4 Control and Status
 pub const CH4_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000010c),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -2435,6 +3053,12 @@ pub const CH4_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2445,6 +3069,14 @@ pub const CH4_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2458,6 +3090,14 @@ pub const CH4_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2469,6 +3109,14 @@ pub const CH4_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2484,6 +3132,14 @@ pub const CH4_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2495,6 +3151,14 @@ pub const CH4_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2508,6 +3172,14 @@ pub const CH4_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2519,6 +3191,14 @@ pub const CH4_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2534,6 +3214,14 @@ pub const CH4_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2545,6 +3233,14 @@ pub const CH4_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2558,6 +3254,14 @@ pub const CH4_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2569,6 +3273,14 @@ pub const CH4_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2584,6 +3296,14 @@ pub const CH4_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2595,6 +3315,14 @@ pub const CH5_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2608,6 +3336,14 @@ pub const CH5_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2620,6 +3356,14 @@ pub const CH5_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2628,6 +3372,24 @@ pub const CH5_TRANS_COUNT = struct {
 /// DMA Channel 5 Control and Status
 pub const CH5_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000014c),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -2953,6 +3715,12 @@ pub const CH5_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2963,6 +3731,14 @@ pub const CH5_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2976,6 +3752,14 @@ pub const CH5_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2987,6 +3771,14 @@ pub const CH5_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3002,6 +3794,14 @@ pub const CH5_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3013,6 +3813,14 @@ pub const CH5_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3026,6 +3834,14 @@ pub const CH5_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3037,6 +3853,14 @@ pub const CH5_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3052,6 +3876,14 @@ pub const CH5_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3063,6 +3895,14 @@ pub const CH5_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3076,6 +3916,14 @@ pub const CH5_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3087,6 +3935,14 @@ pub const CH5_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3102,6 +3958,14 @@ pub const CH5_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3113,6 +3977,14 @@ pub const CH6_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3126,6 +3998,14 @@ pub const CH6_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3138,6 +4018,14 @@ pub const CH6_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3146,6 +4034,24 @@ pub const CH6_TRANS_COUNT = struct {
 /// DMA Channel 6 Control and Status
 pub const CH6_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000018c),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -3471,6 +4377,12 @@ pub const CH6_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3481,6 +4393,14 @@ pub const CH6_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3494,6 +4414,14 @@ pub const CH6_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3505,6 +4433,14 @@ pub const CH6_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3520,6 +4456,14 @@ pub const CH6_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3531,6 +4475,14 @@ pub const CH6_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3544,6 +4496,14 @@ pub const CH6_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3555,6 +4515,14 @@ pub const CH6_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3570,6 +4538,14 @@ pub const CH6_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3581,6 +4557,14 @@ pub const CH6_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3594,6 +4578,14 @@ pub const CH6_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3605,6 +4597,14 @@ pub const CH6_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3620,6 +4620,14 @@ pub const CH6_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3631,6 +4639,14 @@ pub const CH7_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -3644,6 +4660,14 @@ pub const CH7_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3656,6 +4680,14 @@ pub const CH7_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3664,6 +4696,24 @@ pub const CH7_TRANS_COUNT = struct {
 /// DMA Channel 7 Control and Status
 pub const CH7_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x500001cc),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -3989,6 +5039,12 @@ pub const CH7_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3999,6 +5055,14 @@ pub const CH7_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4012,6 +5076,14 @@ pub const CH7_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4023,6 +5095,14 @@ pub const CH7_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4038,6 +5118,14 @@ pub const CH7_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4049,6 +5137,14 @@ pub const CH7_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4062,6 +5158,14 @@ pub const CH7_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4073,6 +5177,14 @@ pub const CH7_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4088,6 +5200,14 @@ pub const CH7_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4099,6 +5219,14 @@ pub const CH7_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4112,6 +5240,14 @@ pub const CH7_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4123,6 +5259,14 @@ pub const CH7_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4138,6 +5282,14 @@ pub const CH7_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4149,6 +5301,14 @@ pub const CH8_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4162,6 +5322,14 @@ pub const CH8_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4174,6 +5342,14 @@ pub const CH8_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4182,6 +5358,24 @@ pub const CH8_TRANS_COUNT = struct {
 /// DMA Channel 8 Control and Status
 pub const CH8_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000020c),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -4507,6 +5701,12 @@ pub const CH8_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4517,6 +5717,14 @@ pub const CH8_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4530,6 +5738,14 @@ pub const CH8_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4541,6 +5757,14 @@ pub const CH8_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4556,6 +5780,14 @@ pub const CH8_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4567,6 +5799,14 @@ pub const CH8_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4580,6 +5820,14 @@ pub const CH8_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4591,6 +5839,14 @@ pub const CH8_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4606,6 +5862,14 @@ pub const CH8_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4617,6 +5881,14 @@ pub const CH8_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4630,6 +5902,14 @@ pub const CH8_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4641,6 +5921,14 @@ pub const CH8_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4656,6 +5944,14 @@ pub const CH8_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4667,6 +5963,14 @@ pub const CH9_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -4680,6 +5984,14 @@ pub const CH9_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4692,6 +6004,14 @@ pub const CH9_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -4700,6 +6020,24 @@ pub const CH9_TRANS_COUNT = struct {
 /// DMA Channel 9 Control and Status
 pub const CH9_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000024c),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -5025,6 +6363,12 @@ pub const CH9_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -5035,6 +6379,14 @@ pub const CH9_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5048,6 +6400,14 @@ pub const CH9_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5059,6 +6419,14 @@ pub const CH9_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5074,6 +6442,14 @@ pub const CH9_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5085,6 +6461,14 @@ pub const CH9_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5098,6 +6482,14 @@ pub const CH9_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5109,6 +6501,14 @@ pub const CH9_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5124,6 +6524,14 @@ pub const CH9_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5135,6 +6543,14 @@ pub const CH9_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5148,6 +6564,14 @@ pub const CH9_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5159,6 +6583,14 @@ pub const CH9_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5174,6 +6606,14 @@ pub const CH9_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5185,6 +6625,14 @@ pub const CH10_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5198,6 +6646,14 @@ pub const CH10_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5210,6 +6666,14 @@ pub const CH10_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5218,6 +6682,24 @@ pub const CH10_TRANS_COUNT = struct {
 /// DMA Channel 10 Control and Status
 pub const CH10_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000028c),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -5543,6 +7025,12 @@ pub const CH10_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -5553,6 +7041,14 @@ pub const CH10_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5566,6 +7062,14 @@ pub const CH10_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5577,6 +7081,14 @@ pub const CH10_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5592,6 +7104,14 @@ pub const CH10_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5603,6 +7123,14 @@ pub const CH10_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5616,6 +7144,14 @@ pub const CH10_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5627,6 +7163,14 @@ pub const CH10_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5642,6 +7186,14 @@ pub const CH10_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5653,6 +7205,14 @@ pub const CH10_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5666,6 +7226,14 @@ pub const CH10_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5677,6 +7245,14 @@ pub const CH10_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5692,6 +7268,14 @@ pub const CH10_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5703,6 +7287,14 @@ pub const CH11_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -5716,6 +7308,14 @@ pub const CH11_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5728,6 +7328,14 @@ pub const CH11_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -5736,6 +7344,24 @@ pub const CH11_TRANS_COUNT = struct {
 /// DMA Channel 11 Control and Status
 pub const CH11_CTRL_TRIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x500002cc),
+    pub const FieldMasks = struct {
+        pub const AHB_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const READ_ERROR: u32 = helpers.generateMask(30, 31);
+        pub const WRITE_ERROR: u32 = helpers.generateMask(29, 30);
+        pub const BUSY: u32 = helpers.generateMask(24, 25);
+        pub const SNIFF_EN: u32 = helpers.generateMask(23, 24);
+        pub const BSWAP: u32 = helpers.generateMask(22, 23);
+        pub const IRQ_QUIET: u32 = helpers.generateMask(21, 22);
+        pub const TREQ_SEL: u32 = helpers.generateMask(15, 21);
+        pub const CHAIN_TO: u32 = helpers.generateMask(11, 15);
+        pub const RING_SEL: u32 = helpers.generateMask(10, 11);
+        pub const RING_SIZE: u32 = helpers.generateMask(6, 10);
+        pub const INCR_WRITE: u32 = helpers.generateMask(5, 6);
+        pub const INCR_READ: u32 = helpers.generateMask(4, 5);
+        pub const DATA_SIZE: u32 = helpers.generateMask(2, 4);
+        pub const HIGH_PRIORITY: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const TREQ_SEL_e = enum(u6) {
         PIO0_TX0 = 0,
         PIO0_TX1 = 1,
@@ -6061,6 +7687,12 @@ pub const CH11_CTRL_TRIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -6071,6 +7703,14 @@ pub const CH11_AL1_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -6084,6 +7724,14 @@ pub const CH11_AL1_READ_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6095,6 +7743,14 @@ pub const CH11_AL1_WRITE_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -6110,6 +7766,14 @@ pub const CH11_AL1_TRANS_COUNT_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6121,6 +7785,14 @@ pub const CH11_AL2_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -6134,6 +7806,14 @@ pub const CH11_AL2_TRANS_COUNT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6145,6 +7825,14 @@ pub const CH11_AL2_READ_ADDR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -6160,6 +7848,14 @@ pub const CH11_AL2_WRITE_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6171,6 +7867,14 @@ pub const CH11_AL3_CTRL = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -6184,6 +7888,14 @@ pub const CH11_AL3_WRITE_ADDR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6195,6 +7907,14 @@ pub const CH11_AL3_TRANS_COUNT = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
@@ -6210,6 +7930,14 @@ pub const CH11_AL3_READ_ADDR_TRIG = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6218,9 +7946,13 @@ pub const CH11_AL3_READ_ADDR_TRIG = struct {
 /// Interrupt Status (raw)
 pub const INTR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000400),
-    pub fn write(self: @This(), v: u16) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 16);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
@@ -6234,6 +7966,14 @@ pub const INTE0 = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6246,6 +7986,14 @@ pub const INTF0 = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6254,9 +8002,13 @@ pub const INTF0 = struct {
 /// Interrupt Status for IRQ 0
 pub const INTS0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000040c),
-    pub fn write(self: @This(), v: u16) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 16);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
@@ -6266,9 +8018,13 @@ pub const INTS0 = struct {
 /// Interrupt Status (raw)
 pub const INTR1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000410),
-    pub fn write(self: @This(), v: u16) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 16);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
@@ -6282,6 +8038,14 @@ pub const INTE1 = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6294,6 +8058,14 @@ pub const INTF1 = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6302,9 +8074,13 @@ pub const INTF1 = struct {
 /// Interrupt Status (masked) for IRQ 1
 pub const INTS1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000041c),
-    pub fn write(self: @This(), v: u16) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 16);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
@@ -6315,6 +8091,10 @@ pub const INTS1 = struct {
 /// The pacing timer produces TREQ assertions at a rate set by ((X/Y) * sys_clk). This equation is evaluated every sys_clk cycles and therefore can only generate TREQs at a rate of 1 per sys_clk (i.e. permanent TREQ) or less.
 pub const TIMER0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000420),
+    pub const FieldMasks = struct {
+        pub const X: u32 = helpers.generateMask(16, 32);
+        pub const Y: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -6355,6 +8135,12 @@ pub const TIMER0 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -6364,6 +8150,10 @@ pub const TIMER0 = struct {
 /// The pacing timer produces TREQ assertions at a rate set by ((X/Y) * sys_clk). This equation is evaluated every sys_clk cycles and therefore can only generate TREQs at a rate of 1 per sys_clk (i.e. permanent TREQ) or less.
 pub const TIMER1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000424),
+    pub const FieldMasks = struct {
+        pub const X: u32 = helpers.generateMask(16, 32);
+        pub const Y: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -6404,6 +8194,12 @@ pub const TIMER1 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -6413,6 +8209,10 @@ pub const TIMER1 = struct {
 /// The pacing timer produces TREQ assertions at a rate set by ((X/Y) * sys_clk). This equation is evaluated every sys_clk cycles and therefore can only generate TREQs at a rate of 1 per sys_clk (i.e. permanent TREQ) or less.
 pub const TIMER2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000428),
+    pub const FieldMasks = struct {
+        pub const X: u32 = helpers.generateMask(16, 32);
+        pub const Y: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -6453,6 +8253,12 @@ pub const TIMER2 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -6462,6 +8268,10 @@ pub const TIMER2 = struct {
 /// The pacing timer produces TREQ assertions at a rate set by ((X/Y) * sys_clk). This equation is evaluated every sys_clk cycles and therefore can only generate TREQs at a rate of 1 per sys_clk (i.e. permanent TREQ) or less.
 pub const TIMER3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5000042c),
+    pub const FieldMasks = struct {
+        pub const X: u32 = helpers.generateMask(16, 32);
+        pub const Y: u32 = helpers.generateMask(0, 16);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -6502,6 +8312,12 @@ pub const TIMER3 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -6514,6 +8330,14 @@ pub const MULTI_CHAN_TRIGGER = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6522,6 +8346,14 @@ pub const MULTI_CHAN_TRIGGER = struct {
 /// Sniffer Control
 pub const SNIFF_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000434),
+    pub const FieldMasks = struct {
+        pub const OUT_INV: u32 = helpers.generateMask(11, 12);
+        pub const OUT_REV: u32 = helpers.generateMask(10, 11);
+        pub const BSWAP: u32 = helpers.generateMask(9, 10);
+        pub const CALC: u32 = helpers.generateMask(5, 9);
+        pub const DMACH: u32 = helpers.generateMask(1, 5);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const CALC_e = enum(u4) {
         CRC32 = 0,
         CRC32R = 1,
@@ -6634,6 +8466,12 @@ pub const SNIFF_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -6645,6 +8483,14 @@ pub const SNIFF_DATA = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6653,6 +8499,11 @@ pub const SNIFF_DATA = struct {
 /// Debug RAF, WAF, TDF levels
 pub const FIFO_LEVELS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000440),
+    pub const FieldMasks = struct {
+        pub const RAF_LVL: u32 = helpers.generateMask(16, 24);
+        pub const WAF_LVL: u32 = helpers.generateMask(8, 16);
+        pub const TDF_LVL: u32 = helpers.generateMask(0, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -6675,6 +8526,12 @@ pub const FIFO_LEVELS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -6682,9 +8539,13 @@ pub const FIFO_LEVELS = struct {
 /// Abort an in-progress transfer sequence on one or more channels
 pub const CHAN_ABORT = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000444),
-    pub fn write(self: @This(), v: u16) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 16);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
@@ -6698,6 +8559,14 @@ pub const N_CHANNELS = struct {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 5);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 5);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u5 {
         const mask = comptime helpers.generateMask(0, 5);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6706,9 +8575,13 @@ pub const N_CHANNELS = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH0_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000800),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6722,6 +8595,14 @@ pub const CH0_DBG_TCR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6730,9 +8611,13 @@ pub const CH0_DBG_TCR = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH1_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000840),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6746,6 +8631,14 @@ pub const CH1_DBG_TCR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6754,9 +8647,13 @@ pub const CH1_DBG_TCR = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH2_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000880),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6770,6 +8667,14 @@ pub const CH2_DBG_TCR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6778,9 +8683,13 @@ pub const CH2_DBG_TCR = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH3_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x500008c0),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6794,6 +8703,14 @@ pub const CH3_DBG_TCR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6802,9 +8719,13 @@ pub const CH3_DBG_TCR = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH4_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000900),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6818,6 +8739,14 @@ pub const CH4_DBG_TCR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6826,9 +8755,13 @@ pub const CH4_DBG_TCR = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH5_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000940),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6842,6 +8775,14 @@ pub const CH5_DBG_TCR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6850,9 +8791,13 @@ pub const CH5_DBG_TCR = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH6_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000980),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6866,6 +8811,14 @@ pub const CH6_DBG_TCR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6874,9 +8827,13 @@ pub const CH6_DBG_TCR = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH7_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x500009c0),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6890,6 +8847,14 @@ pub const CH7_DBG_TCR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6898,9 +8863,13 @@ pub const CH7_DBG_TCR = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH8_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000a00),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6914,6 +8883,14 @@ pub const CH8_DBG_TCR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6922,9 +8899,13 @@ pub const CH8_DBG_TCR = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH9_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000a40),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6938,6 +8919,14 @@ pub const CH9_DBG_TCR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6946,9 +8935,13 @@ pub const CH9_DBG_TCR = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH10_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000a80),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6962,6 +8955,14 @@ pub const CH10_DBG_TCR = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -6970,9 +8971,13 @@ pub const CH10_DBG_TCR = struct {
 /// Read: get channel DREQ counter (i.e. how many accesses the DMA expects it can perform on the peripheral without overflow/underflow. Write any value: clears the counter, and cause channel to re-initiate DREQ handshake.
 pub const CH11_DBG_CTDREQ = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50000ac0),
-    pub fn write(self: @This(), v: u6) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 6);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
@@ -6985,6 +8990,14 @@ pub const CH11_DBG_TCR = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);

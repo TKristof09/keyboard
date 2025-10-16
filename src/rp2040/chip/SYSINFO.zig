@@ -2,6 +2,11 @@ const helpers = @import("helpers.zig");
 /// JEDEC JEP-106 compliant chip identifier.
 pub const CHIP_ID = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40000000),
+    pub const FieldMasks = struct {
+        pub const REVISION: u32 = helpers.generateMask(28, 32);
+        pub const PART: u32 = helpers.generateMask(12, 28);
+        pub const MANUFACTURER: u32 = helpers.generateMask(0, 12);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -24,6 +29,12 @@ pub const CHIP_ID = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -31,6 +42,10 @@ pub const CHIP_ID = struct {
 /// Platform register. Allows software to know what environment it is running in.
 pub const PLATFORM = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40000004),
+    pub const FieldMasks = struct {
+        pub const ASIC: u32 = helpers.generateMask(1, 2);
+        pub const FPGA: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -49,6 +64,12 @@ pub const PLATFORM = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -59,6 +80,14 @@ pub const GITREF_RP2040 = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);

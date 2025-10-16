@@ -6,6 +6,11 @@ const helpers = @import("helpers.zig");
 /// VCO frequency min=750MHz, max=1600MHz
 pub const CS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40028000),
+    pub const FieldMasks = struct {
+        pub const LOCK: u32 = helpers.generateMask(31, 32);
+        pub const BYPASS: u32 = helpers.generateMask(8, 9);
+        pub const REFDIV: u32 = helpers.generateMask(0, 6);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -55,6 +60,12 @@ pub const CS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -62,6 +73,12 @@ pub const CS = struct {
 /// Controls the PLL power modes.
 pub const PWR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40028004),
+    pub const FieldMasks = struct {
+        pub const VCOPD: u32 = helpers.generateMask(5, 6);
+        pub const POSTDIVPD: u32 = helpers.generateMask(3, 4);
+        pub const DSMPD: u32 = helpers.generateMask(2, 3);
+        pub const PD: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -141,6 +158,12 @@ pub const PWR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -153,6 +176,14 @@ pub const FBDIV_INT = struct {
         const mask = comptime helpers.generateMask(0, 12);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 12);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 12);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u12 {
         const mask = comptime helpers.generateMask(0, 12);
         return @intCast((self.reg.* & mask) >> 0);
@@ -163,6 +194,10 @@ pub const FBDIV_INT = struct {
 /// the primary output is driven from VCO divided by postdiv1*postdiv2
 pub const PRIM = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4002800c),
+    pub const FieldMasks = struct {
+        pub const POSTDIV1: u32 = helpers.generateMask(16, 19);
+        pub const POSTDIV2: u32 = helpers.generateMask(12, 15);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -203,6 +238,12 @@ pub const PRIM = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };

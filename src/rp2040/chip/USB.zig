@@ -2,6 +2,10 @@ const helpers = @import("helpers.zig");
 /// Device address and endpoint control
 pub const ADDR_ENDP = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110000),
+    pub const FieldMasks = struct {
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -43,6 +47,12 @@ pub const ADDR_ENDP = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -50,6 +60,12 @@ pub const ADDR_ENDP = struct {
 /// Interrupt endpoint 1. Only valid for HOST mode.
 pub const ADDR_ENDP1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110004),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -120,6 +136,12 @@ pub const ADDR_ENDP1 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -128,6 +150,12 @@ pub const ADDR_ENDP1 = struct {
 /// Interrupt endpoint 2. Only valid for HOST mode.
 pub const ADDR_ENDP2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110008),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -198,6 +226,12 @@ pub const ADDR_ENDP2 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -206,6 +240,12 @@ pub const ADDR_ENDP2 = struct {
 /// Interrupt endpoint 3. Only valid for HOST mode.
 pub const ADDR_ENDP3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5011000c),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -276,6 +316,12 @@ pub const ADDR_ENDP3 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -284,6 +330,12 @@ pub const ADDR_ENDP3 = struct {
 /// Interrupt endpoint 4. Only valid for HOST mode.
 pub const ADDR_ENDP4 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110010),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -354,6 +406,12 @@ pub const ADDR_ENDP4 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -362,6 +420,12 @@ pub const ADDR_ENDP4 = struct {
 /// Interrupt endpoint 5. Only valid for HOST mode.
 pub const ADDR_ENDP5 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110014),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -432,6 +496,12 @@ pub const ADDR_ENDP5 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -440,6 +510,12 @@ pub const ADDR_ENDP5 = struct {
 /// Interrupt endpoint 6. Only valid for HOST mode.
 pub const ADDR_ENDP6 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110018),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -510,6 +586,12 @@ pub const ADDR_ENDP6 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -518,6 +600,12 @@ pub const ADDR_ENDP6 = struct {
 /// Interrupt endpoint 7. Only valid for HOST mode.
 pub const ADDR_ENDP7 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5011001c),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -588,6 +676,12 @@ pub const ADDR_ENDP7 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -596,6 +690,12 @@ pub const ADDR_ENDP7 = struct {
 /// Interrupt endpoint 8. Only valid for HOST mode.
 pub const ADDR_ENDP8 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110020),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -666,6 +766,12 @@ pub const ADDR_ENDP8 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -674,6 +780,12 @@ pub const ADDR_ENDP8 = struct {
 /// Interrupt endpoint 9. Only valid for HOST mode.
 pub const ADDR_ENDP9 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110024),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -744,6 +856,12 @@ pub const ADDR_ENDP9 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -752,6 +870,12 @@ pub const ADDR_ENDP9 = struct {
 /// Interrupt endpoint 10. Only valid for HOST mode.
 pub const ADDR_ENDP10 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110028),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -822,6 +946,12 @@ pub const ADDR_ENDP10 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -830,6 +960,12 @@ pub const ADDR_ENDP10 = struct {
 /// Interrupt endpoint 11. Only valid for HOST mode.
 pub const ADDR_ENDP11 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5011002c),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -900,6 +1036,12 @@ pub const ADDR_ENDP11 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -908,6 +1050,12 @@ pub const ADDR_ENDP11 = struct {
 /// Interrupt endpoint 12. Only valid for HOST mode.
 pub const ADDR_ENDP12 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110030),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -978,6 +1126,12 @@ pub const ADDR_ENDP12 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -986,6 +1140,12 @@ pub const ADDR_ENDP12 = struct {
 /// Interrupt endpoint 13. Only valid for HOST mode.
 pub const ADDR_ENDP13 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110034),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1056,6 +1216,12 @@ pub const ADDR_ENDP13 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1064,6 +1230,12 @@ pub const ADDR_ENDP13 = struct {
 /// Interrupt endpoint 14. Only valid for HOST mode.
 pub const ADDR_ENDP14 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110038),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1134,6 +1306,12 @@ pub const ADDR_ENDP14 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1142,6 +1320,12 @@ pub const ADDR_ENDP14 = struct {
 /// Interrupt endpoint 15. Only valid for HOST mode.
 pub const ADDR_ENDP15 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5011003c),
+    pub const FieldMasks = struct {
+        pub const INTEP_PREAMBLE: u32 = helpers.generateMask(26, 27);
+        pub const INTEP_DIR: u32 = helpers.generateMask(25, 26);
+        pub const ENDPOINT: u32 = helpers.generateMask(16, 20);
+        pub const ADDRESS: u32 = helpers.generateMask(0, 7);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1213,6 +1397,12 @@ pub const ADDR_ENDP15 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1220,6 +1410,11 @@ pub const ADDR_ENDP15 = struct {
 /// Main control register
 pub const MAIN_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110040),
+    pub const FieldMasks = struct {
+        pub const SIM_TIMING: u32 = helpers.generateMask(31, 32);
+        pub const HOST_NDEVICE: u32 = helpers.generateMask(1, 2);
+        pub const CONTROLLER_EN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1276,6 +1471,12 @@ pub const MAIN_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1286,6 +1487,14 @@ pub const SOF_WR = struct {
     pub fn write(self: @This(), v: u11) void {
         const mask = comptime helpers.generateMask(0, 11);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 11);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 11);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u11 {
         const mask = comptime helpers.generateMask(0, 11);
@@ -1299,6 +1508,14 @@ pub const SOF_RD = struct {
         const mask = comptime helpers.generateMask(0, 11);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 11);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 11);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u11 {
         const mask = comptime helpers.generateMask(0, 11);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1307,6 +1524,32 @@ pub const SOF_RD = struct {
 /// SIE control register
 pub const SIE_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5011004c),
+    pub const FieldMasks = struct {
+        pub const EP0_INT_STALL: u32 = helpers.generateMask(31, 32);
+        pub const EP0_DOUBLE_BUF: u32 = helpers.generateMask(30, 31);
+        pub const EP0_INT_1BUF: u32 = helpers.generateMask(29, 30);
+        pub const EP0_INT_2BUF: u32 = helpers.generateMask(28, 29);
+        pub const EP0_INT_NAK: u32 = helpers.generateMask(27, 28);
+        pub const DIRECT_EN: u32 = helpers.generateMask(26, 27);
+        pub const DIRECT_DP: u32 = helpers.generateMask(25, 26);
+        pub const DIRECT_DM: u32 = helpers.generateMask(24, 25);
+        pub const TRANSCEIVER_PD: u32 = helpers.generateMask(18, 19);
+        pub const RPU_OPT: u32 = helpers.generateMask(17, 18);
+        pub const PULLUP_EN: u32 = helpers.generateMask(16, 17);
+        pub const PULLDOWN_EN: u32 = helpers.generateMask(15, 16);
+        pub const RESET_BUS: u32 = helpers.generateMask(13, 14);
+        pub const RESUME: u32 = helpers.generateMask(12, 13);
+        pub const VBUS_EN: u32 = helpers.generateMask(11, 12);
+        pub const KEEP_ALIVE_EN: u32 = helpers.generateMask(10, 11);
+        pub const SOF_EN: u32 = helpers.generateMask(9, 10);
+        pub const SOF_SYNC: u32 = helpers.generateMask(8, 9);
+        pub const PREAMBLE_EN: u32 = helpers.generateMask(6, 7);
+        pub const STOP_TRANS: u32 = helpers.generateMask(4, 5);
+        pub const RECEIVE_DATA: u32 = helpers.generateMask(3, 4);
+        pub const SEND_DATA: u32 = helpers.generateMask(2, 3);
+        pub const SEND_SETUP: u32 = helpers.generateMask(1, 2);
+        pub const START_TRANS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1662,6 +1905,12 @@ pub const SIE_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1669,6 +1918,26 @@ pub const SIE_CTRL = struct {
 /// SIE status register
 pub const SIE_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110050),
+    pub const FieldMasks = struct {
+        pub const DATA_SEQ_ERROR: u32 = helpers.generateMask(31, 32);
+        pub const ACK_REC: u32 = helpers.generateMask(30, 31);
+        pub const STALL_REC: u32 = helpers.generateMask(29, 30);
+        pub const NAK_REC: u32 = helpers.generateMask(28, 29);
+        pub const RX_TIMEOUT: u32 = helpers.generateMask(27, 28);
+        pub const RX_OVERFLOW: u32 = helpers.generateMask(26, 27);
+        pub const BIT_STUFF_ERROR: u32 = helpers.generateMask(25, 26);
+        pub const CRC_ERROR: u32 = helpers.generateMask(24, 25);
+        pub const BUS_RESET: u32 = helpers.generateMask(19, 20);
+        pub const TRANS_COMPLETE: u32 = helpers.generateMask(18, 19);
+        pub const SETUP_REC: u32 = helpers.generateMask(17, 18);
+        pub const CONNECTED: u32 = helpers.generateMask(16, 17);
+        pub const RESUME: u32 = helpers.generateMask(11, 12);
+        pub const VBUS_OVER_CURR: u32 = helpers.generateMask(10, 11);
+        pub const SPEED: u32 = helpers.generateMask(8, 10);
+        pub const SUSPENDED: u32 = helpers.generateMask(4, 5);
+        pub const LINE_STATE: u32 = helpers.generateMask(2, 4);
+        pub const VBUS_DETECTED: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1916,6 +2185,12 @@ pub const SIE_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1927,6 +2202,14 @@ pub const INT_EP_CTRL = struct {
         const mask = comptime helpers.generateMask(1, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 1, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(1, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(1, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u15 {
         const mask = comptime helpers.generateMask(1, 16);
         return @intCast((self.reg.* & mask) >> 1);
@@ -1935,6 +2218,40 @@ pub const INT_EP_CTRL = struct {
 /// Buffer status register. A bit set here indicates that a buffer has completed on the endpoint (if the buffer interrupt is enabled). It is possible for 2 buffers to be completed, so clearing the buffer status bit may instantly re set it on the next clock cycle.
 pub const BUFF_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110058),
+    pub const FieldMasks = struct {
+        pub const EP15_OUT: u32 = helpers.generateMask(31, 32);
+        pub const EP15_IN: u32 = helpers.generateMask(30, 31);
+        pub const EP14_OUT: u32 = helpers.generateMask(29, 30);
+        pub const EP14_IN: u32 = helpers.generateMask(28, 29);
+        pub const EP13_OUT: u32 = helpers.generateMask(27, 28);
+        pub const EP13_IN: u32 = helpers.generateMask(26, 27);
+        pub const EP12_OUT: u32 = helpers.generateMask(25, 26);
+        pub const EP12_IN: u32 = helpers.generateMask(24, 25);
+        pub const EP11_OUT: u32 = helpers.generateMask(23, 24);
+        pub const EP11_IN: u32 = helpers.generateMask(22, 23);
+        pub const EP10_OUT: u32 = helpers.generateMask(21, 22);
+        pub const EP10_IN: u32 = helpers.generateMask(20, 21);
+        pub const EP9_OUT: u32 = helpers.generateMask(19, 20);
+        pub const EP9_IN: u32 = helpers.generateMask(18, 19);
+        pub const EP8_OUT: u32 = helpers.generateMask(17, 18);
+        pub const EP8_IN: u32 = helpers.generateMask(16, 17);
+        pub const EP7_OUT: u32 = helpers.generateMask(15, 16);
+        pub const EP7_IN: u32 = helpers.generateMask(14, 15);
+        pub const EP6_OUT: u32 = helpers.generateMask(13, 14);
+        pub const EP6_IN: u32 = helpers.generateMask(12, 13);
+        pub const EP5_OUT: u32 = helpers.generateMask(11, 12);
+        pub const EP5_IN: u32 = helpers.generateMask(10, 11);
+        pub const EP4_OUT: u32 = helpers.generateMask(9, 10);
+        pub const EP4_IN: u32 = helpers.generateMask(8, 9);
+        pub const EP3_OUT: u32 = helpers.generateMask(7, 8);
+        pub const EP3_IN: u32 = helpers.generateMask(6, 7);
+        pub const EP2_OUT: u32 = helpers.generateMask(5, 6);
+        pub const EP2_IN: u32 = helpers.generateMask(4, 5);
+        pub const EP1_OUT: u32 = helpers.generateMask(3, 4);
+        pub const EP1_IN: u32 = helpers.generateMask(2, 3);
+        pub const EP0_OUT: u32 = helpers.generateMask(1, 2);
+        pub const EP0_IN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2361,6 +2678,12 @@ pub const BUFF_STATUS = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2369,6 +2692,40 @@ pub const BUFF_STATUS = struct {
 /// Which of the double buffers should be handled. Only valid if using an interrupt per buffer (i.e. not per 2 buffers). Not valid for host interrupt endpoint polling because they are only single buffered.
 pub const BUFF_CPU_SHOULD_HANDLE = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5011005c),
+    pub const FieldMasks = struct {
+        pub const EP15_OUT: u32 = helpers.generateMask(31, 32);
+        pub const EP15_IN: u32 = helpers.generateMask(30, 31);
+        pub const EP14_OUT: u32 = helpers.generateMask(29, 30);
+        pub const EP14_IN: u32 = helpers.generateMask(28, 29);
+        pub const EP13_OUT: u32 = helpers.generateMask(27, 28);
+        pub const EP13_IN: u32 = helpers.generateMask(26, 27);
+        pub const EP12_OUT: u32 = helpers.generateMask(25, 26);
+        pub const EP12_IN: u32 = helpers.generateMask(24, 25);
+        pub const EP11_OUT: u32 = helpers.generateMask(23, 24);
+        pub const EP11_IN: u32 = helpers.generateMask(22, 23);
+        pub const EP10_OUT: u32 = helpers.generateMask(21, 22);
+        pub const EP10_IN: u32 = helpers.generateMask(20, 21);
+        pub const EP9_OUT: u32 = helpers.generateMask(19, 20);
+        pub const EP9_IN: u32 = helpers.generateMask(18, 19);
+        pub const EP8_OUT: u32 = helpers.generateMask(17, 18);
+        pub const EP8_IN: u32 = helpers.generateMask(16, 17);
+        pub const EP7_OUT: u32 = helpers.generateMask(15, 16);
+        pub const EP7_IN: u32 = helpers.generateMask(14, 15);
+        pub const EP6_OUT: u32 = helpers.generateMask(13, 14);
+        pub const EP6_IN: u32 = helpers.generateMask(12, 13);
+        pub const EP5_OUT: u32 = helpers.generateMask(11, 12);
+        pub const EP5_IN: u32 = helpers.generateMask(10, 11);
+        pub const EP4_OUT: u32 = helpers.generateMask(9, 10);
+        pub const EP4_IN: u32 = helpers.generateMask(8, 9);
+        pub const EP3_OUT: u32 = helpers.generateMask(7, 8);
+        pub const EP3_IN: u32 = helpers.generateMask(6, 7);
+        pub const EP2_OUT: u32 = helpers.generateMask(5, 6);
+        pub const EP2_IN: u32 = helpers.generateMask(4, 5);
+        pub const EP1_OUT: u32 = helpers.generateMask(3, 4);
+        pub const EP1_IN: u32 = helpers.generateMask(2, 3);
+        pub const EP0_OUT: u32 = helpers.generateMask(1, 2);
+        pub const EP0_IN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2506,6 +2863,12 @@ pub const BUFF_CPU_SHOULD_HANDLE = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2514,6 +2877,40 @@ pub const BUFF_CPU_SHOULD_HANDLE = struct {
 /// Device only: Can be set to ignore the buffer control register for this endpoint in case you would like to revoke a buffer. A NAK will be sent for every access to the endpoint until this bit is cleared. A corresponding bit in `EP_ABORT_DONE` is set when it is safe to modify the buffer control register.
 pub const EP_ABORT = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110060),
+    pub const FieldMasks = struct {
+        pub const EP15_OUT: u32 = helpers.generateMask(31, 32);
+        pub const EP15_IN: u32 = helpers.generateMask(30, 31);
+        pub const EP14_OUT: u32 = helpers.generateMask(29, 30);
+        pub const EP14_IN: u32 = helpers.generateMask(28, 29);
+        pub const EP13_OUT: u32 = helpers.generateMask(27, 28);
+        pub const EP13_IN: u32 = helpers.generateMask(26, 27);
+        pub const EP12_OUT: u32 = helpers.generateMask(25, 26);
+        pub const EP12_IN: u32 = helpers.generateMask(24, 25);
+        pub const EP11_OUT: u32 = helpers.generateMask(23, 24);
+        pub const EP11_IN: u32 = helpers.generateMask(22, 23);
+        pub const EP10_OUT: u32 = helpers.generateMask(21, 22);
+        pub const EP10_IN: u32 = helpers.generateMask(20, 21);
+        pub const EP9_OUT: u32 = helpers.generateMask(19, 20);
+        pub const EP9_IN: u32 = helpers.generateMask(18, 19);
+        pub const EP8_OUT: u32 = helpers.generateMask(17, 18);
+        pub const EP8_IN: u32 = helpers.generateMask(16, 17);
+        pub const EP7_OUT: u32 = helpers.generateMask(15, 16);
+        pub const EP7_IN: u32 = helpers.generateMask(14, 15);
+        pub const EP6_OUT: u32 = helpers.generateMask(13, 14);
+        pub const EP6_IN: u32 = helpers.generateMask(12, 13);
+        pub const EP5_OUT: u32 = helpers.generateMask(11, 12);
+        pub const EP5_IN: u32 = helpers.generateMask(10, 11);
+        pub const EP4_OUT: u32 = helpers.generateMask(9, 10);
+        pub const EP4_IN: u32 = helpers.generateMask(8, 9);
+        pub const EP3_OUT: u32 = helpers.generateMask(7, 8);
+        pub const EP3_IN: u32 = helpers.generateMask(6, 7);
+        pub const EP2_OUT: u32 = helpers.generateMask(5, 6);
+        pub const EP2_IN: u32 = helpers.generateMask(4, 5);
+        pub const EP1_OUT: u32 = helpers.generateMask(3, 4);
+        pub const EP1_IN: u32 = helpers.generateMask(2, 3);
+        pub const EP0_OUT: u32 = helpers.generateMask(1, 2);
+        pub const EP0_IN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2940,6 +3337,12 @@ pub const EP_ABORT = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2948,6 +3351,40 @@ pub const EP_ABORT = struct {
 /// Device only: Used in conjunction with `EP_ABORT`. Set once an endpoint is idle so the programmer knows it is safe to modify the buffer control register.
 pub const EP_ABORT_DONE = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110064),
+    pub const FieldMasks = struct {
+        pub const EP15_OUT: u32 = helpers.generateMask(31, 32);
+        pub const EP15_IN: u32 = helpers.generateMask(30, 31);
+        pub const EP14_OUT: u32 = helpers.generateMask(29, 30);
+        pub const EP14_IN: u32 = helpers.generateMask(28, 29);
+        pub const EP13_OUT: u32 = helpers.generateMask(27, 28);
+        pub const EP13_IN: u32 = helpers.generateMask(26, 27);
+        pub const EP12_OUT: u32 = helpers.generateMask(25, 26);
+        pub const EP12_IN: u32 = helpers.generateMask(24, 25);
+        pub const EP11_OUT: u32 = helpers.generateMask(23, 24);
+        pub const EP11_IN: u32 = helpers.generateMask(22, 23);
+        pub const EP10_OUT: u32 = helpers.generateMask(21, 22);
+        pub const EP10_IN: u32 = helpers.generateMask(20, 21);
+        pub const EP9_OUT: u32 = helpers.generateMask(19, 20);
+        pub const EP9_IN: u32 = helpers.generateMask(18, 19);
+        pub const EP8_OUT: u32 = helpers.generateMask(17, 18);
+        pub const EP8_IN: u32 = helpers.generateMask(16, 17);
+        pub const EP7_OUT: u32 = helpers.generateMask(15, 16);
+        pub const EP7_IN: u32 = helpers.generateMask(14, 15);
+        pub const EP6_OUT: u32 = helpers.generateMask(13, 14);
+        pub const EP6_IN: u32 = helpers.generateMask(12, 13);
+        pub const EP5_OUT: u32 = helpers.generateMask(11, 12);
+        pub const EP5_IN: u32 = helpers.generateMask(10, 11);
+        pub const EP4_OUT: u32 = helpers.generateMask(9, 10);
+        pub const EP4_IN: u32 = helpers.generateMask(8, 9);
+        pub const EP3_OUT: u32 = helpers.generateMask(7, 8);
+        pub const EP3_IN: u32 = helpers.generateMask(6, 7);
+        pub const EP2_OUT: u32 = helpers.generateMask(5, 6);
+        pub const EP2_IN: u32 = helpers.generateMask(4, 5);
+        pub const EP1_OUT: u32 = helpers.generateMask(3, 4);
+        pub const EP1_IN: u32 = helpers.generateMask(2, 3);
+        pub const EP0_OUT: u32 = helpers.generateMask(1, 2);
+        pub const EP0_IN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3375,6 +3812,12 @@ pub const EP_ABORT_DONE = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3382,6 +3825,10 @@ pub const EP_ABORT_DONE = struct {
 /// Device: this bit must be set in conjunction with the `STALL` bit in the buffer control register to send a STALL on EP0. The device controller clears these bits when a SETUP packet is received because the USB spec requires that a STALL condition is cleared when a SETUP packet is received.
 pub const EP_STALL_ARM = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110068),
+    pub const FieldMasks = struct {
+        pub const EP0_OUT: u32 = helpers.generateMask(1, 2);
+        pub const EP0_IN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3419,6 +3866,12 @@ pub const EP_STALL_ARM = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3426,6 +3879,10 @@ pub const EP_STALL_ARM = struct {
 /// Used by the host controller. Sets the wait time in microseconds before trying again if the device replies with a NAK.
 pub const NAK_POLL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5011006c),
+    pub const FieldMasks = struct {
+        pub const DELAY_FS: u32 = helpers.generateMask(16, 26);
+        pub const DELAY_LS: u32 = helpers.generateMask(0, 10);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3467,6 +3924,12 @@ pub const NAK_POLL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3474,6 +3937,40 @@ pub const NAK_POLL = struct {
 /// Device: bits are set when the `IRQ_ON_NAK` or `IRQ_ON_STALL` bits are set. For EP0 this comes from `SIE_CTRL`. For all other endpoints it comes from the endpoint control register.
 pub const EP_STATUS_STALL_NAK = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110070),
+    pub const FieldMasks = struct {
+        pub const EP15_OUT: u32 = helpers.generateMask(31, 32);
+        pub const EP15_IN: u32 = helpers.generateMask(30, 31);
+        pub const EP14_OUT: u32 = helpers.generateMask(29, 30);
+        pub const EP14_IN: u32 = helpers.generateMask(28, 29);
+        pub const EP13_OUT: u32 = helpers.generateMask(27, 28);
+        pub const EP13_IN: u32 = helpers.generateMask(26, 27);
+        pub const EP12_OUT: u32 = helpers.generateMask(25, 26);
+        pub const EP12_IN: u32 = helpers.generateMask(24, 25);
+        pub const EP11_OUT: u32 = helpers.generateMask(23, 24);
+        pub const EP11_IN: u32 = helpers.generateMask(22, 23);
+        pub const EP10_OUT: u32 = helpers.generateMask(21, 22);
+        pub const EP10_IN: u32 = helpers.generateMask(20, 21);
+        pub const EP9_OUT: u32 = helpers.generateMask(19, 20);
+        pub const EP9_IN: u32 = helpers.generateMask(18, 19);
+        pub const EP8_OUT: u32 = helpers.generateMask(17, 18);
+        pub const EP8_IN: u32 = helpers.generateMask(16, 17);
+        pub const EP7_OUT: u32 = helpers.generateMask(15, 16);
+        pub const EP7_IN: u32 = helpers.generateMask(14, 15);
+        pub const EP6_OUT: u32 = helpers.generateMask(13, 14);
+        pub const EP6_IN: u32 = helpers.generateMask(12, 13);
+        pub const EP5_OUT: u32 = helpers.generateMask(11, 12);
+        pub const EP5_IN: u32 = helpers.generateMask(10, 11);
+        pub const EP4_OUT: u32 = helpers.generateMask(9, 10);
+        pub const EP4_IN: u32 = helpers.generateMask(8, 9);
+        pub const EP3_OUT: u32 = helpers.generateMask(7, 8);
+        pub const EP3_IN: u32 = helpers.generateMask(6, 7);
+        pub const EP2_OUT: u32 = helpers.generateMask(5, 6);
+        pub const EP2_IN: u32 = helpers.generateMask(4, 5);
+        pub const EP1_OUT: u32 = helpers.generateMask(3, 4);
+        pub const EP1_IN: u32 = helpers.generateMask(2, 3);
+        pub const EP0_OUT: u32 = helpers.generateMask(1, 2);
+        pub const EP0_IN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3901,6 +4398,12 @@ pub const EP_STATUS_STALL_NAK = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3908,6 +4411,12 @@ pub const EP_STATUS_STALL_NAK = struct {
 /// Where to connect the USB controller. Should be to_phy by default.
 pub const USB_MUXING = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110074),
+    pub const FieldMasks = struct {
+        pub const SOFTCON: u32 = helpers.generateMask(3, 4);
+        pub const TO_DIGITAL_PAD: u32 = helpers.generateMask(2, 3);
+        pub const TO_EXTPHY: u32 = helpers.generateMask(1, 2);
+        pub const TO_PHY: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3971,6 +4480,12 @@ pub const USB_MUXING = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3978,6 +4493,14 @@ pub const USB_MUXING = struct {
 /// Overrides for the power signals in the event that the VBUS signals are not hooked up to GPIO. Set the value of the override and then the override enable so switch over to the override value.
 pub const USB_PWR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110078),
+    pub const FieldMasks = struct {
+        pub const OVERCURR_DETECT_EN: u32 = helpers.generateMask(5, 6);
+        pub const OVERCURR_DETECT: u32 = helpers.generateMask(4, 5);
+        pub const VBUS_DETECT_OVERRIDE_EN: u32 = helpers.generateMask(3, 4);
+        pub const VBUS_DETECT: u32 = helpers.generateMask(2, 3);
+        pub const VBUS_EN_OVERRIDE_EN: u32 = helpers.generateMask(1, 2);
+        pub const VBUS_EN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -4067,6 +4590,12 @@ pub const USB_PWR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4075,6 +4604,29 @@ pub const USB_PWR = struct {
 /// Use in conjunction with usbphy_direct_override register
 pub const USBPHY_DIRECT = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5011007c),
+    pub const FieldMasks = struct {
+        pub const DM_OVV: u32 = helpers.generateMask(22, 23);
+        pub const DP_OVV: u32 = helpers.generateMask(21, 22);
+        pub const DM_OVCN: u32 = helpers.generateMask(20, 21);
+        pub const DP_OVCN: u32 = helpers.generateMask(19, 20);
+        pub const RX_DM: u32 = helpers.generateMask(18, 19);
+        pub const RX_DP: u32 = helpers.generateMask(17, 18);
+        pub const RX_DD: u32 = helpers.generateMask(16, 17);
+        pub const TX_DIFFMODE: u32 = helpers.generateMask(15, 16);
+        pub const TX_FSSLEW: u32 = helpers.generateMask(14, 15);
+        pub const TX_PD: u32 = helpers.generateMask(13, 14);
+        pub const RX_PD: u32 = helpers.generateMask(12, 13);
+        pub const TX_DM: u32 = helpers.generateMask(11, 12);
+        pub const TX_DP: u32 = helpers.generateMask(10, 11);
+        pub const TX_DM_OE: u32 = helpers.generateMask(9, 10);
+        pub const TX_DP_OE: u32 = helpers.generateMask(8, 9);
+        pub const DM_PULLDN_EN: u32 = helpers.generateMask(6, 7);
+        pub const DM_PULLUP_EN: u32 = helpers.generateMask(5, 6);
+        pub const DM_PULLUP_HISEL: u32 = helpers.generateMask(4, 5);
+        pub const DP_PULLDN_EN: u32 = helpers.generateMask(2, 3);
+        pub const DP_PULLUP_EN: u32 = helpers.generateMask(1, 2);
+        pub const DP_PULLUP_HISEL: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -4338,12 +4890,34 @@ pub const USBPHY_DIRECT = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
 };
 pub const USBPHY_DIRECT_OVERRIDE = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110080),
+    pub const FieldMasks = struct {
+        pub const TX_DIFFMODE_OVERRIDE_EN: u32 = helpers.generateMask(15, 16);
+        pub const DM_PULLUP_OVERRIDE_EN: u32 = helpers.generateMask(12, 13);
+        pub const TX_FSSLEW_OVERRIDE_EN: u32 = helpers.generateMask(11, 12);
+        pub const TX_PD_OVERRIDE_EN: u32 = helpers.generateMask(10, 11);
+        pub const RX_PD_OVERRIDE_EN: u32 = helpers.generateMask(9, 10);
+        pub const TX_DM_OVERRIDE_EN: u32 = helpers.generateMask(8, 9);
+        pub const TX_DP_OVERRIDE_EN: u32 = helpers.generateMask(7, 8);
+        pub const TX_DM_OE_OVERRIDE_EN: u32 = helpers.generateMask(6, 7);
+        pub const TX_DP_OE_OVERRIDE_EN: u32 = helpers.generateMask(5, 6);
+        pub const DM_PULLDN_EN_OVERRIDE_EN: u32 = helpers.generateMask(4, 5);
+        pub const DP_PULLDN_EN_OVERRIDE_EN: u32 = helpers.generateMask(3, 4);
+        pub const DP_PULLUP_EN_OVERRIDE_EN: u32 = helpers.generateMask(2, 3);
+        pub const DM_PULLUP_HISEL_OVERRIDE_EN: u32 = helpers.generateMask(1, 2);
+        pub const DP_PULLUP_HISEL_OVERRIDE_EN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -4551,6 +5125,12 @@ pub const USBPHY_DIRECT_OVERRIDE = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4558,6 +5138,10 @@ pub const USBPHY_DIRECT_OVERRIDE = struct {
 /// Note that most functions are driven directly from usb_fsls controller.  This register allows more detailed control/status from the USB PHY. Useful for debug but not expected to be used in normal operation
 pub const USBPHY_TRIM = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110084),
+    pub const FieldMasks = struct {
+        pub const DM_PULLDN_TRIM: u32 = helpers.generateMask(8, 13);
+        pub const DP_PULLDN_TRIM: u32 = helpers.generateMask(0, 5);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -4607,6 +5191,12 @@ pub const USBPHY_TRIM = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4614,6 +5204,28 @@ pub const USBPHY_TRIM = struct {
 /// Raw Interrupts
 pub const INTR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x5011008c),
+    pub const FieldMasks = struct {
+        pub const EP_STALL_NAK: u32 = helpers.generateMask(19, 20);
+        pub const ABORT_DONE: u32 = helpers.generateMask(18, 19);
+        pub const DEV_SOF: u32 = helpers.generateMask(17, 18);
+        pub const SETUP_REQ: u32 = helpers.generateMask(16, 17);
+        pub const DEV_RESUME_FROM_HOST: u32 = helpers.generateMask(15, 16);
+        pub const DEV_SUSPEND: u32 = helpers.generateMask(14, 15);
+        pub const DEV_CONN_DIS: u32 = helpers.generateMask(13, 14);
+        pub const BUS_RESET: u32 = helpers.generateMask(12, 13);
+        pub const VBUS_DETECT: u32 = helpers.generateMask(11, 12);
+        pub const STALL: u32 = helpers.generateMask(10, 11);
+        pub const ERROR_CRC: u32 = helpers.generateMask(9, 10);
+        pub const ERROR_BIT_STUFF: u32 = helpers.generateMask(8, 9);
+        pub const ERROR_RX_OVERFLOW: u32 = helpers.generateMask(7, 8);
+        pub const ERROR_RX_TIMEOUT: u32 = helpers.generateMask(6, 7);
+        pub const ERROR_DATA_SEQ: u32 = helpers.generateMask(5, 6);
+        pub const BUFF_STATUS: u32 = helpers.generateMask(4, 5);
+        pub const TRANS_COMPLETE: u32 = helpers.generateMask(3, 4);
+        pub const HOST_SOF: u32 = helpers.generateMask(2, 3);
+        pub const HOST_RESUME: u32 = helpers.generateMask(1, 2);
+        pub const HOST_CONN_DIS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -4703,6 +5315,12 @@ pub const INTR = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -4711,6 +5329,28 @@ pub const INTR = struct {
 /// Interrupt Enable
 pub const INTE = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110090),
+    pub const FieldMasks = struct {
+        pub const EP_STALL_NAK: u32 = helpers.generateMask(19, 20);
+        pub const ABORT_DONE: u32 = helpers.generateMask(18, 19);
+        pub const DEV_SOF: u32 = helpers.generateMask(17, 18);
+        pub const SETUP_REQ: u32 = helpers.generateMask(16, 17);
+        pub const DEV_RESUME_FROM_HOST: u32 = helpers.generateMask(15, 16);
+        pub const DEV_SUSPEND: u32 = helpers.generateMask(14, 15);
+        pub const DEV_CONN_DIS: u32 = helpers.generateMask(13, 14);
+        pub const BUS_RESET: u32 = helpers.generateMask(12, 13);
+        pub const VBUS_DETECT: u32 = helpers.generateMask(11, 12);
+        pub const STALL: u32 = helpers.generateMask(10, 11);
+        pub const ERROR_CRC: u32 = helpers.generateMask(9, 10);
+        pub const ERROR_BIT_STUFF: u32 = helpers.generateMask(8, 9);
+        pub const ERROR_RX_OVERFLOW: u32 = helpers.generateMask(7, 8);
+        pub const ERROR_RX_TIMEOUT: u32 = helpers.generateMask(6, 7);
+        pub const ERROR_DATA_SEQ: u32 = helpers.generateMask(5, 6);
+        pub const BUFF_STATUS: u32 = helpers.generateMask(4, 5);
+        pub const TRANS_COMPLETE: u32 = helpers.generateMask(3, 4);
+        pub const HOST_SOF: u32 = helpers.generateMask(2, 3);
+        pub const HOST_RESUME: u32 = helpers.generateMask(1, 2);
+        pub const HOST_CONN_DIS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -5021,6 +5661,12 @@ pub const INTE = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -5029,6 +5675,28 @@ pub const INTE = struct {
 /// Interrupt Force
 pub const INTF = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110094),
+    pub const FieldMasks = struct {
+        pub const EP_STALL_NAK: u32 = helpers.generateMask(19, 20);
+        pub const ABORT_DONE: u32 = helpers.generateMask(18, 19);
+        pub const DEV_SOF: u32 = helpers.generateMask(17, 18);
+        pub const SETUP_REQ: u32 = helpers.generateMask(16, 17);
+        pub const DEV_RESUME_FROM_HOST: u32 = helpers.generateMask(15, 16);
+        pub const DEV_SUSPEND: u32 = helpers.generateMask(14, 15);
+        pub const DEV_CONN_DIS: u32 = helpers.generateMask(13, 14);
+        pub const BUS_RESET: u32 = helpers.generateMask(12, 13);
+        pub const VBUS_DETECT: u32 = helpers.generateMask(11, 12);
+        pub const STALL: u32 = helpers.generateMask(10, 11);
+        pub const ERROR_CRC: u32 = helpers.generateMask(9, 10);
+        pub const ERROR_BIT_STUFF: u32 = helpers.generateMask(8, 9);
+        pub const ERROR_RX_OVERFLOW: u32 = helpers.generateMask(7, 8);
+        pub const ERROR_RX_TIMEOUT: u32 = helpers.generateMask(6, 7);
+        pub const ERROR_DATA_SEQ: u32 = helpers.generateMask(5, 6);
+        pub const BUFF_STATUS: u32 = helpers.generateMask(4, 5);
+        pub const TRANS_COMPLETE: u32 = helpers.generateMask(3, 4);
+        pub const HOST_SOF: u32 = helpers.generateMask(2, 3);
+        pub const HOST_RESUME: u32 = helpers.generateMask(1, 2);
+        pub const HOST_CONN_DIS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -5340,6 +6008,12 @@ pub const INTF = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -5347,6 +6021,28 @@ pub const INTF = struct {
 /// Interrupt status after masking &amp; forcing
 pub const INTS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x50110098),
+    pub const FieldMasks = struct {
+        pub const EP_STALL_NAK: u32 = helpers.generateMask(19, 20);
+        pub const ABORT_DONE: u32 = helpers.generateMask(18, 19);
+        pub const DEV_SOF: u32 = helpers.generateMask(17, 18);
+        pub const SETUP_REQ: u32 = helpers.generateMask(16, 17);
+        pub const DEV_RESUME_FROM_HOST: u32 = helpers.generateMask(15, 16);
+        pub const DEV_SUSPEND: u32 = helpers.generateMask(14, 15);
+        pub const DEV_CONN_DIS: u32 = helpers.generateMask(13, 14);
+        pub const BUS_RESET: u32 = helpers.generateMask(12, 13);
+        pub const VBUS_DETECT: u32 = helpers.generateMask(11, 12);
+        pub const STALL: u32 = helpers.generateMask(10, 11);
+        pub const ERROR_CRC: u32 = helpers.generateMask(9, 10);
+        pub const ERROR_BIT_STUFF: u32 = helpers.generateMask(8, 9);
+        pub const ERROR_RX_OVERFLOW: u32 = helpers.generateMask(7, 8);
+        pub const ERROR_RX_TIMEOUT: u32 = helpers.generateMask(6, 7);
+        pub const ERROR_DATA_SEQ: u32 = helpers.generateMask(5, 6);
+        pub const BUFF_STATUS: u32 = helpers.generateMask(4, 5);
+        pub const TRANS_COMPLETE: u32 = helpers.generateMask(3, 4);
+        pub const HOST_SOF: u32 = helpers.generateMask(2, 3);
+        pub const HOST_RESUME: u32 = helpers.generateMask(1, 2);
+        pub const HOST_CONN_DIS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -5436,6 +6132,12 @@ pub const INTS = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };

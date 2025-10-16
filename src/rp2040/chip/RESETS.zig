@@ -2,6 +2,33 @@ const helpers = @import("helpers.zig");
 /// Reset control. If a bit is set it means the peripheral is in reset. 0 means the peripheral&#39;s reset is deasserted.
 pub const RESET = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4000c000),
+    pub const FieldMasks = struct {
+        pub const USBCTRL: u32 = helpers.generateMask(24, 25);
+        pub const UART1: u32 = helpers.generateMask(23, 24);
+        pub const UART0: u32 = helpers.generateMask(22, 23);
+        pub const TIMER: u32 = helpers.generateMask(21, 22);
+        pub const TBMAN: u32 = helpers.generateMask(20, 21);
+        pub const SYSINFO: u32 = helpers.generateMask(19, 20);
+        pub const SYSCFG: u32 = helpers.generateMask(18, 19);
+        pub const SPI1: u32 = helpers.generateMask(17, 18);
+        pub const SPI0: u32 = helpers.generateMask(16, 17);
+        pub const RTC: u32 = helpers.generateMask(15, 16);
+        pub const PWM: u32 = helpers.generateMask(14, 15);
+        pub const PLL_USB: u32 = helpers.generateMask(13, 14);
+        pub const PLL_SYS: u32 = helpers.generateMask(12, 13);
+        pub const PIO1: u32 = helpers.generateMask(11, 12);
+        pub const PIO0: u32 = helpers.generateMask(10, 11);
+        pub const PADS_QSPI: u32 = helpers.generateMask(9, 10);
+        pub const PADS_BANK0: u32 = helpers.generateMask(8, 9);
+        pub const JTAG: u32 = helpers.generateMask(7, 8);
+        pub const IO_QSPI: u32 = helpers.generateMask(6, 7);
+        pub const IO_BANK0: u32 = helpers.generateMask(5, 6);
+        pub const I2C1: u32 = helpers.generateMask(4, 5);
+        pub const I2C0: u32 = helpers.generateMask(3, 4);
+        pub const DMA: u32 = helpers.generateMask(2, 3);
+        pub const BUSCTRL: u32 = helpers.generateMask(1, 2);
+        pub const ADC: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -337,6 +364,12 @@ pub const RESET = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -345,6 +378,33 @@ pub const RESET = struct {
 /// Watchdog select. If a bit is set then the watchdog will reset this peripheral when the watchdog fires.
 pub const WDSEL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4000c004),
+    pub const FieldMasks = struct {
+        pub const USBCTRL: u32 = helpers.generateMask(24, 25);
+        pub const UART1: u32 = helpers.generateMask(23, 24);
+        pub const UART0: u32 = helpers.generateMask(22, 23);
+        pub const TIMER: u32 = helpers.generateMask(21, 22);
+        pub const TBMAN: u32 = helpers.generateMask(20, 21);
+        pub const SYSINFO: u32 = helpers.generateMask(19, 20);
+        pub const SYSCFG: u32 = helpers.generateMask(18, 19);
+        pub const SPI1: u32 = helpers.generateMask(17, 18);
+        pub const SPI0: u32 = helpers.generateMask(16, 17);
+        pub const RTC: u32 = helpers.generateMask(15, 16);
+        pub const PWM: u32 = helpers.generateMask(14, 15);
+        pub const PLL_USB: u32 = helpers.generateMask(13, 14);
+        pub const PLL_SYS: u32 = helpers.generateMask(12, 13);
+        pub const PIO1: u32 = helpers.generateMask(11, 12);
+        pub const PIO0: u32 = helpers.generateMask(10, 11);
+        pub const PADS_QSPI: u32 = helpers.generateMask(9, 10);
+        pub const PADS_BANK0: u32 = helpers.generateMask(8, 9);
+        pub const JTAG: u32 = helpers.generateMask(7, 8);
+        pub const IO_QSPI: u32 = helpers.generateMask(6, 7);
+        pub const IO_BANK0: u32 = helpers.generateMask(5, 6);
+        pub const I2C1: u32 = helpers.generateMask(4, 5);
+        pub const I2C0: u32 = helpers.generateMask(3, 4);
+        pub const DMA: u32 = helpers.generateMask(2, 3);
+        pub const BUSCTRL: u32 = helpers.generateMask(1, 2);
+        pub const ADC: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -681,6 +741,12 @@ pub const WDSEL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -688,6 +754,33 @@ pub const WDSEL = struct {
 /// Reset done. If a bit is set then a reset done signal has been returned by the peripheral. This indicates that the peripheral&#39;s registers are ready to be accessed.
 pub const RESET_DONE = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4000c008),
+    pub const FieldMasks = struct {
+        pub const USBCTRL: u32 = helpers.generateMask(24, 25);
+        pub const UART1: u32 = helpers.generateMask(23, 24);
+        pub const UART0: u32 = helpers.generateMask(22, 23);
+        pub const TIMER: u32 = helpers.generateMask(21, 22);
+        pub const TBMAN: u32 = helpers.generateMask(20, 21);
+        pub const SYSINFO: u32 = helpers.generateMask(19, 20);
+        pub const SYSCFG: u32 = helpers.generateMask(18, 19);
+        pub const SPI1: u32 = helpers.generateMask(17, 18);
+        pub const SPI0: u32 = helpers.generateMask(16, 17);
+        pub const RTC: u32 = helpers.generateMask(15, 16);
+        pub const PWM: u32 = helpers.generateMask(14, 15);
+        pub const PLL_USB: u32 = helpers.generateMask(13, 14);
+        pub const PLL_SYS: u32 = helpers.generateMask(12, 13);
+        pub const PIO1: u32 = helpers.generateMask(11, 12);
+        pub const PIO0: u32 = helpers.generateMask(10, 11);
+        pub const PADS_QSPI: u32 = helpers.generateMask(9, 10);
+        pub const PADS_BANK0: u32 = helpers.generateMask(8, 9);
+        pub const JTAG: u32 = helpers.generateMask(7, 8);
+        pub const IO_QSPI: u32 = helpers.generateMask(6, 7);
+        pub const IO_BANK0: u32 = helpers.generateMask(5, 6);
+        pub const I2C1: u32 = helpers.generateMask(4, 5);
+        pub const I2C0: u32 = helpers.generateMask(3, 4);
+        pub const DMA: u32 = helpers.generateMask(2, 3);
+        pub const BUSCTRL: u32 = helpers.generateMask(1, 2);
+        pub const ADC: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -797,6 +890,12 @@ pub const RESET_DONE = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };

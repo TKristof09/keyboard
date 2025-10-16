@@ -2,6 +2,12 @@ const helpers = @import("helpers.zig");
 /// Use the SysTick Control and Status Register to enable the SysTick features.
 pub const SYST_CSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000e010),
+    pub const FieldMasks = struct {
+        pub const COUNTFLAG: u32 = helpers.generateMask(16, 17);
+        pub const CLKSOURCE: u32 = helpers.generateMask(2, 3);
+        pub const TICKINT: u32 = helpers.generateMask(1, 2);
+        pub const ENABLE: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -79,6 +85,16 @@ pub const SYST_CSR = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -91,6 +107,16 @@ pub const SYST_RVR = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 24);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 24);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 24);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u24 {
@@ -107,6 +133,16 @@ pub const SYST_CVR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 24);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 24);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u24 {
         const mask = comptime helpers.generateMask(0, 24);
         return @intCast((self.reg.* & mask) >> 0);
@@ -115,6 +151,11 @@ pub const SYST_CVR = struct {
 /// Use the SysTick Calibration Value Register to enable software to scale to any required speed using divide and multiply.
 pub const SYST_CALIB = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000e01c),
+    pub const FieldMasks = struct {
+        pub const NOREF: u32 = helpers.generateMask(31, 32);
+        pub const SKEW: u32 = helpers.generateMask(30, 31);
+        pub const TENMS: u32 = helpers.generateMask(0, 24);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -140,6 +181,16 @@ pub const SYST_CALIB = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -152,6 +203,16 @@ pub const NVIC_ISER = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -168,6 +229,16 @@ pub const NVIC_ICER = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -180,6 +251,16 @@ pub const NVIC_ISPR = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -196,6 +277,16 @@ pub const NVIC_ICPR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -206,6 +297,12 @@ pub const NVIC_ICPR = struct {
 /// These registers are only word-accessible
 pub const NVIC_IPR0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000e400),
+    pub const FieldMasks = struct {
+        pub const IP_3: u32 = helpers.generateMask(30, 32);
+        pub const IP_2: u32 = helpers.generateMask(22, 24);
+        pub const IP_1: u32 = helpers.generateMask(14, 16);
+        pub const IP_0: u32 = helpers.generateMask(6, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -280,6 +377,16 @@ pub const NVIC_IPR0 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -287,6 +394,12 @@ pub const NVIC_IPR0 = struct {
 /// Use the Interrupt Priority Registers to assign a priority from 0 to 3 to each of the available interrupts. 0 is the highest priority, and 3 is the lowest.
 pub const NVIC_IPR1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000e404),
+    pub const FieldMasks = struct {
+        pub const IP_7: u32 = helpers.generateMask(30, 32);
+        pub const IP_6: u32 = helpers.generateMask(22, 24);
+        pub const IP_5: u32 = helpers.generateMask(14, 16);
+        pub const IP_4: u32 = helpers.generateMask(6, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -361,6 +474,16 @@ pub const NVIC_IPR1 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -368,6 +491,12 @@ pub const NVIC_IPR1 = struct {
 /// Use the Interrupt Priority Registers to assign a priority from 0 to 3 to each of the available interrupts. 0 is the highest priority, and 3 is the lowest.
 pub const NVIC_IPR2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000e408),
+    pub const FieldMasks = struct {
+        pub const IP_11: u32 = helpers.generateMask(30, 32);
+        pub const IP_10: u32 = helpers.generateMask(22, 24);
+        pub const IP_9: u32 = helpers.generateMask(14, 16);
+        pub const IP_8: u32 = helpers.generateMask(6, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -442,6 +571,16 @@ pub const NVIC_IPR2 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -449,6 +588,12 @@ pub const NVIC_IPR2 = struct {
 /// Use the Interrupt Priority Registers to assign a priority from 0 to 3 to each of the available interrupts. 0 is the highest priority, and 3 is the lowest.
 pub const NVIC_IPR3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000e40c),
+    pub const FieldMasks = struct {
+        pub const IP_15: u32 = helpers.generateMask(30, 32);
+        pub const IP_14: u32 = helpers.generateMask(22, 24);
+        pub const IP_13: u32 = helpers.generateMask(14, 16);
+        pub const IP_12: u32 = helpers.generateMask(6, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -523,6 +668,16 @@ pub const NVIC_IPR3 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -530,6 +685,12 @@ pub const NVIC_IPR3 = struct {
 /// Use the Interrupt Priority Registers to assign a priority from 0 to 3 to each of the available interrupts. 0 is the highest priority, and 3 is the lowest.
 pub const NVIC_IPR4 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000e410),
+    pub const FieldMasks = struct {
+        pub const IP_19: u32 = helpers.generateMask(30, 32);
+        pub const IP_18: u32 = helpers.generateMask(22, 24);
+        pub const IP_17: u32 = helpers.generateMask(14, 16);
+        pub const IP_16: u32 = helpers.generateMask(6, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -604,6 +765,16 @@ pub const NVIC_IPR4 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -611,6 +782,12 @@ pub const NVIC_IPR4 = struct {
 /// Use the Interrupt Priority Registers to assign a priority from 0 to 3 to each of the available interrupts. 0 is the highest priority, and 3 is the lowest.
 pub const NVIC_IPR5 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000e414),
+    pub const FieldMasks = struct {
+        pub const IP_23: u32 = helpers.generateMask(30, 32);
+        pub const IP_22: u32 = helpers.generateMask(22, 24);
+        pub const IP_21: u32 = helpers.generateMask(14, 16);
+        pub const IP_20: u32 = helpers.generateMask(6, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -685,6 +862,16 @@ pub const NVIC_IPR5 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -692,6 +879,12 @@ pub const NVIC_IPR5 = struct {
 /// Use the Interrupt Priority Registers to assign a priority from 0 to 3 to each of the available interrupts. 0 is the highest priority, and 3 is the lowest.
 pub const NVIC_IPR6 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000e418),
+    pub const FieldMasks = struct {
+        pub const IP_27: u32 = helpers.generateMask(30, 32);
+        pub const IP_26: u32 = helpers.generateMask(22, 24);
+        pub const IP_25: u32 = helpers.generateMask(14, 16);
+        pub const IP_24: u32 = helpers.generateMask(6, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -766,6 +959,16 @@ pub const NVIC_IPR6 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -773,6 +976,12 @@ pub const NVIC_IPR6 = struct {
 /// Use the Interrupt Priority Registers to assign a priority from 0 to 3 to each of the available interrupts. 0 is the highest priority, and 3 is the lowest.
 pub const NVIC_IPR7 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000e41c),
+    pub const FieldMasks = struct {
+        pub const IP_31: u32 = helpers.generateMask(30, 32);
+        pub const IP_30: u32 = helpers.generateMask(22, 24);
+        pub const IP_29: u32 = helpers.generateMask(14, 16);
+        pub const IP_28: u32 = helpers.generateMask(6, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -847,6 +1056,16 @@ pub const NVIC_IPR7 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -854,6 +1073,13 @@ pub const NVIC_IPR7 = struct {
 /// Read the CPU ID Base Register to determine: the ID number of the processor core, the version number of the processor core, the implementation details of the processor core.
 pub const CPUID = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000ed00),
+    pub const FieldMasks = struct {
+        pub const IMPLEMENTER: u32 = helpers.generateMask(24, 32);
+        pub const VARIANT: u32 = helpers.generateMask(20, 24);
+        pub const ARCHITECTURE: u32 = helpers.generateMask(16, 20);
+        pub const PARTNO: u32 = helpers.generateMask(4, 16);
+        pub const REVISION: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -887,6 +1113,16 @@ pub const CPUID = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -894,6 +1130,17 @@ pub const CPUID = struct {
 /// Use the Interrupt Control State Register to set a pending Non-Maskable Interrupt (NMI), set or clear a pending PendSV, set or clear a pending SysTick, check for pending exceptions, check the vector number of the highest priority pended exception, check the vector number of the active exception.
 pub const ICSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000ed04),
+    pub const FieldMasks = struct {
+        pub const NMIPENDSET: u32 = helpers.generateMask(31, 32);
+        pub const PENDSVSET: u32 = helpers.generateMask(28, 29);
+        pub const PENDSVCLR: u32 = helpers.generateMask(27, 28);
+        pub const PENDSTSET: u32 = helpers.generateMask(26, 27);
+        pub const PENDSTCLR: u32 = helpers.generateMask(25, 26);
+        pub const ISRPREEMPT: u32 = helpers.generateMask(23, 24);
+        pub const ISRPENDING: u32 = helpers.generateMask(22, 23);
+        pub const VECTPENDING: u32 = helpers.generateMask(12, 21);
+        pub const VECTACTIVE: u32 = helpers.generateMask(0, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1061,6 +1308,16 @@ pub const ICSR = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1074,6 +1331,16 @@ pub const VTOR = struct {
         content |= (helpers.toU32(v) << 8);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(8, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(8, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u24 {
         const mask = comptime helpers.generateMask(8, 32);
         return @intCast((self.reg.* & mask) >> 8);
@@ -1082,6 +1349,12 @@ pub const VTOR = struct {
 /// Use the Application Interrupt and Reset Control Register to: determine data endianness, clear all active state information from debug halt mode, request a system reset.
 pub const AIRCR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000ed0c),
+    pub const FieldMasks = struct {
+        pub const VECTKEY: u32 = helpers.generateMask(16, 32);
+        pub const ENDIANESS: u32 = helpers.generateMask(15, 16);
+        pub const SYSRESETREQ: u32 = helpers.generateMask(2, 3);
+        pub const VECTCLRACTIVE: u32 = helpers.generateMask(1, 2);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1149,6 +1422,16 @@ pub const AIRCR = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1156,6 +1439,11 @@ pub const AIRCR = struct {
 /// System Control Register. Use the System Control Register for power-management functions: signal to the system when the processor can enter a low power state, control how the processor enters and exits low power states.
 pub const SCR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000ed10),
+    pub const FieldMasks = struct {
+        pub const SEVONPEND: u32 = helpers.generateMask(4, 5);
+        pub const SLEEPDEEP: u32 = helpers.generateMask(2, 3);
+        pub const SLEEPONEXIT: u32 = helpers.generateMask(1, 2);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1235,6 +1523,16 @@ pub const SCR = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1242,6 +1540,10 @@ pub const SCR = struct {
 /// The Configuration and Control Register permanently enables stack alignment and causes unaligned accesses to result in a Hard Fault.
 pub const CCR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000ed14),
+    pub const FieldMasks = struct {
+        pub const STKALIGN: u32 = helpers.generateMask(9, 10);
+        pub const UNALIGN_TRP: u32 = helpers.generateMask(3, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1263,6 +1565,16 @@ pub const CCR = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1276,6 +1588,16 @@ pub const SHPR2 = struct {
         content |= (helpers.toU32(v) << 30);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(30, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(30, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u2 {
         const mask = comptime helpers.generateMask(30, 32);
         return @intCast((self.reg.* & mask) >> 30);
@@ -1284,6 +1606,10 @@ pub const SHPR2 = struct {
 /// System handlers are a special class of exception handler that can have their priority set to any of the priority levels. Use the System Handler Priority Register 3 to set the priority of PendSV and SysTick.
 pub const SHPR3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000ed20),
+    pub const FieldMasks = struct {
+        pub const PRI_15: u32 = helpers.generateMask(30, 32);
+        pub const PRI_14: u32 = helpers.generateMask(22, 24);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1328,6 +1654,16 @@ pub const SHPR3 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1341,6 +1677,16 @@ pub const SHCSR = struct {
         content |= (helpers.toU32(v) << 15);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(15, 16);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(15, 16);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u1 {
         const mask = comptime helpers.generateMask(15, 16);
         return @intCast((self.reg.* & mask) >> 15);
@@ -1349,6 +1695,11 @@ pub const SHCSR = struct {
 /// Read the MPU Type Register to determine if the processor implements an MPU, and how many regions the MPU supports.
 pub const MPU_TYPE = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000ed90),
+    pub const FieldMasks = struct {
+        pub const IREGION: u32 = helpers.generateMask(16, 24);
+        pub const DREGION: u32 = helpers.generateMask(8, 16);
+        pub const SEPARATE: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1374,6 +1725,16 @@ pub const MPU_TYPE = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1381,6 +1742,11 @@ pub const MPU_TYPE = struct {
 /// Use the MPU Control Register to enable and disable the MPU, and to control whether the default memory map is enabled as a background region for privileged accesses, and whether the MPU is enabled for HardFaults and NMIs.
 pub const MPU_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000ed94),
+    pub const FieldMasks = struct {
+        pub const PRIVDEFENA: u32 = helpers.generateMask(2, 3);
+        pub const HFNMIENA: u32 = helpers.generateMask(1, 2);
+        pub const ENABLE: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1458,6 +1824,16 @@ pub const MPU_CTRL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1471,6 +1847,16 @@ pub const MPU_RNR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 4);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 4);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u4 {
         const mask = comptime helpers.generateMask(0, 4);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1479,6 +1865,11 @@ pub const MPU_RNR = struct {
 /// Read the MPU Region Base Address Register to determine the base address of the region identified by MPU_RNR. Write to update the base address of said region or that of a specified region, with whose number MPU_RNR will also be updated.
 pub const MPU_RBAR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000ed9c),
+    pub const FieldMasks = struct {
+        pub const ADDR: u32 = helpers.generateMask(8, 32);
+        pub const VALID: u32 = helpers.generateMask(4, 5);
+        pub const REGION: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1554,6 +1945,16 @@ pub const MPU_RBAR = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1561,6 +1962,12 @@ pub const MPU_RBAR = struct {
 /// Use the MPU Region Attribute and Size Register to define the size, access behaviour and memory type of the region identified by MPU_RNR, and enable that region.
 pub const MPU_RASR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xe000eda0),
+    pub const FieldMasks = struct {
+        pub const ATTRS: u32 = helpers.generateMask(16, 32);
+        pub const SRD: u32 = helpers.generateMask(8, 16);
+        pub const SIZE: u32 = helpers.generateMask(1, 6);
+        pub const ENABLE: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1647,6 +2054,16 @@ pub const MPU_RASR = struct {
         var content = self.reg.*;
         content &= ~v.mask;
         content |= v.val;
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
         self.reg.* = content;
     }
     pub fn read(self: @This()) Result {

@@ -2,6 +2,12 @@ const helpers = @import("helpers.zig");
 /// Voltage regulator control and status
 pub const VREG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40064000),
+    pub const FieldMasks = struct {
+        pub const ROK: u32 = helpers.generateMask(12, 13);
+        pub const VSEL: u32 = helpers.generateMask(4, 8);
+        pub const HIZ: u32 = helpers.generateMask(1, 2);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -88,6 +94,12 @@ pub const VREG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -95,6 +107,10 @@ pub const VREG = struct {
 /// brown-out detection control
 pub const BOD = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40064004),
+    pub const FieldMasks = struct {
+        pub const VSEL: u32 = helpers.generateMask(4, 8);
+        pub const EN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -170,6 +186,12 @@ pub const BOD = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -177,6 +199,12 @@ pub const BOD = struct {
 /// Chip reset control and status
 pub const CHIP_RESET = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40064008),
+    pub const FieldMasks = struct {
+        pub const PSM_RESTART_FLAG: u32 = helpers.generateMask(24, 25);
+        pub const HAD_PSM_RESTART: u32 = helpers.generateMask(20, 21);
+        pub const HAD_RUN: u32 = helpers.generateMask(16, 17);
+        pub const HAD_POR: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -218,6 +246,12 @@ pub const CHIP_RESET = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };

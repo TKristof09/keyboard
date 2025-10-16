@@ -34,6 +34,7 @@ pub const USB_DPRAM = @import("USB_DPRAM.zig");
 pub const TBMAN = @import("TBMAN.zig");
 pub const VREG_AND_CHIP_RESET = @import("VREG_AND_CHIP_RESET.zig");
 pub const RTC = @import("RTC.zig");
+pub const SPARE_IRQ = @import("SPARE_IRQ.zig");
 
 const Peripherals = struct {
     RESETS: *const RESETS.RESETS_p = &RESETS.RESETS,
@@ -195,10 +196,10 @@ const Peripherals = struct {
     VREG_AND_CHIP_RESET: *const VREG_AND_CHIP_RESET.VREG_AND_CHIP_RESET_p = &VREG_AND_CHIP_RESET.VREG_AND_CHIP_RESET,
     /// Register block to control RTC
     RTC: *const RTC.RTC_p = &RTC.RTC,
+    SPARE_IRQ: *const SPARE_IRQ.SPARE_IRQ_p = &SPARE_IRQ.SPARE_IRQ,
 };
 
 pub const peripherals = Peripherals{};
-
 pub fn busy_wait_at_least_cycles(delay_cycles: u32) void {
     var cycles = delay_cycles;
     asm volatile (

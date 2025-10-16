@@ -10,6 +10,7 @@ const GPIO = @import("rp2040/gpio.zig");
 const rp = @import("rp2040/chip/rp2040.zig");
 const Xosc = @import("rp2040/xosc.zig").Xosc;
 const Pll = @import("rp2040/pll.zig");
+const USB = @import("rp2040/usb.zig");
 const Uart = @import("rp2040/uart.zig");
 
 const pin_config = GPIO.GPIOConfig{
@@ -65,6 +66,33 @@ fn setupClocks() void {
     while (rp.peripherals.CLOCKS.CLK_SYS_SELECTED.read() == 0) {}
 }
 
+const device_descriptor = USB.DeviceDescriptor{
+    .bcd_usb = 0x0200,
+    .device_class = .unspecified,
+    .device_subclass = 0,
+    .device_protocol = 0,
+    .max_packet_size = 64,
+    .vendor_id = 0x1234,
+    .product_id = 0x5678,
+    .bcd_device = 0x0100,
+    .manufacturer_string_idx = 1,
+    .product_string_idx = 2,
+    .serial_number_string_idx = 3,
+    .num_configurations = 1,
+};
+
+const config_descriptor = USB.ConfigurationDescriptor{
+    .total_length = 9,
+    .num_interfaces = 0,
+    .configuration_value = 0,
+    .configuration_string_idx = 4,
+    .attributes = .{
+        .self_powered = 0,
+        .remote_wakeup = 0,
+    },
+    .max_power = .from_mA(50),
+};
+
 const LogError = error{};
 fn uartWriterFunc(ctx: Uart.Uart, bytes: []const u8) LogError!usize {
     ctx.sendString(bytes);
@@ -102,12 +130,27 @@ export fn main() void {
 
     setupClocks();
     Uart.initClock();
+
+    USB.init(.{
+        .device_descriptor = device_descriptor,
+        .config_descriptor = config_descriptor,
+        .strings = &.{
+            "Kristof",
+            "Fancy pico stuff",
+            "v. -infinity",
+            "just the default config",
+        },
+    });
+
     GPIO.InitPins(pin_config);
     uart = Uart.Uart.init(.uart0, 115200);
 
     std.log.info("Hello {s}", .{"logger"});
 
     while (true) {
+        const addr_endp = rp.peripherals.USB.ADDR_ENDP.read();
+        std.log.debug("Addr: {d}, endp: {d}", .{ addr_endp.ADDRESS(), addr_endp.ENDPOINT() });
+
         led.toggle();
         wait();
     }

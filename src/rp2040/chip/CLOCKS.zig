@@ -2,6 +2,14 @@ const helpers = @import("helpers.zig");
 /// Clock control, can be changed on-the-fly (except for auxsrc)
 pub const CLK_GPOUT0_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008000),
+    pub const FieldMasks = struct {
+        pub const NUDGE: u32 = helpers.generateMask(20, 21);
+        pub const PHASE: u32 = helpers.generateMask(16, 18);
+        pub const DC50: u32 = helpers.generateMask(12, 13);
+        pub const ENABLE: u32 = helpers.generateMask(11, 12);
+        pub const KILL: u32 = helpers.generateMask(10, 11);
+        pub const AUXSRC: u32 = helpers.generateMask(5, 9);
+    };
     const AUXSRC_e = enum(u4) {
         clksrc_pll_sys = 0,
         clksrc_gpin0 = 1,
@@ -121,6 +129,12 @@ pub const CLK_GPOUT0_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -128,6 +142,10 @@ pub const CLK_GPOUT0_CTRL = struct {
 /// Clock divisor, can be changed on-the-fly
 pub const CLK_GPOUT0_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008004),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(8, 32);
+        pub const FRAC: u32 = helpers.generateMask(0, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -168,6 +186,12 @@ pub const CLK_GPOUT0_DIV = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -180,6 +204,14 @@ pub const CLK_GPOUT0_SELECTED = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -188,6 +220,14 @@ pub const CLK_GPOUT0_SELECTED = struct {
 /// Clock control, can be changed on-the-fly (except for auxsrc)
 pub const CLK_GPOUT1_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4000800c),
+    pub const FieldMasks = struct {
+        pub const NUDGE: u32 = helpers.generateMask(20, 21);
+        pub const PHASE: u32 = helpers.generateMask(16, 18);
+        pub const DC50: u32 = helpers.generateMask(12, 13);
+        pub const ENABLE: u32 = helpers.generateMask(11, 12);
+        pub const KILL: u32 = helpers.generateMask(10, 11);
+        pub const AUXSRC: u32 = helpers.generateMask(5, 9);
+    };
     const AUXSRC_e = enum(u4) {
         clksrc_pll_sys = 0,
         clksrc_gpin0 = 1,
@@ -307,6 +347,12 @@ pub const CLK_GPOUT1_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -314,6 +360,10 @@ pub const CLK_GPOUT1_CTRL = struct {
 /// Clock divisor, can be changed on-the-fly
 pub const CLK_GPOUT1_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008010),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(8, 32);
+        pub const FRAC: u32 = helpers.generateMask(0, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -354,6 +404,12 @@ pub const CLK_GPOUT1_DIV = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -366,6 +422,14 @@ pub const CLK_GPOUT1_SELECTED = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -374,6 +438,14 @@ pub const CLK_GPOUT1_SELECTED = struct {
 /// Clock control, can be changed on-the-fly (except for auxsrc)
 pub const CLK_GPOUT2_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008018),
+    pub const FieldMasks = struct {
+        pub const NUDGE: u32 = helpers.generateMask(20, 21);
+        pub const PHASE: u32 = helpers.generateMask(16, 18);
+        pub const DC50: u32 = helpers.generateMask(12, 13);
+        pub const ENABLE: u32 = helpers.generateMask(11, 12);
+        pub const KILL: u32 = helpers.generateMask(10, 11);
+        pub const AUXSRC: u32 = helpers.generateMask(5, 9);
+    };
     const AUXSRC_e = enum(u4) {
         clksrc_pll_sys = 0,
         clksrc_gpin0 = 1,
@@ -493,6 +565,12 @@ pub const CLK_GPOUT2_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -500,6 +578,10 @@ pub const CLK_GPOUT2_CTRL = struct {
 /// Clock divisor, can be changed on-the-fly
 pub const CLK_GPOUT2_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4000801c),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(8, 32);
+        pub const FRAC: u32 = helpers.generateMask(0, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -540,6 +622,12 @@ pub const CLK_GPOUT2_DIV = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -552,6 +640,14 @@ pub const CLK_GPOUT2_SELECTED = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -560,6 +656,14 @@ pub const CLK_GPOUT2_SELECTED = struct {
 /// Clock control, can be changed on-the-fly (except for auxsrc)
 pub const CLK_GPOUT3_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008024),
+    pub const FieldMasks = struct {
+        pub const NUDGE: u32 = helpers.generateMask(20, 21);
+        pub const PHASE: u32 = helpers.generateMask(16, 18);
+        pub const DC50: u32 = helpers.generateMask(12, 13);
+        pub const ENABLE: u32 = helpers.generateMask(11, 12);
+        pub const KILL: u32 = helpers.generateMask(10, 11);
+        pub const AUXSRC: u32 = helpers.generateMask(5, 9);
+    };
     const AUXSRC_e = enum(u4) {
         clksrc_pll_sys = 0,
         clksrc_gpin0 = 1,
@@ -679,6 +783,12 @@ pub const CLK_GPOUT3_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -686,6 +796,10 @@ pub const CLK_GPOUT3_CTRL = struct {
 /// Clock divisor, can be changed on-the-fly
 pub const CLK_GPOUT3_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008028),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(8, 32);
+        pub const FRAC: u32 = helpers.generateMask(0, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -727,6 +841,12 @@ pub const CLK_GPOUT3_DIV = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -738,6 +858,14 @@ pub const CLK_GPOUT3_SELECTED = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -746,6 +874,10 @@ pub const CLK_GPOUT3_SELECTED = struct {
 /// Clock control, can be changed on-the-fly (except for auxsrc)
 pub const CLK_REF_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008030),
+    pub const FieldMasks = struct {
+        pub const AUXSRC: u32 = helpers.generateMask(5, 7);
+        pub const SRC: u32 = helpers.generateMask(0, 2);
+    };
     const AUXSRC_e = enum(u2) {
         clksrc_pll_usb = 0,
         clksrc_gpin0 = 1,
@@ -799,6 +931,12 @@ pub const CLK_REF_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -809,6 +947,14 @@ pub const CLK_REF_DIV = struct {
     pub fn write(self: @This(), v: u2) void {
         const mask = comptime helpers.generateMask(8, 10);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 8, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(8, 10);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(8, 10);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u2 {
         const mask = comptime helpers.generateMask(8, 10);
@@ -822,6 +968,14 @@ pub const CLK_REF_SELECTED = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -830,6 +984,10 @@ pub const CLK_REF_SELECTED = struct {
 /// Clock control, can be changed on-the-fly (except for auxsrc)
 pub const CLK_SYS_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4000803c),
+    pub const FieldMasks = struct {
+        pub const AUXSRC: u32 = helpers.generateMask(5, 8);
+        pub const SRC: u32 = helpers.generateMask(0, 1);
+    };
     const AUXSRC_e = enum(u3) {
         clksrc_pll_sys = 0,
         clksrc_pll_usb = 1,
@@ -885,6 +1043,12 @@ pub const CLK_SYS_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -892,6 +1056,10 @@ pub const CLK_SYS_CTRL = struct {
 /// Clock divisor, can be changed on-the-fly
 pub const CLK_SYS_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008040),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(8, 32);
+        pub const FRAC: u32 = helpers.generateMask(0, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -933,6 +1101,12 @@ pub const CLK_SYS_DIV = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -944,6 +1118,14 @@ pub const CLK_SYS_SELECTED = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -952,6 +1134,11 @@ pub const CLK_SYS_SELECTED = struct {
 /// Clock control, can be changed on-the-fly (except for auxsrc)
 pub const CLK_PERI_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008048),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(11, 12);
+        pub const KILL: u32 = helpers.generateMask(10, 11);
+        pub const AUXSRC: u32 = helpers.generateMask(5, 8);
+    };
     const AUXSRC_e = enum(u3) {
         clk_sys = 0,
         clksrc_pll_sys = 1,
@@ -1018,6 +1205,12 @@ pub const CLK_PERI_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1025,6 +1218,10 @@ pub const CLK_PERI_CTRL = struct {
 /// Clock divisor, can be changed on-the-fly
 pub const CLK_PERI_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4000804c),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(8, 32);
+        pub const FRAC: u32 = helpers.generateMask(0, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1066,6 +1263,12 @@ pub const CLK_PERI_DIV = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1077,6 +1280,14 @@ pub const CLK_PERI_SELECTED = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1085,6 +1296,13 @@ pub const CLK_PERI_SELECTED = struct {
 /// Clock control, can be changed on-the-fly (except for auxsrc)
 pub const CLK_USB_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008054),
+    pub const FieldMasks = struct {
+        pub const NUDGE: u32 = helpers.generateMask(20, 21);
+        pub const PHASE: u32 = helpers.generateMask(16, 18);
+        pub const ENABLE: u32 = helpers.generateMask(11, 12);
+        pub const KILL: u32 = helpers.generateMask(10, 11);
+        pub const AUXSRC: u32 = helpers.generateMask(5, 8);
+    };
     const AUXSRC_e = enum(u3) {
         clksrc_pll_usb = 0,
         clksrc_pll_sys = 1,
@@ -1184,6 +1402,12 @@ pub const CLK_USB_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1194,6 +1418,14 @@ pub const CLK_USB_DIV = struct {
     pub fn write(self: @This(), v: u2) void {
         const mask = comptime helpers.generateMask(8, 10);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 8, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(8, 10);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(8, 10);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u2 {
         const mask = comptime helpers.generateMask(8, 10);
@@ -1207,6 +1439,14 @@ pub const CLK_USB_SELECTED = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1215,6 +1455,13 @@ pub const CLK_USB_SELECTED = struct {
 /// Clock control, can be changed on-the-fly (except for auxsrc)
 pub const CLK_ADC_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008060),
+    pub const FieldMasks = struct {
+        pub const NUDGE: u32 = helpers.generateMask(20, 21);
+        pub const PHASE: u32 = helpers.generateMask(16, 18);
+        pub const ENABLE: u32 = helpers.generateMask(11, 12);
+        pub const KILL: u32 = helpers.generateMask(10, 11);
+        pub const AUXSRC: u32 = helpers.generateMask(5, 8);
+    };
     const AUXSRC_e = enum(u3) {
         clksrc_pll_usb = 0,
         clksrc_pll_sys = 1,
@@ -1314,6 +1561,12 @@ pub const CLK_ADC_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1324,6 +1577,14 @@ pub const CLK_ADC_DIV = struct {
     pub fn write(self: @This(), v: u2) void {
         const mask = comptime helpers.generateMask(8, 10);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 8, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(8, 10);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(8, 10);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u2 {
         const mask = comptime helpers.generateMask(8, 10);
@@ -1337,6 +1598,14 @@ pub const CLK_ADC_SELECTED = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1345,6 +1614,13 @@ pub const CLK_ADC_SELECTED = struct {
 /// Clock control, can be changed on-the-fly (except for auxsrc)
 pub const CLK_RTC_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4000806c),
+    pub const FieldMasks = struct {
+        pub const NUDGE: u32 = helpers.generateMask(20, 21);
+        pub const PHASE: u32 = helpers.generateMask(16, 18);
+        pub const ENABLE: u32 = helpers.generateMask(11, 12);
+        pub const KILL: u32 = helpers.generateMask(10, 11);
+        pub const AUXSRC: u32 = helpers.generateMask(5, 8);
+    };
     const AUXSRC_e = enum(u3) {
         clksrc_pll_usb = 0,
         clksrc_pll_sys = 1,
@@ -1444,6 +1720,12 @@ pub const CLK_RTC_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1451,6 +1733,10 @@ pub const CLK_RTC_CTRL = struct {
 /// Clock divisor, can be changed on-the-fly
 pub const CLK_RTC_DIV = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008070),
+    pub const FieldMasks = struct {
+        pub const INT: u32 = helpers.generateMask(8, 32);
+        pub const FRAC: u32 = helpers.generateMask(0, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1492,6 +1778,12 @@ pub const CLK_RTC_DIV = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1503,6 +1795,14 @@ pub const CLK_RTC_SELECTED = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1510,6 +1810,12 @@ pub const CLK_RTC_SELECTED = struct {
 };
 pub const CLK_SYS_RESUS_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008078),
+    pub const FieldMasks = struct {
+        pub const CLEAR: u32 = helpers.generateMask(16, 17);
+        pub const FRCE: u32 = helpers.generateMask(12, 13);
+        pub const ENABLE: u32 = helpers.generateMask(8, 9);
+        pub const TIMEOUT: u32 = helpers.generateMask(0, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1583,6 +1889,12 @@ pub const CLK_SYS_RESUS_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1592,6 +1904,14 @@ pub const CLK_SYS_RESUS_STATUS = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u1 {
         const mask = comptime helpers.generateMask(0, 1);
@@ -1605,6 +1925,14 @@ pub const FC0_REF_KHZ = struct {
         const mask = comptime helpers.generateMask(0, 20);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 20);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 20);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u20 {
         const mask = comptime helpers.generateMask(0, 20);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1617,6 +1945,14 @@ pub const FC0_MIN_KHZ = struct {
         const mask = comptime helpers.generateMask(0, 25);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 25);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 25);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u25 {
         const mask = comptime helpers.generateMask(0, 25);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1628,6 +1964,14 @@ pub const FC0_MAX_KHZ = struct {
     pub fn write(self: @This(), v: u25) void {
         const mask = comptime helpers.generateMask(0, 25);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 25);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 25);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u25 {
         const mask = comptime helpers.generateMask(0, 25);
@@ -1642,6 +1986,14 @@ pub const FC0_DELAY = struct {
         const mask = comptime helpers.generateMask(0, 3);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 3);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 3);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u3 {
         const mask = comptime helpers.generateMask(0, 3);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1654,6 +2006,14 @@ pub const FC0_INTERVAL = struct {
     pub fn write(self: @This(), v: u4) void {
         const mask = comptime helpers.generateMask(0, 4);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 4);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 4);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u4 {
         const mask = comptime helpers.generateMask(0, 4);
@@ -1684,6 +2044,14 @@ pub const FC0_SRC = struct {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) FC0_SRC_e {
         const mask = comptime helpers.generateMask(0, 8);
         return @enumFromInt((self.reg.* & mask) >> 0);
@@ -1692,6 +2060,16 @@ pub const FC0_SRC = struct {
 /// Frequency counter status
 pub const FC0_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40008098),
+    pub const FieldMasks = struct {
+        pub const DIED: u32 = helpers.generateMask(28, 29);
+        pub const FAST: u32 = helpers.generateMask(24, 25);
+        pub const SLOW: u32 = helpers.generateMask(20, 21);
+        pub const FAIL: u32 = helpers.generateMask(16, 17);
+        pub const WAITING: u32 = helpers.generateMask(12, 13);
+        pub const RUNNING: u32 = helpers.generateMask(8, 9);
+        pub const DONE: u32 = helpers.generateMask(4, 5);
+        pub const PASS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1734,6 +2112,12 @@ pub const FC0_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1741,6 +2125,10 @@ pub const FC0_STATUS = struct {
 /// Result of frequency measurement, only valid when status_done=1
 pub const FC0_RESULT = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4000809c),
+    pub const FieldMasks = struct {
+        pub const KHZ: u32 = helpers.generateMask(5, 30);
+        pub const FRAC: u32 = helpers.generateMask(0, 5);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1759,6 +2147,12 @@ pub const FC0_RESULT = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1766,6 +2160,40 @@ pub const FC0_RESULT = struct {
 /// enable clock in wake mode
 pub const WAKE_EN0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400080a0),
+    pub const FieldMasks = struct {
+        pub const CLK_SYS_SRAM3: u32 = helpers.generateMask(31, 32);
+        pub const CLK_SYS_SRAM2: u32 = helpers.generateMask(30, 31);
+        pub const CLK_SYS_SRAM1: u32 = helpers.generateMask(29, 30);
+        pub const CLK_SYS_SRAM0: u32 = helpers.generateMask(28, 29);
+        pub const CLK_SYS_SPI1: u32 = helpers.generateMask(27, 28);
+        pub const CLK_PERI_SPI1: u32 = helpers.generateMask(26, 27);
+        pub const CLK_SYS_SPI0: u32 = helpers.generateMask(25, 26);
+        pub const CLK_PERI_SPI0: u32 = helpers.generateMask(24, 25);
+        pub const CLK_SYS_SIO: u32 = helpers.generateMask(23, 24);
+        pub const CLK_SYS_RTC: u32 = helpers.generateMask(22, 23);
+        pub const CLK_RTC_RTC: u32 = helpers.generateMask(21, 22);
+        pub const CLK_SYS_ROSC: u32 = helpers.generateMask(20, 21);
+        pub const CLK_SYS_ROM: u32 = helpers.generateMask(19, 20);
+        pub const CLK_SYS_RESETS: u32 = helpers.generateMask(18, 19);
+        pub const CLK_SYS_PWM: u32 = helpers.generateMask(17, 18);
+        pub const CLK_SYS_PSM: u32 = helpers.generateMask(16, 17);
+        pub const CLK_SYS_PLL_USB: u32 = helpers.generateMask(15, 16);
+        pub const CLK_SYS_PLL_SYS: u32 = helpers.generateMask(14, 15);
+        pub const CLK_SYS_PIO1: u32 = helpers.generateMask(13, 14);
+        pub const CLK_SYS_PIO0: u32 = helpers.generateMask(12, 13);
+        pub const CLK_SYS_PADS: u32 = helpers.generateMask(11, 12);
+        pub const CLK_SYS_VREG_AND_CHIP_RESET: u32 = helpers.generateMask(10, 11);
+        pub const CLK_SYS_JTAG: u32 = helpers.generateMask(9, 10);
+        pub const CLK_SYS_IO: u32 = helpers.generateMask(8, 9);
+        pub const CLK_SYS_I2C1: u32 = helpers.generateMask(7, 8);
+        pub const CLK_SYS_I2C0: u32 = helpers.generateMask(6, 7);
+        pub const CLK_SYS_DMA: u32 = helpers.generateMask(5, 6);
+        pub const CLK_SYS_BUSFABRIC: u32 = helpers.generateMask(4, 5);
+        pub const CLK_SYS_BUSCTRL: u32 = helpers.generateMask(3, 4);
+        pub const CLK_SYS_ADC: u32 = helpers.generateMask(2, 3);
+        pub const CLK_ADC_ADC: u32 = helpers.generateMask(1, 2);
+        pub const CLK_SYS_CLOCKS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2192,6 +2620,12 @@ pub const WAKE_EN0 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2200,6 +2634,23 @@ pub const WAKE_EN0 = struct {
 /// enable clock in wake mode
 pub const WAKE_EN1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400080a4),
+    pub const FieldMasks = struct {
+        pub const CLK_SYS_XOSC: u32 = helpers.generateMask(14, 15);
+        pub const CLK_SYS_XIP: u32 = helpers.generateMask(13, 14);
+        pub const CLK_SYS_WATCHDOG: u32 = helpers.generateMask(12, 13);
+        pub const CLK_USB_USBCTRL: u32 = helpers.generateMask(11, 12);
+        pub const CLK_SYS_USBCTRL: u32 = helpers.generateMask(10, 11);
+        pub const CLK_SYS_UART1: u32 = helpers.generateMask(9, 10);
+        pub const CLK_PERI_UART1: u32 = helpers.generateMask(8, 9);
+        pub const CLK_SYS_UART0: u32 = helpers.generateMask(7, 8);
+        pub const CLK_PERI_UART0: u32 = helpers.generateMask(6, 7);
+        pub const CLK_SYS_TIMER: u32 = helpers.generateMask(5, 6);
+        pub const CLK_SYS_TBMAN: u32 = helpers.generateMask(4, 5);
+        pub const CLK_SYS_SYSINFO: u32 = helpers.generateMask(3, 4);
+        pub const CLK_SYS_SYSCFG: u32 = helpers.generateMask(2, 3);
+        pub const CLK_SYS_SRAM5: u32 = helpers.generateMask(1, 2);
+        pub const CLK_SYS_SRAM4: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2406,6 +2857,12 @@ pub const WAKE_EN1 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2413,6 +2870,40 @@ pub const WAKE_EN1 = struct {
 /// enable clock in sleep mode
 pub const SLEEP_EN0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400080a8),
+    pub const FieldMasks = struct {
+        pub const CLK_SYS_SRAM3: u32 = helpers.generateMask(31, 32);
+        pub const CLK_SYS_SRAM2: u32 = helpers.generateMask(30, 31);
+        pub const CLK_SYS_SRAM1: u32 = helpers.generateMask(29, 30);
+        pub const CLK_SYS_SRAM0: u32 = helpers.generateMask(28, 29);
+        pub const CLK_SYS_SPI1: u32 = helpers.generateMask(27, 28);
+        pub const CLK_PERI_SPI1: u32 = helpers.generateMask(26, 27);
+        pub const CLK_SYS_SPI0: u32 = helpers.generateMask(25, 26);
+        pub const CLK_PERI_SPI0: u32 = helpers.generateMask(24, 25);
+        pub const CLK_SYS_SIO: u32 = helpers.generateMask(23, 24);
+        pub const CLK_SYS_RTC: u32 = helpers.generateMask(22, 23);
+        pub const CLK_RTC_RTC: u32 = helpers.generateMask(21, 22);
+        pub const CLK_SYS_ROSC: u32 = helpers.generateMask(20, 21);
+        pub const CLK_SYS_ROM: u32 = helpers.generateMask(19, 20);
+        pub const CLK_SYS_RESETS: u32 = helpers.generateMask(18, 19);
+        pub const CLK_SYS_PWM: u32 = helpers.generateMask(17, 18);
+        pub const CLK_SYS_PSM: u32 = helpers.generateMask(16, 17);
+        pub const CLK_SYS_PLL_USB: u32 = helpers.generateMask(15, 16);
+        pub const CLK_SYS_PLL_SYS: u32 = helpers.generateMask(14, 15);
+        pub const CLK_SYS_PIO1: u32 = helpers.generateMask(13, 14);
+        pub const CLK_SYS_PIO0: u32 = helpers.generateMask(12, 13);
+        pub const CLK_SYS_PADS: u32 = helpers.generateMask(11, 12);
+        pub const CLK_SYS_VREG_AND_CHIP_RESET: u32 = helpers.generateMask(10, 11);
+        pub const CLK_SYS_JTAG: u32 = helpers.generateMask(9, 10);
+        pub const CLK_SYS_IO: u32 = helpers.generateMask(8, 9);
+        pub const CLK_SYS_I2C1: u32 = helpers.generateMask(7, 8);
+        pub const CLK_SYS_I2C0: u32 = helpers.generateMask(6, 7);
+        pub const CLK_SYS_DMA: u32 = helpers.generateMask(5, 6);
+        pub const CLK_SYS_BUSFABRIC: u32 = helpers.generateMask(4, 5);
+        pub const CLK_SYS_BUSCTRL: u32 = helpers.generateMask(3, 4);
+        pub const CLK_SYS_ADC: u32 = helpers.generateMask(2, 3);
+        pub const CLK_ADC_ADC: u32 = helpers.generateMask(1, 2);
+        pub const CLK_SYS_CLOCKS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2840,6 +3331,12 @@ pub const SLEEP_EN0 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2847,6 +3344,23 @@ pub const SLEEP_EN0 = struct {
 /// enable clock in sleep mode
 pub const SLEEP_EN1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400080ac),
+    pub const FieldMasks = struct {
+        pub const CLK_SYS_XOSC: u32 = helpers.generateMask(14, 15);
+        pub const CLK_SYS_XIP: u32 = helpers.generateMask(13, 14);
+        pub const CLK_SYS_WATCHDOG: u32 = helpers.generateMask(12, 13);
+        pub const CLK_USB_USBCTRL: u32 = helpers.generateMask(11, 12);
+        pub const CLK_SYS_USBCTRL: u32 = helpers.generateMask(10, 11);
+        pub const CLK_SYS_UART1: u32 = helpers.generateMask(9, 10);
+        pub const CLK_PERI_UART1: u32 = helpers.generateMask(8, 9);
+        pub const CLK_SYS_UART0: u32 = helpers.generateMask(7, 8);
+        pub const CLK_PERI_UART0: u32 = helpers.generateMask(6, 7);
+        pub const CLK_SYS_TIMER: u32 = helpers.generateMask(5, 6);
+        pub const CLK_SYS_TBMAN: u32 = helpers.generateMask(4, 5);
+        pub const CLK_SYS_SYSINFO: u32 = helpers.generateMask(3, 4);
+        pub const CLK_SYS_SYSCFG: u32 = helpers.generateMask(2, 3);
+        pub const CLK_SYS_SRAM5: u32 = helpers.generateMask(1, 2);
+        pub const CLK_SYS_SRAM4: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3053,6 +3567,12 @@ pub const SLEEP_EN1 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3060,6 +3580,40 @@ pub const SLEEP_EN1 = struct {
 /// indicates the state of the clock enable
 pub const ENABLED0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400080b0),
+    pub const FieldMasks = struct {
+        pub const CLK_SYS_SRAM3: u32 = helpers.generateMask(31, 32);
+        pub const CLK_SYS_SRAM2: u32 = helpers.generateMask(30, 31);
+        pub const CLK_SYS_SRAM1: u32 = helpers.generateMask(29, 30);
+        pub const CLK_SYS_SRAM0: u32 = helpers.generateMask(28, 29);
+        pub const CLK_SYS_SPI1: u32 = helpers.generateMask(27, 28);
+        pub const CLK_PERI_SPI1: u32 = helpers.generateMask(26, 27);
+        pub const CLK_SYS_SPI0: u32 = helpers.generateMask(25, 26);
+        pub const CLK_PERI_SPI0: u32 = helpers.generateMask(24, 25);
+        pub const CLK_SYS_SIO: u32 = helpers.generateMask(23, 24);
+        pub const CLK_SYS_RTC: u32 = helpers.generateMask(22, 23);
+        pub const CLK_RTC_RTC: u32 = helpers.generateMask(21, 22);
+        pub const CLK_SYS_ROSC: u32 = helpers.generateMask(20, 21);
+        pub const CLK_SYS_ROM: u32 = helpers.generateMask(19, 20);
+        pub const CLK_SYS_RESETS: u32 = helpers.generateMask(18, 19);
+        pub const CLK_SYS_PWM: u32 = helpers.generateMask(17, 18);
+        pub const CLK_SYS_PSM: u32 = helpers.generateMask(16, 17);
+        pub const CLK_SYS_PLL_USB: u32 = helpers.generateMask(15, 16);
+        pub const CLK_SYS_PLL_SYS: u32 = helpers.generateMask(14, 15);
+        pub const CLK_SYS_PIO1: u32 = helpers.generateMask(13, 14);
+        pub const CLK_SYS_PIO0: u32 = helpers.generateMask(12, 13);
+        pub const CLK_SYS_PADS: u32 = helpers.generateMask(11, 12);
+        pub const CLK_SYS_VREG_AND_CHIP_RESET: u32 = helpers.generateMask(10, 11);
+        pub const CLK_SYS_JTAG: u32 = helpers.generateMask(9, 10);
+        pub const CLK_SYS_IO: u32 = helpers.generateMask(8, 9);
+        pub const CLK_SYS_I2C1: u32 = helpers.generateMask(7, 8);
+        pub const CLK_SYS_I2C0: u32 = helpers.generateMask(6, 7);
+        pub const CLK_SYS_DMA: u32 = helpers.generateMask(5, 6);
+        pub const CLK_SYS_BUSFABRIC: u32 = helpers.generateMask(4, 5);
+        pub const CLK_SYS_BUSCTRL: u32 = helpers.generateMask(3, 4);
+        pub const CLK_SYS_ADC: u32 = helpers.generateMask(2, 3);
+        pub const CLK_ADC_ADC: u32 = helpers.generateMask(1, 2);
+        pub const CLK_SYS_CLOCKS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3198,6 +3752,12 @@ pub const ENABLED0 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3205,6 +3765,23 @@ pub const ENABLED0 = struct {
 /// indicates the state of the clock enable
 pub const ENABLED1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400080b4),
+    pub const FieldMasks = struct {
+        pub const CLK_SYS_XOSC: u32 = helpers.generateMask(14, 15);
+        pub const CLK_SYS_XIP: u32 = helpers.generateMask(13, 14);
+        pub const CLK_SYS_WATCHDOG: u32 = helpers.generateMask(12, 13);
+        pub const CLK_USB_USBCTRL: u32 = helpers.generateMask(11, 12);
+        pub const CLK_SYS_USBCTRL: u32 = helpers.generateMask(10, 11);
+        pub const CLK_SYS_UART1: u32 = helpers.generateMask(9, 10);
+        pub const CLK_PERI_UART1: u32 = helpers.generateMask(8, 9);
+        pub const CLK_SYS_UART0: u32 = helpers.generateMask(7, 8);
+        pub const CLK_PERI_UART0: u32 = helpers.generateMask(6, 7);
+        pub const CLK_SYS_TIMER: u32 = helpers.generateMask(5, 6);
+        pub const CLK_SYS_TBMAN: u32 = helpers.generateMask(4, 5);
+        pub const CLK_SYS_SYSINFO: u32 = helpers.generateMask(3, 4);
+        pub const CLK_SYS_SYSCFG: u32 = helpers.generateMask(2, 3);
+        pub const CLK_SYS_SRAM5: u32 = helpers.generateMask(1, 2);
+        pub const CLK_SYS_SRAM4: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3274,6 +3851,12 @@ pub const ENABLED1 = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3285,6 +3868,14 @@ pub const INTR = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u1 {
         const mask = comptime helpers.generateMask(0, 1);
@@ -3298,6 +3889,14 @@ pub const INTE = struct {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u1 {
         const mask = comptime helpers.generateMask(0, 1);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3310,6 +3909,14 @@ pub const INTF = struct {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u1 {
         const mask = comptime helpers.generateMask(0, 1);
         return @intCast((self.reg.* & mask) >> 0);
@@ -3321,6 +3928,14 @@ pub const INTS = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u1 {
         const mask = comptime helpers.generateMask(0, 1);

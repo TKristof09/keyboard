@@ -2,6 +2,10 @@ const helpers = @import("helpers.zig");
 /// Ring Oscillator control
 pub const CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40060000),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(12, 24);
+        pub const FREQ_RANGE: u32 = helpers.generateMask(0, 12);
+    };
     const ENABLE_e = enum(u12) {
         DISABLE = 3358,
         ENABLE = 4011,
@@ -73,6 +77,12 @@ pub const CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -86,6 +96,13 @@ pub const CTRL = struct {
 /// 3 bits set quadruples drive strength
 pub const FREQA = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40060004),
+    pub const FieldMasks = struct {
+        pub const PASSWD: u32 = helpers.generateMask(16, 32);
+        pub const DS3: u32 = helpers.generateMask(12, 15);
+        pub const DS2: u32 = helpers.generateMask(8, 11);
+        pub const DS1: u32 = helpers.generateMask(4, 7);
+        pub const DS0: u32 = helpers.generateMask(0, 3);
+    };
     const PASSWD_e = enum(u16) {
         PASS = 38550,
     };
@@ -178,6 +195,12 @@ pub const FREQA = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -185,6 +208,13 @@ pub const FREQA = struct {
 /// For a detailed description see freqa register
 pub const FREQB = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40060008),
+    pub const FieldMasks = struct {
+        pub const PASSWD: u32 = helpers.generateMask(16, 32);
+        pub const DS7: u32 = helpers.generateMask(12, 15);
+        pub const DS6: u32 = helpers.generateMask(8, 11);
+        pub const DS5: u32 = helpers.generateMask(4, 7);
+        pub const DS4: u32 = helpers.generateMask(0, 3);
+    };
     const PASSWD_e = enum(u16) {
         PASS = 38550,
     };
@@ -277,6 +307,12 @@ pub const FREQB = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -291,6 +327,14 @@ pub const DORMANT = struct {
     pub fn write(self: @This(), v: DORMANT_e) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) DORMANT_e {
         const mask = comptime helpers.generateMask(0, 32);
@@ -307,6 +351,14 @@ pub const DIV = struct {
         const mask = comptime helpers.generateMask(0, 12);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 12);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 12);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) DIV_e {
         const mask = comptime helpers.generateMask(0, 12);
         return @enumFromInt((self.reg.* & mask) >> 0);
@@ -315,6 +367,12 @@ pub const DIV = struct {
 /// Controls the phase shifted output
 pub const PHASE = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40060014),
+    pub const FieldMasks = struct {
+        pub const PASSWD: u32 = helpers.generateMask(4, 12);
+        pub const ENABLE: u32 = helpers.generateMask(3, 4);
+        pub const FLIP: u32 = helpers.generateMask(2, 3);
+        pub const SHIFT: u32 = helpers.generateMask(0, 2);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -396,6 +454,12 @@ pub const PHASE = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -403,6 +467,12 @@ pub const PHASE = struct {
 /// Ring Oscillator Status
 pub const STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40060018),
+    pub const FieldMasks = struct {
+        pub const STABLE: u32 = helpers.generateMask(31, 32);
+        pub const BADWRITE: u32 = helpers.generateMask(24, 25);
+        pub const DIV_RUNNING: u32 = helpers.generateMask(16, 17);
+        pub const ENABLED: u32 = helpers.generateMask(12, 13);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -441,6 +511,12 @@ pub const STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -451,6 +527,14 @@ pub const RANDOMBIT = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u1 {
         const mask = comptime helpers.generateMask(0, 1);
@@ -465,6 +549,14 @@ pub const COUNT = struct {
     pub fn write(self: @This(), v: u8) void {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u8 {
         const mask = comptime helpers.generateMask(0, 8);

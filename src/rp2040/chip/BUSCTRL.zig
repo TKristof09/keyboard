@@ -2,6 +2,12 @@ const helpers = @import("helpers.zig");
 /// Set the priority of each master for bus arbitration.
 pub const BUS_PRIORITY = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40030000),
+    pub const FieldMasks = struct {
+        pub const DMA_W: u32 = helpers.generateMask(12, 13);
+        pub const DMA_R: u32 = helpers.generateMask(8, 9);
+        pub const PROC1: u32 = helpers.generateMask(4, 5);
+        pub const PROC0: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -73,6 +79,12 @@ pub const BUS_PRIORITY = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -84,6 +96,14 @@ pub const BUS_PRIORITY_ACK = struct {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u1 {
         const mask = comptime helpers.generateMask(0, 1);
         return @intCast((self.reg.* & mask) >> 0);
@@ -92,9 +112,13 @@ pub const BUS_PRIORITY_ACK = struct {
 /// Bus fabric performance counter 0
 pub const PERFCTR0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40030008),
-    pub fn write(self: @This(), v: u24) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 24);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 24);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u24 {
         const mask = comptime helpers.generateMask(0, 24);
@@ -130,6 +154,14 @@ pub const PERFSEL0 = struct {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 5);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 5);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) PERFSEL0_e {
         const mask = comptime helpers.generateMask(0, 5);
         return @enumFromInt((self.reg.* & mask) >> 0);
@@ -138,9 +170,13 @@ pub const PERFSEL0 = struct {
 /// Bus fabric performance counter 1
 pub const PERFCTR1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40030010),
-    pub fn write(self: @This(), v: u24) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 24);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 24);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u24 {
         const mask = comptime helpers.generateMask(0, 24);
@@ -176,6 +212,14 @@ pub const PERFSEL1 = struct {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 5);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 5);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) PERFSEL1_e {
         const mask = comptime helpers.generateMask(0, 5);
         return @enumFromInt((self.reg.* & mask) >> 0);
@@ -184,9 +228,13 @@ pub const PERFSEL1 = struct {
 /// Bus fabric performance counter 2
 pub const PERFCTR2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40030018),
-    pub fn write(self: @This(), v: u24) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 24);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 24);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u24 {
         const mask = comptime helpers.generateMask(0, 24);
@@ -222,6 +270,14 @@ pub const PERFSEL2 = struct {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 5);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 5);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) PERFSEL2_e {
         const mask = comptime helpers.generateMask(0, 5);
         return @enumFromInt((self.reg.* & mask) >> 0);
@@ -230,9 +286,13 @@ pub const PERFSEL2 = struct {
 /// Bus fabric performance counter 3
 pub const PERFCTR3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40030020),
-    pub fn write(self: @This(), v: u24) void {
+    pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 24);
-        helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 24);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u24 {
         const mask = comptime helpers.generateMask(0, 24);
@@ -267,6 +327,14 @@ pub const PERFSEL3 = struct {
     pub fn write(self: @This(), v: PERFSEL3_e) void {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 5);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 5);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) PERFSEL3_e {
         const mask = comptime helpers.generateMask(0, 5);

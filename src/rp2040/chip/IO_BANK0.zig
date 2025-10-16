@@ -2,6 +2,16 @@ const helpers = @import("helpers.zig");
 /// GPIO status
 pub const GPIO0_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014000),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -44,6 +54,12 @@ pub const GPIO0_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -51,6 +67,13 @@ pub const GPIO0_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO0_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014004),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -172,6 +195,12 @@ pub const GPIO0_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -179,6 +208,16 @@ pub const GPIO0_CTRL = struct {
 /// GPIO status
 pub const GPIO1_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014008),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -221,6 +260,12 @@ pub const GPIO1_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -228,6 +273,13 @@ pub const GPIO1_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO1_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001400c),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -349,6 +401,12 @@ pub const GPIO1_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -356,6 +414,16 @@ pub const GPIO1_CTRL = struct {
 /// GPIO status
 pub const GPIO2_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014010),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -398,6 +466,12 @@ pub const GPIO2_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -405,6 +479,13 @@ pub const GPIO2_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO2_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014014),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -526,6 +607,12 @@ pub const GPIO2_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -533,6 +620,16 @@ pub const GPIO2_CTRL = struct {
 /// GPIO status
 pub const GPIO3_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014018),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -575,6 +672,12 @@ pub const GPIO3_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -582,6 +685,13 @@ pub const GPIO3_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO3_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001401c),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -703,6 +813,12 @@ pub const GPIO3_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -710,6 +826,16 @@ pub const GPIO3_CTRL = struct {
 /// GPIO status
 pub const GPIO4_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014020),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -752,6 +878,12 @@ pub const GPIO4_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -759,6 +891,13 @@ pub const GPIO4_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO4_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014024),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -879,6 +1018,12 @@ pub const GPIO4_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -886,6 +1031,16 @@ pub const GPIO4_CTRL = struct {
 /// GPIO status
 pub const GPIO5_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014028),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -928,6 +1083,12 @@ pub const GPIO5_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -935,6 +1096,13 @@ pub const GPIO5_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO5_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001402c),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -1055,6 +1223,12 @@ pub const GPIO5_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1062,6 +1236,16 @@ pub const GPIO5_CTRL = struct {
 /// GPIO status
 pub const GPIO6_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014030),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1104,6 +1288,12 @@ pub const GPIO6_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1111,6 +1301,13 @@ pub const GPIO6_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO6_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014034),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -1232,6 +1429,12 @@ pub const GPIO6_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1239,6 +1442,16 @@ pub const GPIO6_CTRL = struct {
 /// GPIO status
 pub const GPIO7_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014038),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1281,6 +1494,12 @@ pub const GPIO7_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1288,6 +1507,13 @@ pub const GPIO7_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO7_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001403c),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -1409,6 +1635,12 @@ pub const GPIO7_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1416,6 +1648,16 @@ pub const GPIO7_CTRL = struct {
 /// GPIO status
 pub const GPIO8_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014040),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1458,6 +1700,12 @@ pub const GPIO8_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1465,6 +1713,13 @@ pub const GPIO8_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO8_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014044),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -1586,6 +1841,12 @@ pub const GPIO8_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1593,6 +1854,16 @@ pub const GPIO8_CTRL = struct {
 /// GPIO status
 pub const GPIO9_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014048),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1635,6 +1906,12 @@ pub const GPIO9_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1642,6 +1919,13 @@ pub const GPIO9_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO9_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001404c),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -1763,6 +2047,12 @@ pub const GPIO9_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1770,6 +2060,16 @@ pub const GPIO9_CTRL = struct {
 /// GPIO status
 pub const GPIO10_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014050),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1812,6 +2112,12 @@ pub const GPIO10_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1819,6 +2125,13 @@ pub const GPIO10_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO10_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014054),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -1940,6 +2253,12 @@ pub const GPIO10_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1947,6 +2266,16 @@ pub const GPIO10_CTRL = struct {
 /// GPIO status
 pub const GPIO11_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014058),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1989,6 +2318,12 @@ pub const GPIO11_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1996,6 +2331,13 @@ pub const GPIO11_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO11_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001405c),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -2117,6 +2459,12 @@ pub const GPIO11_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2124,6 +2472,16 @@ pub const GPIO11_CTRL = struct {
 /// GPIO status
 pub const GPIO12_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014060),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2166,6 +2524,12 @@ pub const GPIO12_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2173,6 +2537,13 @@ pub const GPIO12_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO12_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014064),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -2294,6 +2665,12 @@ pub const GPIO12_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2301,6 +2678,16 @@ pub const GPIO12_CTRL = struct {
 /// GPIO status
 pub const GPIO13_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014068),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2343,6 +2730,12 @@ pub const GPIO13_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2350,6 +2743,13 @@ pub const GPIO13_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO13_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001406c),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -2471,6 +2871,12 @@ pub const GPIO13_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2478,6 +2884,16 @@ pub const GPIO13_CTRL = struct {
 /// GPIO status
 pub const GPIO14_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014070),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2520,6 +2936,12 @@ pub const GPIO14_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2527,6 +2949,13 @@ pub const GPIO14_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO14_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014074),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -2648,6 +3077,12 @@ pub const GPIO14_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2655,6 +3090,16 @@ pub const GPIO14_CTRL = struct {
 /// GPIO status
 pub const GPIO15_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014078),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2697,6 +3142,12 @@ pub const GPIO15_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2704,6 +3155,13 @@ pub const GPIO15_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO15_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001407c),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -2825,6 +3283,12 @@ pub const GPIO15_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2832,6 +3296,16 @@ pub const GPIO15_CTRL = struct {
 /// GPIO status
 pub const GPIO16_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014080),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -2874,6 +3348,12 @@ pub const GPIO16_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -2881,6 +3361,13 @@ pub const GPIO16_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO16_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014084),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -3002,6 +3489,12 @@ pub const GPIO16_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3009,6 +3502,16 @@ pub const GPIO16_CTRL = struct {
 /// GPIO status
 pub const GPIO17_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014088),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3051,6 +3554,12 @@ pub const GPIO17_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3058,6 +3567,13 @@ pub const GPIO17_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO17_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001408c),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -3178,6 +3694,12 @@ pub const GPIO17_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3185,6 +3707,16 @@ pub const GPIO17_CTRL = struct {
 /// GPIO status
 pub const GPIO18_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014090),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3227,6 +3759,12 @@ pub const GPIO18_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3234,6 +3772,13 @@ pub const GPIO18_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO18_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014094),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -3354,6 +3899,12 @@ pub const GPIO18_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3361,6 +3912,16 @@ pub const GPIO18_CTRL = struct {
 /// GPIO status
 pub const GPIO19_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014098),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3403,6 +3964,12 @@ pub const GPIO19_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3410,6 +3977,13 @@ pub const GPIO19_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO19_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001409c),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -3530,6 +4104,12 @@ pub const GPIO19_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3537,6 +4117,16 @@ pub const GPIO19_CTRL = struct {
 /// GPIO status
 pub const GPIO20_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140a0),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3579,6 +4169,12 @@ pub const GPIO20_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3586,6 +4182,13 @@ pub const GPIO20_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO20_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140a4),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -3707,6 +4310,12 @@ pub const GPIO20_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3714,6 +4323,16 @@ pub const GPIO20_CTRL = struct {
 /// GPIO status
 pub const GPIO21_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140a8),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3756,6 +4375,12 @@ pub const GPIO21_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3763,6 +4388,13 @@ pub const GPIO21_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO21_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140ac),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -3884,6 +4516,12 @@ pub const GPIO21_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3891,6 +4529,16 @@ pub const GPIO21_CTRL = struct {
 /// GPIO status
 pub const GPIO22_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140b0),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -3933,6 +4581,12 @@ pub const GPIO22_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -3940,6 +4594,13 @@ pub const GPIO22_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO22_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140b4),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -4061,6 +4722,12 @@ pub const GPIO22_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4068,6 +4735,16 @@ pub const GPIO22_CTRL = struct {
 /// GPIO status
 pub const GPIO23_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140b8),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -4110,6 +4787,12 @@ pub const GPIO23_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4117,6 +4800,13 @@ pub const GPIO23_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO23_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140bc),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -4238,6 +4928,12 @@ pub const GPIO23_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4245,6 +4941,16 @@ pub const GPIO23_CTRL = struct {
 /// GPIO status
 pub const GPIO24_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140c0),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -4287,6 +4993,12 @@ pub const GPIO24_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4294,6 +5006,13 @@ pub const GPIO24_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO24_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140c4),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -4415,6 +5134,12 @@ pub const GPIO24_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4422,6 +5147,16 @@ pub const GPIO24_CTRL = struct {
 /// GPIO status
 pub const GPIO25_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140c8),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -4464,6 +5199,12 @@ pub const GPIO25_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4471,6 +5212,13 @@ pub const GPIO25_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO25_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140cc),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -4592,6 +5340,12 @@ pub const GPIO25_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4599,6 +5353,16 @@ pub const GPIO25_CTRL = struct {
 /// GPIO status
 pub const GPIO26_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140d0),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -4641,6 +5405,12 @@ pub const GPIO26_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4648,6 +5418,13 @@ pub const GPIO26_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO26_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140d4),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -4768,6 +5545,12 @@ pub const GPIO26_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4775,6 +5558,16 @@ pub const GPIO26_CTRL = struct {
 /// GPIO status
 pub const GPIO27_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140d8),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -4817,6 +5610,12 @@ pub const GPIO27_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4824,6 +5623,13 @@ pub const GPIO27_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO27_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140dc),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -4944,6 +5750,12 @@ pub const GPIO27_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -4951,6 +5763,16 @@ pub const GPIO27_CTRL = struct {
 /// GPIO status
 pub const GPIO28_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140e0),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -4993,6 +5815,12 @@ pub const GPIO28_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -5000,6 +5828,13 @@ pub const GPIO28_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO28_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140e4),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -5120,6 +5955,12 @@ pub const GPIO28_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -5127,6 +5968,16 @@ pub const GPIO28_CTRL = struct {
 /// GPIO status
 pub const GPIO29_STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140e8),
+    pub const FieldMasks = struct {
+        pub const IRQTOPROC: u32 = helpers.generateMask(26, 27);
+        pub const IRQFROMPAD: u32 = helpers.generateMask(24, 25);
+        pub const INTOPERI: u32 = helpers.generateMask(19, 20);
+        pub const INFROMPAD: u32 = helpers.generateMask(17, 18);
+        pub const OETOPAD: u32 = helpers.generateMask(13, 14);
+        pub const OEFROMPERI: u32 = helpers.generateMask(12, 13);
+        pub const OUTTOPAD: u32 = helpers.generateMask(9, 10);
+        pub const OUTFROMPERI: u32 = helpers.generateMask(8, 9);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -5169,6 +6020,12 @@ pub const GPIO29_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -5176,6 +6033,13 @@ pub const GPIO29_STATUS = struct {
 /// GPIO control including function select and overrides.
 pub const GPIO29_CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140ec),
+    pub const FieldMasks = struct {
+        pub const IRQOVER: u32 = helpers.generateMask(28, 30);
+        pub const INOVER: u32 = helpers.generateMask(16, 18);
+        pub const OEOVER: u32 = helpers.generateMask(12, 14);
+        pub const OUTOVER: u32 = helpers.generateMask(8, 10);
+        pub const FUNCSEL: u32 = helpers.generateMask(0, 5);
+    };
     const IRQOVER_e = enum(u2) {
         NORMAL = 0,
         INVERT = 1,
@@ -5296,6 +6160,12 @@ pub const GPIO29_CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -5303,6 +6173,40 @@ pub const GPIO29_CTRL = struct {
 /// Raw Interrupts
 pub const INTR0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140f0),
+    pub const FieldMasks = struct {
+        pub const GPIO7_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO7_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO7_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO7_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO6_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO6_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO6_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO6_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO5_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO5_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO5_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO5_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO4_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO4_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO4_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO4_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO3_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO3_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO3_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO3_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO2_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO2_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO2_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO2_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO1_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO1_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO1_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO1_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO0_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO0_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO0_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO0_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -5585,6 +6489,12 @@ pub const INTR0 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -5593,6 +6503,40 @@ pub const INTR0 = struct {
 /// Raw Interrupts
 pub const INTR1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140f4),
+    pub const FieldMasks = struct {
+        pub const GPIO15_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO15_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO15_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO15_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO14_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO14_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO14_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO14_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO13_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO13_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO13_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO13_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO12_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO12_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO12_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO12_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO11_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO11_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO11_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO11_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO10_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO10_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO10_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO10_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO9_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO9_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO9_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO9_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO8_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO8_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO8_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO8_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -5875,6 +6819,12 @@ pub const INTR1 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -5883,6 +6833,40 @@ pub const INTR1 = struct {
 /// Raw Interrupts
 pub const INTR2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140f8),
+    pub const FieldMasks = struct {
+        pub const GPIO23_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO23_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO23_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO23_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO22_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO22_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO22_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO22_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO21_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO21_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO21_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO21_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO20_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO20_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO20_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO20_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO19_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO19_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO19_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO19_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO18_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO18_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO18_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO18_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO17_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO17_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO17_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO17_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO16_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO16_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO16_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO16_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -6165,6 +7149,12 @@ pub const INTR2 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -6173,6 +7163,32 @@ pub const INTR2 = struct {
 /// Raw Interrupts
 pub const INTR3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x400140fc),
+    pub const FieldMasks = struct {
+        pub const GPIO29_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO29_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO29_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO29_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO28_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO28_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO28_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO28_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO27_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO27_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO27_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO27_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO26_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO26_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO26_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO26_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO25_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO25_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO25_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO25_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO24_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO24_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO24_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO24_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -6387,6 +7403,12 @@ pub const INTR3 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -6395,6 +7417,40 @@ pub const INTR3 = struct {
 /// Interrupt Enable for proc0
 pub const PROC0_INTE0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014100),
+    pub const FieldMasks = struct {
+        pub const GPIO7_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO7_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO7_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO7_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO6_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO6_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO6_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO6_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO5_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO5_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO5_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO5_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO4_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO4_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO4_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO4_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO3_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO3_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO3_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO3_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO2_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO2_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO2_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO2_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO1_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO1_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO1_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO1_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO0_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO0_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO0_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO0_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -6821,6 +7877,12 @@ pub const PROC0_INTE0 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -6829,6 +7891,40 @@ pub const PROC0_INTE0 = struct {
 /// Interrupt Enable for proc0
 pub const PROC0_INTE1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014104),
+    pub const FieldMasks = struct {
+        pub const GPIO15_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO15_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO15_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO15_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO14_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO14_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO14_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO14_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO13_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO13_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO13_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO13_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO12_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO12_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO12_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO12_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO11_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO11_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO11_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO11_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO10_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO10_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO10_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO10_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO9_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO9_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO9_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO9_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO8_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO8_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO8_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO8_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -7255,6 +8351,12 @@ pub const PROC0_INTE1 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -7263,6 +8365,40 @@ pub const PROC0_INTE1 = struct {
 /// Interrupt Enable for proc0
 pub const PROC0_INTE2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014108),
+    pub const FieldMasks = struct {
+        pub const GPIO23_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO23_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO23_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO23_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO22_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO22_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO22_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO22_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO21_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO21_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO21_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO21_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO20_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO20_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO20_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO20_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO19_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO19_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO19_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO19_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO18_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO18_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO18_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO18_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO17_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO17_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO17_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO17_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO16_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO16_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO16_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO16_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -7689,6 +8825,12 @@ pub const PROC0_INTE2 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -7697,6 +8839,32 @@ pub const PROC0_INTE2 = struct {
 /// Interrupt Enable for proc0
 pub const PROC0_INTE3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001410c),
+    pub const FieldMasks = struct {
+        pub const GPIO29_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO29_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO29_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO29_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO28_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO28_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO28_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO28_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO27_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO27_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO27_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO27_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO26_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO26_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO26_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO26_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO25_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO25_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO25_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO25_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO24_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO24_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO24_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO24_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -8019,6 +9187,12 @@ pub const PROC0_INTE3 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -8027,6 +9201,40 @@ pub const PROC0_INTE3 = struct {
 /// Interrupt Force for proc0
 pub const PROC0_INTF0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014110),
+    pub const FieldMasks = struct {
+        pub const GPIO7_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO7_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO7_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO7_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO6_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO6_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO6_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO6_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO5_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO5_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO5_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO5_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO4_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO4_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO4_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO4_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO3_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO3_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO3_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO3_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO2_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO2_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO2_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO2_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO1_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO1_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO1_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO1_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO0_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO0_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO0_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO0_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -8453,6 +9661,12 @@ pub const PROC0_INTF0 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -8461,6 +9675,40 @@ pub const PROC0_INTF0 = struct {
 /// Interrupt Force for proc0
 pub const PROC0_INTF1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014114),
+    pub const FieldMasks = struct {
+        pub const GPIO15_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO15_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO15_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO15_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO14_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO14_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO14_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO14_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO13_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO13_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO13_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO13_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO12_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO12_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO12_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO12_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO11_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO11_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO11_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO11_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO10_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO10_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO10_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO10_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO9_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO9_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO9_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO9_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO8_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO8_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO8_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO8_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -8887,6 +10135,12 @@ pub const PROC0_INTF1 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -8895,6 +10149,40 @@ pub const PROC0_INTF1 = struct {
 /// Interrupt Force for proc0
 pub const PROC0_INTF2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014118),
+    pub const FieldMasks = struct {
+        pub const GPIO23_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO23_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO23_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO23_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO22_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO22_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO22_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO22_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO21_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO21_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO21_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO21_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO20_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO20_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO20_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO20_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO19_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO19_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO19_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO19_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO18_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO18_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO18_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO18_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO17_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO17_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO17_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO17_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO16_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO16_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO16_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO16_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -9321,6 +10609,12 @@ pub const PROC0_INTF2 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -9329,6 +10623,32 @@ pub const PROC0_INTF2 = struct {
 /// Interrupt Force for proc0
 pub const PROC0_INTF3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001411c),
+    pub const FieldMasks = struct {
+        pub const GPIO29_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO29_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO29_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO29_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO28_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO28_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO28_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO28_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO27_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO27_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO27_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO27_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO26_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO26_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO26_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO26_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO25_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO25_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO25_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO25_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO24_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO24_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO24_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO24_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -9651,6 +10971,12 @@ pub const PROC0_INTF3 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -9659,6 +10985,40 @@ pub const PROC0_INTF3 = struct {
 /// Interrupt status after masking &amp; forcing for proc0
 pub const PROC0_INTS0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014120),
+    pub const FieldMasks = struct {
+        pub const GPIO7_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO7_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO7_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO7_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO6_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO6_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO6_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO6_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO5_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO5_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO5_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO5_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO4_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO4_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO4_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO4_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO3_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO3_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO3_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO3_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO2_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO2_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO2_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO2_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO1_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO1_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO1_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO1_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO0_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO0_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO0_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO0_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -9796,6 +11156,12 @@ pub const PROC0_INTS0 = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -9804,6 +11170,40 @@ pub const PROC0_INTS0 = struct {
 /// Interrupt status after masking &amp; forcing for proc0
 pub const PROC0_INTS1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014124),
+    pub const FieldMasks = struct {
+        pub const GPIO15_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO15_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO15_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO15_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO14_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO14_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO14_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO14_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO13_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO13_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO13_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO13_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO12_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO12_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO12_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO12_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO11_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO11_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO11_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO11_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO10_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO10_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO10_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO10_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO9_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO9_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO9_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO9_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO8_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO8_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO8_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO8_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -9941,6 +11341,12 @@ pub const PROC0_INTS1 = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -9949,6 +11355,40 @@ pub const PROC0_INTS1 = struct {
 /// Interrupt status after masking &amp; forcing for proc0
 pub const PROC0_INTS2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014128),
+    pub const FieldMasks = struct {
+        pub const GPIO23_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO23_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO23_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO23_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO22_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO22_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO22_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO22_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO21_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO21_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO21_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO21_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO20_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO20_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO20_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO20_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO19_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO19_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO19_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO19_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO18_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO18_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO18_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO18_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO17_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO17_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO17_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO17_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO16_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO16_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO16_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO16_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -10086,6 +11526,12 @@ pub const PROC0_INTS2 = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -10094,6 +11540,32 @@ pub const PROC0_INTS2 = struct {
 /// Interrupt status after masking &amp; forcing for proc0
 pub const PROC0_INTS3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001412c),
+    pub const FieldMasks = struct {
+        pub const GPIO29_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO29_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO29_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO29_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO28_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO28_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO28_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO28_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO27_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO27_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO27_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO27_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO26_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO26_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO26_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO26_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO25_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO25_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO25_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO25_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO24_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO24_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO24_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO24_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -10199,6 +11671,12 @@ pub const PROC0_INTS3 = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -10207,6 +11685,40 @@ pub const PROC0_INTS3 = struct {
 /// Interrupt Enable for proc1
 pub const PROC1_INTE0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014130),
+    pub const FieldMasks = struct {
+        pub const GPIO7_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO7_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO7_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO7_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO6_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO6_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO6_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO6_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO5_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO5_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO5_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO5_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO4_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO4_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO4_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO4_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO3_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO3_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO3_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO3_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO2_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO2_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO2_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO2_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO1_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO1_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO1_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO1_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO0_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO0_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO0_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO0_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -10633,6 +12145,12 @@ pub const PROC1_INTE0 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -10641,6 +12159,40 @@ pub const PROC1_INTE0 = struct {
 /// Interrupt Enable for proc1
 pub const PROC1_INTE1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014134),
+    pub const FieldMasks = struct {
+        pub const GPIO15_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO15_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO15_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO15_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO14_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO14_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO14_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO14_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO13_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO13_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO13_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO13_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO12_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO12_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO12_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO12_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO11_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO11_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO11_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO11_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO10_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO10_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO10_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO10_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO9_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO9_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO9_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO9_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO8_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO8_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO8_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO8_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -11067,6 +12619,12 @@ pub const PROC1_INTE1 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -11075,6 +12633,40 @@ pub const PROC1_INTE1 = struct {
 /// Interrupt Enable for proc1
 pub const PROC1_INTE2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014138),
+    pub const FieldMasks = struct {
+        pub const GPIO23_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO23_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO23_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO23_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO22_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO22_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO22_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO22_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO21_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO21_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO21_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO21_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO20_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO20_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO20_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO20_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO19_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO19_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO19_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO19_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO18_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO18_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO18_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO18_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO17_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO17_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO17_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO17_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO16_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO16_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO16_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO16_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -11501,6 +13093,12 @@ pub const PROC1_INTE2 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -11509,6 +13107,32 @@ pub const PROC1_INTE2 = struct {
 /// Interrupt Enable for proc1
 pub const PROC1_INTE3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001413c),
+    pub const FieldMasks = struct {
+        pub const GPIO29_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO29_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO29_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO29_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO28_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO28_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO28_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO28_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO27_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO27_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO27_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO27_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO26_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO26_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO26_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO26_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO25_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO25_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO25_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO25_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO24_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO24_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO24_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO24_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -11831,6 +13455,12 @@ pub const PROC1_INTE3 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -11839,6 +13469,40 @@ pub const PROC1_INTE3 = struct {
 /// Interrupt Force for proc1
 pub const PROC1_INTF0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014140),
+    pub const FieldMasks = struct {
+        pub const GPIO7_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO7_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO7_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO7_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO6_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO6_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO6_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO6_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO5_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO5_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO5_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO5_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO4_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO4_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO4_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO4_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO3_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO3_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO3_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO3_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO2_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO2_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO2_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO2_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO1_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO1_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO1_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO1_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO0_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO0_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO0_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO0_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -12265,6 +13929,12 @@ pub const PROC1_INTF0 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -12273,6 +13943,40 @@ pub const PROC1_INTF0 = struct {
 /// Interrupt Force for proc1
 pub const PROC1_INTF1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014144),
+    pub const FieldMasks = struct {
+        pub const GPIO15_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO15_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO15_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO15_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO14_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO14_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO14_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO14_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO13_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO13_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO13_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO13_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO12_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO12_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO12_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO12_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO11_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO11_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO11_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO11_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO10_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO10_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO10_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO10_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO9_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO9_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO9_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO9_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO8_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO8_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO8_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO8_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -12699,6 +14403,12 @@ pub const PROC1_INTF1 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -12707,6 +14417,40 @@ pub const PROC1_INTF1 = struct {
 /// Interrupt Force for proc1
 pub const PROC1_INTF2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014148),
+    pub const FieldMasks = struct {
+        pub const GPIO23_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO23_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO23_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO23_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO22_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO22_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO22_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO22_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO21_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO21_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO21_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO21_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO20_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO20_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO20_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO20_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO19_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO19_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO19_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO19_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO18_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO18_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO18_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO18_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO17_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO17_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO17_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO17_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO16_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO16_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO16_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO16_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -13133,6 +14877,12 @@ pub const PROC1_INTF2 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -13141,6 +14891,32 @@ pub const PROC1_INTF2 = struct {
 /// Interrupt Force for proc1
 pub const PROC1_INTF3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001414c),
+    pub const FieldMasks = struct {
+        pub const GPIO29_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO29_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO29_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO29_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO28_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO28_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO28_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO28_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO27_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO27_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO27_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO27_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO26_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO26_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO26_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO26_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO25_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO25_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO25_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO25_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO24_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO24_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO24_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO24_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -13463,6 +15239,12 @@ pub const PROC1_INTF3 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -13471,6 +15253,40 @@ pub const PROC1_INTF3 = struct {
 /// Interrupt status after masking &amp; forcing for proc1
 pub const PROC1_INTS0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014150),
+    pub const FieldMasks = struct {
+        pub const GPIO7_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO7_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO7_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO7_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO6_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO6_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO6_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO6_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO5_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO5_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO5_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO5_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO4_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO4_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO4_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO4_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO3_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO3_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO3_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO3_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO2_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO2_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO2_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO2_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO1_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO1_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO1_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO1_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO0_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO0_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO0_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO0_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -13608,6 +15424,12 @@ pub const PROC1_INTS0 = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -13616,6 +15438,40 @@ pub const PROC1_INTS0 = struct {
 /// Interrupt status after masking &amp; forcing for proc1
 pub const PROC1_INTS1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014154),
+    pub const FieldMasks = struct {
+        pub const GPIO15_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO15_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO15_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO15_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO14_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO14_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO14_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO14_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO13_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO13_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO13_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO13_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO12_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO12_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO12_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO12_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO11_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO11_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO11_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO11_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO10_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO10_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO10_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO10_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO9_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO9_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO9_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO9_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO8_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO8_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO8_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO8_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -13753,6 +15609,12 @@ pub const PROC1_INTS1 = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -13761,6 +15623,40 @@ pub const PROC1_INTS1 = struct {
 /// Interrupt status after masking &amp; forcing for proc1
 pub const PROC1_INTS2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014158),
+    pub const FieldMasks = struct {
+        pub const GPIO23_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO23_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO23_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO23_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO22_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO22_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO22_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO22_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO21_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO21_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO21_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO21_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO20_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO20_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO20_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO20_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO19_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO19_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO19_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO19_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO18_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO18_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO18_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO18_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO17_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO17_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO17_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO17_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO16_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO16_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO16_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO16_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -13898,6 +15794,12 @@ pub const PROC1_INTS2 = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -13906,6 +15808,32 @@ pub const PROC1_INTS2 = struct {
 /// Interrupt status after masking &amp; forcing for proc1
 pub const PROC1_INTS3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001415c),
+    pub const FieldMasks = struct {
+        pub const GPIO29_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO29_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO29_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO29_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO28_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO28_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO28_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO28_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO27_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO27_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO27_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO27_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO26_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO26_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO26_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO26_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO25_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO25_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO25_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO25_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO24_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO24_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO24_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO24_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -14011,6 +15939,12 @@ pub const PROC1_INTS3 = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -14019,6 +15953,40 @@ pub const PROC1_INTS3 = struct {
 /// Interrupt Enable for dormant_wake
 pub const DORMANT_WAKE_INTE0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014160),
+    pub const FieldMasks = struct {
+        pub const GPIO7_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO7_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO7_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO7_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO6_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO6_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO6_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO6_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO5_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO5_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO5_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO5_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO4_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO4_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO4_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO4_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO3_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO3_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO3_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO3_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO2_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO2_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO2_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO2_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO1_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO1_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO1_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO1_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO0_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO0_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO0_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO0_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -14445,6 +16413,12 @@ pub const DORMANT_WAKE_INTE0 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -14453,6 +16427,40 @@ pub const DORMANT_WAKE_INTE0 = struct {
 /// Interrupt Enable for dormant_wake
 pub const DORMANT_WAKE_INTE1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014164),
+    pub const FieldMasks = struct {
+        pub const GPIO15_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO15_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO15_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO15_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO14_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO14_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO14_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO14_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO13_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO13_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO13_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO13_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO12_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO12_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO12_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO12_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO11_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO11_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO11_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO11_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO10_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO10_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO10_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO10_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO9_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO9_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO9_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO9_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO8_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO8_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO8_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO8_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -14880,6 +16888,12 @@ pub const DORMANT_WAKE_INTE1 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -14887,6 +16901,40 @@ pub const DORMANT_WAKE_INTE1 = struct {
 /// Interrupt Enable for dormant_wake
 pub const DORMANT_WAKE_INTE2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014168),
+    pub const FieldMasks = struct {
+        pub const GPIO23_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO23_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO23_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO23_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO22_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO22_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO22_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO22_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO21_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO21_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO21_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO21_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO20_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO20_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO20_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO20_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO19_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO19_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO19_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO19_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO18_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO18_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO18_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO18_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO17_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO17_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO17_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO17_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO16_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO16_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO16_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO16_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -15314,6 +17362,12 @@ pub const DORMANT_WAKE_INTE2 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -15321,6 +17375,32 @@ pub const DORMANT_WAKE_INTE2 = struct {
 /// Interrupt Enable for dormant_wake
 pub const DORMANT_WAKE_INTE3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001416c),
+    pub const FieldMasks = struct {
+        pub const GPIO29_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO29_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO29_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO29_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO28_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO28_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO28_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO28_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO27_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO27_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO27_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO27_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO26_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO26_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO26_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO26_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO25_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO25_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO25_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO25_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO24_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO24_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO24_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO24_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -15644,6 +17724,12 @@ pub const DORMANT_WAKE_INTE3 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -15651,6 +17737,40 @@ pub const DORMANT_WAKE_INTE3 = struct {
 /// Interrupt Force for dormant_wake
 pub const DORMANT_WAKE_INTF0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014170),
+    pub const FieldMasks = struct {
+        pub const GPIO7_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO7_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO7_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO7_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO6_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO6_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO6_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO6_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO5_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO5_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO5_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO5_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO4_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO4_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO4_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO4_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO3_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO3_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO3_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO3_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO2_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO2_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO2_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO2_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO1_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO1_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO1_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO1_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO0_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO0_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO0_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO0_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -16078,6 +18198,12 @@ pub const DORMANT_WAKE_INTF0 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -16085,6 +18211,40 @@ pub const DORMANT_WAKE_INTF0 = struct {
 /// Interrupt Force for dormant_wake
 pub const DORMANT_WAKE_INTF1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014174),
+    pub const FieldMasks = struct {
+        pub const GPIO15_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO15_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO15_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO15_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO14_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO14_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO14_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO14_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO13_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO13_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO13_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO13_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO12_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO12_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO12_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO12_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO11_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO11_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO11_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO11_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO10_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO10_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO10_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO10_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO9_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO9_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO9_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO9_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO8_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO8_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO8_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO8_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -16512,6 +18672,12 @@ pub const DORMANT_WAKE_INTF1 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -16519,6 +18685,40 @@ pub const DORMANT_WAKE_INTF1 = struct {
 /// Interrupt Force for dormant_wake
 pub const DORMANT_WAKE_INTF2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014178),
+    pub const FieldMasks = struct {
+        pub const GPIO23_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO23_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO23_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO23_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO22_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO22_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO22_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO22_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO21_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO21_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO21_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO21_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO20_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO20_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO20_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO20_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO19_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO19_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO19_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO19_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO18_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO18_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO18_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO18_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO17_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO17_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO17_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO17_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO16_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO16_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO16_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO16_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -16946,6 +19146,12 @@ pub const DORMANT_WAKE_INTF2 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -16953,6 +19159,32 @@ pub const DORMANT_WAKE_INTF2 = struct {
 /// Interrupt Force for dormant_wake
 pub const DORMANT_WAKE_INTF3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001417c),
+    pub const FieldMasks = struct {
+        pub const GPIO29_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO29_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO29_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO29_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO28_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO28_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO28_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO28_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO27_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO27_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO27_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO27_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO26_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO26_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO26_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO26_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO25_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO25_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO25_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO25_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO24_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO24_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO24_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO24_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -17276,6 +19508,12 @@ pub const DORMANT_WAKE_INTF3 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -17283,6 +19521,40 @@ pub const DORMANT_WAKE_INTF3 = struct {
 /// Interrupt status after masking &amp; forcing for dormant_wake
 pub const DORMANT_WAKE_INTS0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014180),
+    pub const FieldMasks = struct {
+        pub const GPIO7_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO7_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO7_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO7_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO6_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO6_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO6_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO6_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO5_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO5_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO5_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO5_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO4_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO4_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO4_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO4_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO3_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO3_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO3_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO3_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO2_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO2_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO2_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO2_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO1_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO1_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO1_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO1_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO0_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO0_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO0_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO0_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -17421,6 +19693,12 @@ pub const DORMANT_WAKE_INTS0 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -17428,6 +19706,40 @@ pub const DORMANT_WAKE_INTS0 = struct {
 /// Interrupt status after masking &amp; forcing for dormant_wake
 pub const DORMANT_WAKE_INTS1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014184),
+    pub const FieldMasks = struct {
+        pub const GPIO15_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO15_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO15_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO15_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO14_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO14_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO14_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO14_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO13_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO13_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO13_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO13_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO12_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO12_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO12_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO12_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO11_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO11_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO11_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO11_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO10_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO10_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO10_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO10_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO9_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO9_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO9_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO9_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO8_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO8_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO8_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO8_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -17566,6 +19878,12 @@ pub const DORMANT_WAKE_INTS1 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -17573,6 +19891,40 @@ pub const DORMANT_WAKE_INTS1 = struct {
 /// Interrupt status after masking &amp; forcing for dormant_wake
 pub const DORMANT_WAKE_INTS2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40014188),
+    pub const FieldMasks = struct {
+        pub const GPIO23_EDGE_HIGH: u32 = helpers.generateMask(31, 32);
+        pub const GPIO23_EDGE_LOW: u32 = helpers.generateMask(30, 31);
+        pub const GPIO23_LEVEL_HIGH: u32 = helpers.generateMask(29, 30);
+        pub const GPIO23_LEVEL_LOW: u32 = helpers.generateMask(28, 29);
+        pub const GPIO22_EDGE_HIGH: u32 = helpers.generateMask(27, 28);
+        pub const GPIO22_EDGE_LOW: u32 = helpers.generateMask(26, 27);
+        pub const GPIO22_LEVEL_HIGH: u32 = helpers.generateMask(25, 26);
+        pub const GPIO22_LEVEL_LOW: u32 = helpers.generateMask(24, 25);
+        pub const GPIO21_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO21_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO21_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO21_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO20_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO20_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO20_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO20_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO19_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO19_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO19_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO19_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO18_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO18_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO18_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO18_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO17_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO17_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO17_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO17_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO16_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO16_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO16_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO16_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -17711,6 +20063,12 @@ pub const DORMANT_WAKE_INTS2 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -17718,6 +20076,32 @@ pub const DORMANT_WAKE_INTS2 = struct {
 /// Interrupt status after masking &amp; forcing for dormant_wake
 pub const DORMANT_WAKE_INTS3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001418c),
+    pub const FieldMasks = struct {
+        pub const GPIO29_EDGE_HIGH: u32 = helpers.generateMask(23, 24);
+        pub const GPIO29_EDGE_LOW: u32 = helpers.generateMask(22, 23);
+        pub const GPIO29_LEVEL_HIGH: u32 = helpers.generateMask(21, 22);
+        pub const GPIO29_LEVEL_LOW: u32 = helpers.generateMask(20, 21);
+        pub const GPIO28_EDGE_HIGH: u32 = helpers.generateMask(19, 20);
+        pub const GPIO28_EDGE_LOW: u32 = helpers.generateMask(18, 19);
+        pub const GPIO28_LEVEL_HIGH: u32 = helpers.generateMask(17, 18);
+        pub const GPIO28_LEVEL_LOW: u32 = helpers.generateMask(16, 17);
+        pub const GPIO27_EDGE_HIGH: u32 = helpers.generateMask(15, 16);
+        pub const GPIO27_EDGE_LOW: u32 = helpers.generateMask(14, 15);
+        pub const GPIO27_LEVEL_HIGH: u32 = helpers.generateMask(13, 14);
+        pub const GPIO27_LEVEL_LOW: u32 = helpers.generateMask(12, 13);
+        pub const GPIO26_EDGE_HIGH: u32 = helpers.generateMask(11, 12);
+        pub const GPIO26_EDGE_LOW: u32 = helpers.generateMask(10, 11);
+        pub const GPIO26_LEVEL_HIGH: u32 = helpers.generateMask(9, 10);
+        pub const GPIO26_LEVEL_LOW: u32 = helpers.generateMask(8, 9);
+        pub const GPIO25_EDGE_HIGH: u32 = helpers.generateMask(7, 8);
+        pub const GPIO25_EDGE_LOW: u32 = helpers.generateMask(6, 7);
+        pub const GPIO25_LEVEL_HIGH: u32 = helpers.generateMask(5, 6);
+        pub const GPIO25_LEVEL_LOW: u32 = helpers.generateMask(4, 5);
+        pub const GPIO24_EDGE_HIGH: u32 = helpers.generateMask(3, 4);
+        pub const GPIO24_EDGE_LOW: u32 = helpers.generateMask(2, 3);
+        pub const GPIO24_LEVEL_HIGH: u32 = helpers.generateMask(1, 2);
+        pub const GPIO24_LEVEL_LOW: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -17823,6 +20207,12 @@ pub const DORMANT_WAKE_INTS3 = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };

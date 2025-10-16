@@ -6,6 +6,14 @@ pub const PROC0_NMI_MASK = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -18,6 +26,14 @@ pub const PROC1_NMI_MASK = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -26,6 +42,12 @@ pub const PROC1_NMI_MASK = struct {
 /// Configuration for processors
 pub const PROC_CONFIG = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40004008),
+    pub const FieldMasks = struct {
+        pub const PROC1_DAP_INSTID: u32 = helpers.generateMask(28, 32);
+        pub const PROC0_DAP_INSTID: u32 = helpers.generateMask(24, 28);
+        pub const PROC1_HALTED: u32 = helpers.generateMask(1, 2);
+        pub const PROC0_HALTED: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -83,6 +105,12 @@ pub const PROC_CONFIG = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -97,6 +125,14 @@ pub const PROC_IN_SYNC_BYPASS = struct {
     pub fn write(self: @This(), v: u30) void {
         const mask = comptime helpers.generateMask(0, 30);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 30);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 30);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u30 {
         const mask = comptime helpers.generateMask(0, 30);
@@ -114,6 +150,14 @@ pub const PROC_IN_SYNC_BYPASS_HI = struct {
         const mask = comptime helpers.generateMask(0, 6);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
         return @intCast((self.reg.* & mask) >> 0);
@@ -122,6 +166,16 @@ pub const PROC_IN_SYNC_BYPASS_HI = struct {
 /// Directly control the SWD debug port of either processor
 pub const DBGFORCE = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40004014),
+    pub const FieldMasks = struct {
+        pub const PROC1_ATTACH: u32 = helpers.generateMask(7, 8);
+        pub const PROC1_SWCLK: u32 = helpers.generateMask(6, 7);
+        pub const PROC1_SWDI: u32 = helpers.generateMask(5, 6);
+        pub const PROC1_SWDO: u32 = helpers.generateMask(4, 5);
+        pub const PROC0_ATTACH: u32 = helpers.generateMask(3, 4);
+        pub const PROC0_SWCLK: u32 = helpers.generateMask(2, 3);
+        pub const PROC0_SWDI: u32 = helpers.generateMask(1, 2);
+        pub const PROC0_SWDO: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -231,6 +285,12 @@ pub const DBGFORCE = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -239,6 +299,16 @@ pub const DBGFORCE = struct {
 /// Use with extreme caution
 pub const MEMPOWERDOWN = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40004018),
+    pub const FieldMasks = struct {
+        pub const ROM: u32 = helpers.generateMask(7, 8);
+        pub const USB: u32 = helpers.generateMask(6, 7);
+        pub const SRAM5: u32 = helpers.generateMask(5, 6);
+        pub const SRAM4: u32 = helpers.generateMask(4, 5);
+        pub const SRAM3: u32 = helpers.generateMask(3, 4);
+        pub const SRAM2: u32 = helpers.generateMask(2, 3);
+        pub const SRAM1: u32 = helpers.generateMask(1, 2);
+        pub const SRAM0: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -353,6 +423,12 @@ pub const MEMPOWERDOWN = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };

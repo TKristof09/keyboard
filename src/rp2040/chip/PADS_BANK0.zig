@@ -10,6 +10,14 @@ pub const VOLTAGE_SELECT = struct {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 1);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) VOLTAGE_SELECT_e {
         const mask = comptime helpers.generateMask(0, 1);
         return @enumFromInt((self.reg.* & mask) >> 0);
@@ -18,6 +26,15 @@ pub const VOLTAGE_SELECT = struct {
 /// Pad control register
 pub const GPIO0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c004),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -140,6 +157,12 @@ pub const GPIO0 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -148,6 +171,15 @@ pub const GPIO0 = struct {
 /// Pad control register
 pub const GPIO1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c008),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -270,6 +302,12 @@ pub const GPIO1 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -278,6 +316,15 @@ pub const GPIO1 = struct {
 /// Pad control register
 pub const GPIO2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c00c),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -400,6 +447,12 @@ pub const GPIO2 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -408,6 +461,15 @@ pub const GPIO2 = struct {
 /// Pad control register
 pub const GPIO3 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c010),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -530,6 +592,12 @@ pub const GPIO3 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -538,6 +606,15 @@ pub const GPIO3 = struct {
 /// Pad control register
 pub const GPIO4 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c014),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -660,6 +737,12 @@ pub const GPIO4 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -668,6 +751,15 @@ pub const GPIO4 = struct {
 /// Pad control register
 pub const GPIO5 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c018),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -790,6 +882,12 @@ pub const GPIO5 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -798,6 +896,15 @@ pub const GPIO5 = struct {
 /// Pad control register
 pub const GPIO6 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c01c),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -920,6 +1027,12 @@ pub const GPIO6 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -928,6 +1041,15 @@ pub const GPIO6 = struct {
 /// Pad control register
 pub const GPIO7 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c020),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -1050,6 +1172,12 @@ pub const GPIO7 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1058,6 +1186,15 @@ pub const GPIO7 = struct {
 /// Pad control register
 pub const GPIO8 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c024),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -1180,6 +1317,12 @@ pub const GPIO8 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1188,6 +1331,15 @@ pub const GPIO8 = struct {
 /// Pad control register
 pub const GPIO9 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c028),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -1310,6 +1462,12 @@ pub const GPIO9 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1318,6 +1476,15 @@ pub const GPIO9 = struct {
 /// Pad control register
 pub const GPIO10 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c02c),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -1440,6 +1607,12 @@ pub const GPIO10 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1448,6 +1621,15 @@ pub const GPIO10 = struct {
 /// Pad control register
 pub const GPIO11 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c030),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -1570,6 +1752,12 @@ pub const GPIO11 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1578,6 +1766,15 @@ pub const GPIO11 = struct {
 /// Pad control register
 pub const GPIO12 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c034),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -1700,6 +1897,12 @@ pub const GPIO12 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1708,6 +1911,15 @@ pub const GPIO12 = struct {
 /// Pad control register
 pub const GPIO13 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c038),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -1830,6 +2042,12 @@ pub const GPIO13 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1838,6 +2056,15 @@ pub const GPIO13 = struct {
 /// Pad control register
 pub const GPIO14 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c03c),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -1960,6 +2187,12 @@ pub const GPIO14 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -1968,6 +2201,15 @@ pub const GPIO14 = struct {
 /// Pad control register
 pub const GPIO15 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c040),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -2090,6 +2332,12 @@ pub const GPIO15 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2098,6 +2346,15 @@ pub const GPIO15 = struct {
 /// Pad control register
 pub const GPIO16 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c044),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -2220,6 +2477,12 @@ pub const GPIO16 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2228,6 +2491,15 @@ pub const GPIO16 = struct {
 /// Pad control register
 pub const GPIO17 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c048),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -2350,6 +2622,12 @@ pub const GPIO17 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2358,6 +2636,15 @@ pub const GPIO17 = struct {
 /// Pad control register
 pub const GPIO18 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c04c),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -2480,6 +2767,12 @@ pub const GPIO18 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2488,6 +2781,15 @@ pub const GPIO18 = struct {
 /// Pad control register
 pub const GPIO19 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c050),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -2610,6 +2912,12 @@ pub const GPIO19 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2618,6 +2926,15 @@ pub const GPIO19 = struct {
 /// Pad control register
 pub const GPIO20 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c054),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -2740,6 +3057,12 @@ pub const GPIO20 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2748,6 +3071,15 @@ pub const GPIO20 = struct {
 /// Pad control register
 pub const GPIO21 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c058),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -2870,6 +3202,12 @@ pub const GPIO21 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -2878,6 +3216,15 @@ pub const GPIO21 = struct {
 /// Pad control register
 pub const GPIO22 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c05c),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -3000,6 +3347,12 @@ pub const GPIO22 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3008,6 +3361,15 @@ pub const GPIO22 = struct {
 /// Pad control register
 pub const GPIO23 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c060),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -3130,6 +3492,12 @@ pub const GPIO23 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3138,6 +3506,15 @@ pub const GPIO23 = struct {
 /// Pad control register
 pub const GPIO24 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c064),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -3260,6 +3637,12 @@ pub const GPIO24 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3268,6 +3651,15 @@ pub const GPIO24 = struct {
 /// Pad control register
 pub const GPIO25 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c068),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -3390,6 +3782,12 @@ pub const GPIO25 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3398,6 +3796,15 @@ pub const GPIO25 = struct {
 /// Pad control register
 pub const GPIO26 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c06c),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -3520,6 +3927,12 @@ pub const GPIO26 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3528,6 +3941,15 @@ pub const GPIO26 = struct {
 /// Pad control register
 pub const GPIO27 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c070),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -3650,6 +4072,12 @@ pub const GPIO27 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3658,6 +4086,15 @@ pub const GPIO27 = struct {
 /// Pad control register
 pub const GPIO28 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c074),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -3780,6 +4217,12 @@ pub const GPIO28 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3788,6 +4231,15 @@ pub const GPIO28 = struct {
 /// Pad control register
 pub const GPIO29 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c078),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -3910,6 +4362,12 @@ pub const GPIO29 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -3918,6 +4376,15 @@ pub const GPIO29 = struct {
 /// Pad control register
 pub const SWCLK = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c07c),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -4040,6 +4507,12 @@ pub const SWCLK = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -4048,6 +4521,15 @@ pub const SWCLK = struct {
 /// Pad control register
 pub const SWD = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001c080),
+    pub const FieldMasks = struct {
+        pub const OD: u32 = helpers.generateMask(7, 8);
+        pub const IE: u32 = helpers.generateMask(6, 7);
+        pub const DRIVE: u32 = helpers.generateMask(4, 6);
+        pub const PUE: u32 = helpers.generateMask(3, 4);
+        pub const PDE: u32 = helpers.generateMask(2, 3);
+        pub const SCHMITT: u32 = helpers.generateMask(1, 2);
+        pub const SLEWFAST: u32 = helpers.generateMask(0, 1);
+    };
     const DRIVE_e = enum(u2) {
         @"2mA" = 0,
         @"4mA" = 1,
@@ -4170,6 +4652,12 @@ pub const SWD = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };

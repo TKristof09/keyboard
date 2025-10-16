@@ -2,6 +2,13 @@ const helpers = @import("helpers.zig");
 /// Data Register, UARTDR
 pub const UARTDR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40038000),
+    pub const FieldMasks = struct {
+        pub const OE: u32 = helpers.generateMask(11, 12);
+        pub const BE: u32 = helpers.generateMask(10, 11);
+        pub const PE: u32 = helpers.generateMask(9, 10);
+        pub const FE: u32 = helpers.generateMask(8, 9);
+        pub const DATA: u32 = helpers.generateMask(0, 8);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -44,6 +51,12 @@ pub const UARTDR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -51,6 +64,12 @@ pub const UARTDR = struct {
 /// Receive Status Register/Error Clear Register, UARTRSR/UARTECR
 pub const UARTRSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40038004),
+    pub const FieldMasks = struct {
+        pub const OE: u32 = helpers.generateMask(3, 4);
+        pub const BE: u32 = helpers.generateMask(2, 3);
+        pub const PE: u32 = helpers.generateMask(1, 2);
+        pub const FE: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -122,6 +141,12 @@ pub const UARTRSR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -129,6 +154,17 @@ pub const UARTRSR = struct {
 /// Flag Register, UARTFR
 pub const UARTFR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40038018),
+    pub const FieldMasks = struct {
+        pub const RI: u32 = helpers.generateMask(8, 9);
+        pub const TXFE: u32 = helpers.generateMask(7, 8);
+        pub const RXFF: u32 = helpers.generateMask(6, 7);
+        pub const TXFF: u32 = helpers.generateMask(5, 6);
+        pub const RXFE: u32 = helpers.generateMask(4, 5);
+        pub const BUSY: u32 = helpers.generateMask(3, 4);
+        pub const DCD: u32 = helpers.generateMask(2, 3);
+        pub const DSR: u32 = helpers.generateMask(1, 2);
+        pub const CTS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -175,6 +211,12 @@ pub const UARTFR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -185,6 +227,14 @@ pub const UARTILPR = struct {
     pub fn write(self: @This(), v: u8) void {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u8 {
         const mask = comptime helpers.generateMask(0, 8);
@@ -198,6 +248,14 @@ pub const UARTIBRD = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 16);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u16 {
         const mask = comptime helpers.generateMask(0, 16);
         return @intCast((self.reg.* & mask) >> 0);
@@ -210,6 +268,14 @@ pub const UARTFBRD = struct {
         const mask = comptime helpers.generateMask(0, 6);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 6);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
         return @intCast((self.reg.* & mask) >> 0);
@@ -218,6 +284,15 @@ pub const UARTFBRD = struct {
 /// Line Control Register, UARTLCR_H
 pub const UARTLCR_H = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4003802c),
+    pub const FieldMasks = struct {
+        pub const SPS: u32 = helpers.generateMask(7, 8);
+        pub const WLEN: u32 = helpers.generateMask(5, 7);
+        pub const FEN: u32 = helpers.generateMask(4, 5);
+        pub const STP2: u32 = helpers.generateMask(3, 4);
+        pub const EPS: u32 = helpers.generateMask(2, 3);
+        pub const PEN: u32 = helpers.generateMask(1, 2);
+        pub const BRK: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -334,6 +409,12 @@ pub const UARTLCR_H = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -341,6 +422,20 @@ pub const UARTLCR_H = struct {
 /// Control Register, UARTCR
 pub const UARTCR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40038030),
+    pub const FieldMasks = struct {
+        pub const CTSEN: u32 = helpers.generateMask(15, 16);
+        pub const RTSEN: u32 = helpers.generateMask(14, 15);
+        pub const OUT2: u32 = helpers.generateMask(13, 14);
+        pub const OUT1: u32 = helpers.generateMask(12, 13);
+        pub const RTS: u32 = helpers.generateMask(11, 12);
+        pub const DTR: u32 = helpers.generateMask(10, 11);
+        pub const RXE: u32 = helpers.generateMask(9, 10);
+        pub const TXE: u32 = helpers.generateMask(8, 9);
+        pub const LBE: u32 = helpers.generateMask(7, 8);
+        pub const SIRLP: u32 = helpers.generateMask(2, 3);
+        pub const SIREN: u32 = helpers.generateMask(1, 2);
+        pub const UARTEN: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -532,6 +627,12 @@ pub const UARTCR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -539,6 +640,10 @@ pub const UARTCR = struct {
 /// Interrupt FIFO Level Select Register, UARTIFLS
 pub const UARTIFLS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40038034),
+    pub const FieldMasks = struct {
+        pub const RXIFLSEL: u32 = helpers.generateMask(3, 6);
+        pub const TXIFLSEL: u32 = helpers.generateMask(0, 3);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -580,6 +685,12 @@ pub const UARTIFLS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -587,6 +698,19 @@ pub const UARTIFLS = struct {
 /// Interrupt Mask Set/Clear Register, UARTIMSC
 pub const UARTIMSC = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40038038),
+    pub const FieldMasks = struct {
+        pub const OEIM: u32 = helpers.generateMask(10, 11);
+        pub const BEIM: u32 = helpers.generateMask(9, 10);
+        pub const PEIM: u32 = helpers.generateMask(8, 9);
+        pub const FEIM: u32 = helpers.generateMask(7, 8);
+        pub const RTIM: u32 = helpers.generateMask(6, 7);
+        pub const TXIM: u32 = helpers.generateMask(5, 6);
+        pub const RXIM: u32 = helpers.generateMask(4, 5);
+        pub const DSRMIM: u32 = helpers.generateMask(3, 4);
+        pub const DCDMIM: u32 = helpers.generateMask(2, 3);
+        pub const CTSMIM: u32 = helpers.generateMask(1, 2);
+        pub const RIMIM: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -763,6 +887,12 @@ pub const UARTIMSC = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -770,6 +900,19 @@ pub const UARTIMSC = struct {
 /// Raw Interrupt Status Register, UARTRIS
 pub const UARTRIS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4003803c),
+    pub const FieldMasks = struct {
+        pub const OERIS: u32 = helpers.generateMask(10, 11);
+        pub const BERIS: u32 = helpers.generateMask(9, 10);
+        pub const PERIS: u32 = helpers.generateMask(8, 9);
+        pub const FERIS: u32 = helpers.generateMask(7, 8);
+        pub const RTRIS: u32 = helpers.generateMask(6, 7);
+        pub const TXRIS: u32 = helpers.generateMask(5, 6);
+        pub const RXRIS: u32 = helpers.generateMask(4, 5);
+        pub const DSRRMIS: u32 = helpers.generateMask(3, 4);
+        pub const DCDRMIS: u32 = helpers.generateMask(2, 3);
+        pub const CTSRMIS: u32 = helpers.generateMask(1, 2);
+        pub const RIRMIS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -824,6 +967,12 @@ pub const UARTRIS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -831,6 +980,19 @@ pub const UARTRIS = struct {
 /// Masked Interrupt Status Register, UARTMIS
 pub const UARTMIS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40038040),
+    pub const FieldMasks = struct {
+        pub const OEMIS: u32 = helpers.generateMask(10, 11);
+        pub const BEMIS: u32 = helpers.generateMask(9, 10);
+        pub const PEMIS: u32 = helpers.generateMask(8, 9);
+        pub const FEMIS: u32 = helpers.generateMask(7, 8);
+        pub const RTMIS: u32 = helpers.generateMask(6, 7);
+        pub const TXMIS: u32 = helpers.generateMask(5, 6);
+        pub const RXMIS: u32 = helpers.generateMask(4, 5);
+        pub const DSRMMIS: u32 = helpers.generateMask(3, 4);
+        pub const DCDMMIS: u32 = helpers.generateMask(2, 3);
+        pub const CTSMMIS: u32 = helpers.generateMask(1, 2);
+        pub const RIMMIS: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -885,6 +1047,12 @@ pub const UARTMIS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -892,6 +1060,19 @@ pub const UARTMIS = struct {
 /// Interrupt Clear Register, UARTICR
 pub const UARTICR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40038044),
+    pub const FieldMasks = struct {
+        pub const OEIC: u32 = helpers.generateMask(10, 11);
+        pub const BEIC: u32 = helpers.generateMask(9, 10);
+        pub const PEIC: u32 = helpers.generateMask(8, 9);
+        pub const FEIC: u32 = helpers.generateMask(7, 8);
+        pub const RTIC: u32 = helpers.generateMask(6, 7);
+        pub const TXIC: u32 = helpers.generateMask(5, 6);
+        pub const RXIC: u32 = helpers.generateMask(4, 5);
+        pub const DSRMIC: u32 = helpers.generateMask(3, 4);
+        pub const DCDMIC: u32 = helpers.generateMask(2, 3);
+        pub const CTSMIC: u32 = helpers.generateMask(1, 2);
+        pub const RIMIC: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1068,6 +1249,12 @@ pub const UARTICR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1075,6 +1262,11 @@ pub const UARTICR = struct {
 /// DMA Control Register, UARTDMACR
 pub const UARTDMACR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40038048),
+    pub const FieldMasks = struct {
+        pub const DMAONERR: u32 = helpers.generateMask(2, 3);
+        pub const TXDMAE: u32 = helpers.generateMask(1, 2);
+        pub const RXDMAE: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1131,6 +1323,12 @@ pub const UARTDMACR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1142,6 +1340,14 @@ pub const UARTPERIPHID0 = struct {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u8 {
         const mask = comptime helpers.generateMask(0, 8);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1150,6 +1356,10 @@ pub const UARTPERIPHID0 = struct {
 /// UARTPeriphID1 Register
 pub const UARTPERIPHID1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40038fe4),
+    pub const FieldMasks = struct {
+        pub const DESIGNER0: u32 = helpers.generateMask(4, 8);
+        pub const PARTNUMBER1: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1168,6 +1378,12 @@ pub const UARTPERIPHID1 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1175,6 +1391,10 @@ pub const UARTPERIPHID1 = struct {
 /// UARTPeriphID2 Register
 pub const UARTPERIPHID2 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40038fe8),
+    pub const FieldMasks = struct {
+        pub const REVISION: u32 = helpers.generateMask(4, 8);
+        pub const DESIGNER1: u32 = helpers.generateMask(0, 4);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1193,6 +1413,12 @@ pub const UARTPERIPHID2 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1203,6 +1429,14 @@ pub const UARTPERIPHID3 = struct {
     pub fn write(self: @This(), v: u8) void {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u8 {
         const mask = comptime helpers.generateMask(0, 8);
@@ -1216,6 +1450,14 @@ pub const UARTPCELLID0 = struct {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u8 {
         const mask = comptime helpers.generateMask(0, 8);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1227,6 +1469,14 @@ pub const UARTPCELLID1 = struct {
     pub fn write(self: @This(), v: u8) void {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u8 {
         const mask = comptime helpers.generateMask(0, 8);
@@ -1240,6 +1490,14 @@ pub const UARTPCELLID2 = struct {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) u8 {
         const mask = comptime helpers.generateMask(0, 8);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1251,6 +1509,14 @@ pub const UARTPCELLID3 = struct {
     pub fn write(self: @This(), v: u8) void {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u8 {
         const mask = comptime helpers.generateMask(0, 8);

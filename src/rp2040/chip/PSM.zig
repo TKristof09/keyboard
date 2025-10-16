@@ -2,6 +2,25 @@ const helpers = @import("helpers.zig");
 /// Force block out of reset (i.e. power it on)
 pub const FRCE_ON = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40010000),
+    pub const FieldMasks = struct {
+        pub const PROC1: u32 = helpers.generateMask(16, 17);
+        pub const PROC0: u32 = helpers.generateMask(15, 16);
+        pub const SIO: u32 = helpers.generateMask(14, 15);
+        pub const VREG_AND_CHIP_RESET: u32 = helpers.generateMask(13, 14);
+        pub const XIP: u32 = helpers.generateMask(12, 13);
+        pub const SRAM5: u32 = helpers.generateMask(11, 12);
+        pub const SRAM4: u32 = helpers.generateMask(10, 11);
+        pub const SRAM3: u32 = helpers.generateMask(9, 10);
+        pub const SRAM2: u32 = helpers.generateMask(8, 9);
+        pub const SRAM1: u32 = helpers.generateMask(7, 8);
+        pub const SRAM0: u32 = helpers.generateMask(6, 7);
+        pub const ROM: u32 = helpers.generateMask(5, 6);
+        pub const BUSFABRIC: u32 = helpers.generateMask(4, 5);
+        pub const RESETS: u32 = helpers.generateMask(3, 4);
+        pub const CLOCKS: u32 = helpers.generateMask(2, 3);
+        pub const XOSC: u32 = helpers.generateMask(1, 2);
+        pub const ROSC: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -233,6 +252,12 @@ pub const FRCE_ON = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -241,6 +266,25 @@ pub const FRCE_ON = struct {
 /// Force into reset (i.e. power it off)
 pub const FRCE_OFF = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40010004),
+    pub const FieldMasks = struct {
+        pub const PROC1: u32 = helpers.generateMask(16, 17);
+        pub const PROC0: u32 = helpers.generateMask(15, 16);
+        pub const SIO: u32 = helpers.generateMask(14, 15);
+        pub const VREG_AND_CHIP_RESET: u32 = helpers.generateMask(13, 14);
+        pub const XIP: u32 = helpers.generateMask(12, 13);
+        pub const SRAM5: u32 = helpers.generateMask(11, 12);
+        pub const SRAM4: u32 = helpers.generateMask(10, 11);
+        pub const SRAM3: u32 = helpers.generateMask(9, 10);
+        pub const SRAM2: u32 = helpers.generateMask(8, 9);
+        pub const SRAM1: u32 = helpers.generateMask(7, 8);
+        pub const SRAM0: u32 = helpers.generateMask(6, 7);
+        pub const ROM: u32 = helpers.generateMask(5, 6);
+        pub const BUSFABRIC: u32 = helpers.generateMask(4, 5);
+        pub const RESETS: u32 = helpers.generateMask(3, 4);
+        pub const CLOCKS: u32 = helpers.generateMask(2, 3);
+        pub const XOSC: u32 = helpers.generateMask(1, 2);
+        pub const ROSC: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -472,6 +516,12 @@ pub const FRCE_OFF = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
@@ -480,6 +530,25 @@ pub const FRCE_OFF = struct {
 /// Set to 1 if this peripheral should be reset when the watchdog fires.
 pub const WDSEL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40010008),
+    pub const FieldMasks = struct {
+        pub const PROC1: u32 = helpers.generateMask(16, 17);
+        pub const PROC0: u32 = helpers.generateMask(15, 16);
+        pub const SIO: u32 = helpers.generateMask(14, 15);
+        pub const VREG_AND_CHIP_RESET: u32 = helpers.generateMask(13, 14);
+        pub const XIP: u32 = helpers.generateMask(12, 13);
+        pub const SRAM5: u32 = helpers.generateMask(11, 12);
+        pub const SRAM4: u32 = helpers.generateMask(10, 11);
+        pub const SRAM3: u32 = helpers.generateMask(9, 10);
+        pub const SRAM2: u32 = helpers.generateMask(8, 9);
+        pub const SRAM1: u32 = helpers.generateMask(7, 8);
+        pub const SRAM0: u32 = helpers.generateMask(6, 7);
+        pub const ROM: u32 = helpers.generateMask(5, 6);
+        pub const BUSFABRIC: u32 = helpers.generateMask(4, 5);
+        pub const RESETS: u32 = helpers.generateMask(3, 4);
+        pub const CLOCKS: u32 = helpers.generateMask(2, 3);
+        pub const XOSC: u32 = helpers.generateMask(1, 2);
+        pub const ROSC: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -712,6 +781,12 @@ pub const WDSEL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -719,6 +794,25 @@ pub const WDSEL = struct {
 /// Indicates the peripheral&#39;s registers are ready to access.
 pub const DONE = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4001000c),
+    pub const FieldMasks = struct {
+        pub const PROC1: u32 = helpers.generateMask(16, 17);
+        pub const PROC0: u32 = helpers.generateMask(15, 16);
+        pub const SIO: u32 = helpers.generateMask(14, 15);
+        pub const VREG_AND_CHIP_RESET: u32 = helpers.generateMask(13, 14);
+        pub const XIP: u32 = helpers.generateMask(12, 13);
+        pub const SRAM5: u32 = helpers.generateMask(11, 12);
+        pub const SRAM4: u32 = helpers.generateMask(10, 11);
+        pub const SRAM3: u32 = helpers.generateMask(9, 10);
+        pub const SRAM2: u32 = helpers.generateMask(8, 9);
+        pub const SRAM1: u32 = helpers.generateMask(7, 8);
+        pub const SRAM0: u32 = helpers.generateMask(6, 7);
+        pub const ROM: u32 = helpers.generateMask(5, 6);
+        pub const BUSFABRIC: u32 = helpers.generateMask(4, 5);
+        pub const RESETS: u32 = helpers.generateMask(3, 4);
+        pub const CLOCKS: u32 = helpers.generateMask(2, 3);
+        pub const XOSC: u32 = helpers.generateMask(1, 2);
+        pub const ROSC: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -796,6 +890,12 @@ pub const DONE = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };

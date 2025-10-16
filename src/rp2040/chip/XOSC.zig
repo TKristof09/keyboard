@@ -2,6 +2,10 @@ const helpers = @import("helpers.zig");
 /// Crystal Oscillator Control
 pub const CTRL = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40024000),
+    pub const FieldMasks = struct {
+        pub const ENABLE: u32 = helpers.generateMask(12, 24);
+        pub const FREQ_RANGE: u32 = helpers.generateMask(0, 12);
+    };
     const ENABLE_e = enum(u12) {
         DISABLE = 3358,
         ENABLE = 4011,
@@ -59,6 +63,12 @@ pub const CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -66,6 +76,12 @@ pub const CTRL = struct {
 /// Crystal Oscillator Status
 pub const STATUS = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x40024004),
+    pub const FieldMasks = struct {
+        pub const STABLE: u32 = helpers.generateMask(31, 32);
+        pub const BADWRITE: u32 = helpers.generateMask(24, 25);
+        pub const ENABLED: u32 = helpers.generateMask(12, 13);
+        pub const FREQ_RANGE: u32 = helpers.generateMask(0, 2);
+    };
     const FREQ_RANGE_e = enum(u2) {
         @"1_15MHZ" = 0,
         RESERVED_1 = 1,
@@ -111,6 +127,12 @@ pub const STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -126,6 +148,14 @@ pub const DORMANT = struct {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
     }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 32);
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) DORMANT_e {
         const mask = comptime helpers.generateMask(0, 32);
         return @enumFromInt((self.reg.* & mask) >> 0);
@@ -134,6 +164,10 @@ pub const DORMANT = struct {
 /// Controls the startup delay
 pub const STARTUP = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0x4002400c),
+    pub const FieldMasks = struct {
+        pub const X4: u32 = helpers.generateMask(20, 21);
+        pub const DELAY: u32 = helpers.generateMask(0, 14);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -175,6 +209,12 @@ pub const STARTUP = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        helpers.hwAtomicSet(self.reg, mask);
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -187,6 +227,14 @@ pub const COUNT = struct {
     pub fn write(self: @This(), v: u8) void {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn clear(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicClear(self.reg, mask);
+    }
+    pub fn set(self: @This()) void {
+        const mask = comptime helpers.generateMask(0, 8);
+        helpers.hwAtomicSet(self.reg, mask);
     }
     pub fn read(self: @This()) u8 {
         const mask = comptime helpers.generateMask(0, 8);

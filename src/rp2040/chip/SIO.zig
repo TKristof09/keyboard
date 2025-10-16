@@ -8,6 +8,16 @@ pub const CPUID = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -20,6 +30,16 @@ pub const GPIO_IN = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 30);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 30);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u30 {
@@ -36,6 +56,16 @@ pub const GPIO_HI_IN = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
         return @intCast((self.reg.* & mask) >> 0);
@@ -48,6 +78,16 @@ pub const GPIO_OUT = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 30);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 30);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u30 {
@@ -64,6 +104,16 @@ pub const GPIO_OUT_SET = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u30 {
         const mask = comptime helpers.generateMask(0, 30);
         return @intCast((self.reg.* & mask) >> 0);
@@ -76,6 +126,16 @@ pub const GPIO_OUT_CLR = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 30);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 30);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u30 {
@@ -92,6 +152,16 @@ pub const GPIO_OUT_XOR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u30 {
         const mask = comptime helpers.generateMask(0, 30);
         return @intCast((self.reg.* & mask) >> 0);
@@ -104,6 +174,16 @@ pub const GPIO_OE = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 30);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 30);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u30 {
@@ -120,6 +200,16 @@ pub const GPIO_OE_SET = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u30 {
         const mask = comptime helpers.generateMask(0, 30);
         return @intCast((self.reg.* & mask) >> 0);
@@ -132,6 +222,16 @@ pub const GPIO_OE_CLR = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 30);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 30);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u30 {
@@ -148,6 +248,16 @@ pub const GPIO_OE_XOR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 30);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u30 {
         const mask = comptime helpers.generateMask(0, 30);
         return @intCast((self.reg.* & mask) >> 0);
@@ -160,6 +270,16 @@ pub const GPIO_HI_OUT = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 6);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 6);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u6 {
@@ -176,6 +296,16 @@ pub const GPIO_HI_OUT_SET = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
         return @intCast((self.reg.* & mask) >> 0);
@@ -188,6 +318,16 @@ pub const GPIO_HI_OUT_CLR = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 6);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 6);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u6 {
@@ -204,6 +344,16 @@ pub const GPIO_HI_OUT_XOR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
         return @intCast((self.reg.* & mask) >> 0);
@@ -216,6 +366,16 @@ pub const GPIO_HI_OE = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 6);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 6);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u6 {
@@ -232,6 +392,16 @@ pub const GPIO_HI_OE_SET = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
         return @intCast((self.reg.* & mask) >> 0);
@@ -244,6 +414,16 @@ pub const GPIO_HI_OE_CLR = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 6);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 6);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u6 {
@@ -260,6 +440,16 @@ pub const GPIO_HI_OE_XOR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 6);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u6 {
         const mask = comptime helpers.generateMask(0, 6);
         return @intCast((self.reg.* & mask) >> 0);
@@ -272,6 +462,12 @@ pub const GPIO_HI_OE_XOR = struct {
 /// The SIO IRQ for each core is the logical OR of the VLD, WOF and ROE fields of its FIFO_ST register.
 pub const FIFO_ST = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xd0000050),
+    pub const FieldMasks = struct {
+        pub const ROE: u32 = helpers.generateMask(3, 4);
+        pub const WOF: u32 = helpers.generateMask(2, 3);
+        pub const RDY: u32 = helpers.generateMask(1, 2);
+        pub const VLD: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -324,6 +520,16 @@ pub const FIFO_ST = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -335,6 +541,16 @@ pub const FIFO_WR = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -351,6 +567,16 @@ pub const FIFO_RD = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -365,6 +591,16 @@ pub const SPINLOCK_ST = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -385,6 +621,16 @@ pub const DIV_UDIVIDEND = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -403,6 +649,16 @@ pub const DIV_UDIVISOR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -418,6 +674,16 @@ pub const DIV_SDIVIDEND = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -431,6 +697,16 @@ pub const DIV_SDIVISOR = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -453,6 +729,16 @@ pub const DIV_QUOTIENT = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -471,6 +757,16 @@ pub const DIV_REMAINDER = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -479,6 +775,10 @@ pub const DIV_REMAINDER = struct {
 /// Control and status register for divider.
 pub const DIV_CSR = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xd0000078),
+    pub const FieldMasks = struct {
+        pub const DIRTY: u32 = helpers.generateMask(1, 2);
+        pub const READY: u32 = helpers.generateMask(0, 1);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -500,6 +800,16 @@ pub const DIV_CSR = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -511,6 +821,16 @@ pub const INTERP0_ACCUM0 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -527,6 +847,16 @@ pub const INTERP0_ACCUM1 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -539,6 +869,16 @@ pub const INTERP0_BASE0 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -555,6 +895,16 @@ pub const INTERP0_BASE1 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -567,6 +917,16 @@ pub const INTERP0_BASE2 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -583,6 +943,16 @@ pub const INTERP0_POP_LANE0 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -595,6 +965,16 @@ pub const INTERP0_POP_LANE1 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -611,6 +991,16 @@ pub const INTERP0_POP_FULL = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -623,6 +1013,16 @@ pub const INTERP0_PEEK_LANE0 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -639,6 +1039,16 @@ pub const INTERP0_PEEK_LANE1 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -653,6 +1063,16 @@ pub const INTERP0_PEEK_FULL = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -661,6 +1081,20 @@ pub const INTERP0_PEEK_FULL = struct {
 /// Control register for lane 0
 pub const INTERP0_CTRL_LANE0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xd00000ac),
+    pub const FieldMasks = struct {
+        pub const OVERF: u32 = helpers.generateMask(25, 26);
+        pub const OVERF1: u32 = helpers.generateMask(24, 25);
+        pub const OVERF0: u32 = helpers.generateMask(23, 24);
+        pub const BLEND: u32 = helpers.generateMask(21, 22);
+        pub const FORCE_MSB: u32 = helpers.generateMask(19, 21);
+        pub const ADD_RAW: u32 = helpers.generateMask(18, 19);
+        pub const CROSS_RESULT: u32 = helpers.generateMask(17, 18);
+        pub const CROSS_INPUT: u32 = helpers.generateMask(16, 17);
+        pub const SIGNED: u32 = helpers.generateMask(15, 16);
+        pub const MASK_MSB: u32 = helpers.generateMask(10, 15);
+        pub const MASK_LSB: u32 = helpers.generateMask(5, 10);
+        pub const SHIFT: u32 = helpers.generateMask(0, 5);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -844,6 +1278,16 @@ pub const INTERP0_CTRL_LANE0 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -851,6 +1295,16 @@ pub const INTERP0_CTRL_LANE0 = struct {
 /// Control register for lane 1
 pub const INTERP0_CTRL_LANE1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xd00000b0),
+    pub const FieldMasks = struct {
+        pub const FORCE_MSB: u32 = helpers.generateMask(19, 21);
+        pub const ADD_RAW: u32 = helpers.generateMask(18, 19);
+        pub const CROSS_RESULT: u32 = helpers.generateMask(17, 18);
+        pub const CROSS_INPUT: u32 = helpers.generateMask(16, 17);
+        pub const SIGNED: u32 = helpers.generateMask(15, 16);
+        pub const MASK_MSB: u32 = helpers.generateMask(10, 15);
+        pub const MASK_LSB: u32 = helpers.generateMask(5, 10);
+        pub const SHIFT: u32 = helpers.generateMask(0, 5);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -995,6 +1449,16 @@ pub const INTERP0_CTRL_LANE1 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1007,6 +1471,16 @@ pub const INTERP0_ACCUM0_ADD = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 24);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 24);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 24);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u24 {
@@ -1024,6 +1498,16 @@ pub const INTERP0_ACCUM1_ADD = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 24);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 24);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u24 {
         const mask = comptime helpers.generateMask(0, 24);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1037,6 +1521,16 @@ pub const INTERP0_BASE_1AND0 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1053,6 +1547,16 @@ pub const INTERP1_ACCUM0 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1065,6 +1569,16 @@ pub const INTERP1_ACCUM1 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1081,6 +1595,16 @@ pub const INTERP1_BASE0 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1093,6 +1617,16 @@ pub const INTERP1_BASE1 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1109,6 +1643,16 @@ pub const INTERP1_BASE2 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1121,6 +1665,16 @@ pub const INTERP1_POP_LANE0 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1137,6 +1691,16 @@ pub const INTERP1_POP_LANE1 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1149,6 +1713,16 @@ pub const INTERP1_POP_FULL = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1165,6 +1739,16 @@ pub const INTERP1_PEEK_LANE0 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1177,6 +1761,16 @@ pub const INTERP1_PEEK_LANE1 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1193,6 +1787,16 @@ pub const INTERP1_PEEK_FULL = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1201,6 +1805,20 @@ pub const INTERP1_PEEK_FULL = struct {
 /// Control register for lane 0
 pub const INTERP1_CTRL_LANE0 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xd00000ec),
+    pub const FieldMasks = struct {
+        pub const OVERF: u32 = helpers.generateMask(25, 26);
+        pub const OVERF1: u32 = helpers.generateMask(24, 25);
+        pub const OVERF0: u32 = helpers.generateMask(23, 24);
+        pub const CLAMP: u32 = helpers.generateMask(22, 23);
+        pub const FORCE_MSB: u32 = helpers.generateMask(19, 21);
+        pub const ADD_RAW: u32 = helpers.generateMask(18, 19);
+        pub const CROSS_RESULT: u32 = helpers.generateMask(17, 18);
+        pub const CROSS_INPUT: u32 = helpers.generateMask(16, 17);
+        pub const SIGNED: u32 = helpers.generateMask(15, 16);
+        pub const MASK_MSB: u32 = helpers.generateMask(10, 15);
+        pub const MASK_LSB: u32 = helpers.generateMask(5, 10);
+        pub const SHIFT: u32 = helpers.generateMask(0, 5);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1378,6 +1996,16 @@ pub const INTERP1_CTRL_LANE0 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1385,6 +2013,16 @@ pub const INTERP1_CTRL_LANE0 = struct {
 /// Control register for lane 1
 pub const INTERP1_CTRL_LANE1 = struct {
     comptime reg: *volatile u32 = @ptrFromInt(0xd00000f0),
+    pub const FieldMasks = struct {
+        pub const FORCE_MSB: u32 = helpers.generateMask(19, 21);
+        pub const ADD_RAW: u32 = helpers.generateMask(18, 19);
+        pub const CROSS_RESULT: u32 = helpers.generateMask(17, 18);
+        pub const CROSS_INPUT: u32 = helpers.generateMask(16, 17);
+        pub const SIGNED: u32 = helpers.generateMask(15, 16);
+        pub const MASK_MSB: u32 = helpers.generateMask(10, 15);
+        pub const MASK_LSB: u32 = helpers.generateMask(5, 10);
+        pub const SHIFT: u32 = helpers.generateMask(0, 5);
+    };
     const Value = struct {
         val: u32 = 0,
         mask: u32 = 0,
@@ -1529,6 +2167,16 @@ pub const INTERP1_CTRL_LANE1 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn clear(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content &= ~mask;
+        self.reg.* = content;
+    }
+    pub fn set(self: @This(), mask: u32) void {
+        var content = self.reg.*;
+        content |= mask;
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) Result {
         return .{ .val = self.reg.* };
     }
@@ -1541,6 +2189,16 @@ pub const INTERP1_ACCUM0_ADD = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 24);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 24);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 24);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u24 {
@@ -1558,6 +2216,16 @@ pub const INTERP1_ACCUM1_ADD = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 24);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 24);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u24 {
         const mask = comptime helpers.generateMask(0, 24);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1571,6 +2239,16 @@ pub const INTERP1_BASE_1AND0 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1593,6 +2271,16 @@ pub const SPINLOCK0 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1611,6 +2299,16 @@ pub const SPINLOCK1 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1633,6 +2331,16 @@ pub const SPINLOCK2 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1651,6 +2359,16 @@ pub const SPINLOCK3 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1673,6 +2391,16 @@ pub const SPINLOCK4 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1691,6 +2419,16 @@ pub const SPINLOCK5 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1713,6 +2451,16 @@ pub const SPINLOCK6 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1731,6 +2479,16 @@ pub const SPINLOCK7 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1753,6 +2511,16 @@ pub const SPINLOCK8 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1771,6 +2539,16 @@ pub const SPINLOCK9 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1793,6 +2571,16 @@ pub const SPINLOCK10 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1811,6 +2599,16 @@ pub const SPINLOCK11 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1833,6 +2631,16 @@ pub const SPINLOCK12 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1851,6 +2659,16 @@ pub const SPINLOCK13 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1873,6 +2691,16 @@ pub const SPINLOCK14 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1891,6 +2719,16 @@ pub const SPINLOCK15 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1913,6 +2751,16 @@ pub const SPINLOCK16 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1931,6 +2779,16 @@ pub const SPINLOCK17 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1953,6 +2811,16 @@ pub const SPINLOCK18 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -1971,6 +2839,16 @@ pub const SPINLOCK19 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -1993,6 +2871,16 @@ pub const SPINLOCK20 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2011,6 +2899,16 @@ pub const SPINLOCK21 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -2033,6 +2931,16 @@ pub const SPINLOCK22 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2051,6 +2959,16 @@ pub const SPINLOCK23 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -2073,6 +2991,16 @@ pub const SPINLOCK24 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2091,6 +3019,16 @@ pub const SPINLOCK25 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -2113,6 +3051,16 @@ pub const SPINLOCK26 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2131,6 +3079,16 @@ pub const SPINLOCK27 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -2153,6 +3111,16 @@ pub const SPINLOCK28 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2171,6 +3139,16 @@ pub const SPINLOCK29 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
@@ -2193,6 +3171,16 @@ pub const SPINLOCK30 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
     pub fn read(self: @This()) u32 {
         const mask = comptime helpers.generateMask(0, 32);
         return @intCast((self.reg.* & mask) >> 0);
@@ -2211,6 +3199,16 @@ pub const SPINLOCK31 = struct {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
+        self.reg.* = content;
+    }
+    pub fn clear(self: @This()) void {
+        var content = self.reg.*;
+        content &= ~comptime helpers.generateMask(0, 32);
+        self.reg.* = content;
+    }
+    pub fn set(self: @This()) void {
+        var content = self.reg.*;
+        content |= comptime helpers.generateMask(0, 32);
         self.reg.* = content;
     }
     pub fn read(self: @This()) u32 {
