@@ -29,6 +29,9 @@ pub const CHIP_ID = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -64,6 +67,9 @@ pub const PLATFORM = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -80,6 +86,9 @@ pub const GITREF_RP2040 = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 32);

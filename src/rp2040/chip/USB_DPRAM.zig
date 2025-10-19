@@ -60,6 +60,9 @@ pub const SETUP_PACKET_LOW = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -120,6 +123,9 @@ pub const SETUP_PACKET_HIGH = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -286,6 +292,9 @@ pub const EP1_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -450,6 +459,9 @@ pub const EP1_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -616,6 +628,9 @@ pub const EP2_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -780,6 +795,9 @@ pub const EP2_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -946,6 +964,9 @@ pub const EP3_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -1110,6 +1131,9 @@ pub const EP3_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -1276,6 +1300,9 @@ pub const EP4_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -1440,6 +1467,9 @@ pub const EP4_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -1606,6 +1636,9 @@ pub const EP5_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -1770,6 +1803,9 @@ pub const EP5_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -1936,6 +1972,9 @@ pub const EP6_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -2100,6 +2139,9 @@ pub const EP6_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -2266,6 +2308,9 @@ pub const EP7_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -2430,6 +2475,9 @@ pub const EP7_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -2596,6 +2644,9 @@ pub const EP8_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -2760,6 +2811,9 @@ pub const EP8_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -2926,6 +2980,9 @@ pub const EP9_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -3090,6 +3147,9 @@ pub const EP9_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -3256,6 +3316,9 @@ pub const EP10_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -3420,6 +3483,9 @@ pub const EP10_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -3586,6 +3652,9 @@ pub const EP11_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -3750,6 +3819,9 @@ pub const EP11_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -3916,6 +3988,9 @@ pub const EP12_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -4080,6 +4155,9 @@ pub const EP12_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -4246,6 +4324,9 @@ pub const EP13_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -4410,6 +4491,9 @@ pub const EP13_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -4576,6 +4660,9 @@ pub const EP14_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -4740,6 +4827,9 @@ pub const EP14_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -4906,6 +4996,9 @@ pub const EP15_IN_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -5070,6 +5163,9 @@ pub const EP15_OUT_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -5322,6 +5418,9 @@ pub const EP0_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -5572,6 +5671,9 @@ pub const EP0_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -5824,6 +5926,9 @@ pub const EP1_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -6074,6 +6179,9 @@ pub const EP1_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -6326,6 +6434,9 @@ pub const EP2_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -6576,6 +6687,9 @@ pub const EP2_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -6828,6 +6942,9 @@ pub const EP3_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -7078,6 +7195,9 @@ pub const EP3_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -7330,6 +7450,9 @@ pub const EP4_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -7580,6 +7703,9 @@ pub const EP4_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -7832,6 +7958,9 @@ pub const EP5_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -8082,6 +8211,9 @@ pub const EP5_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -8334,6 +8466,9 @@ pub const EP6_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -8584,6 +8719,9 @@ pub const EP6_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -8836,6 +8974,9 @@ pub const EP7_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -9086,6 +9227,9 @@ pub const EP7_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -9338,6 +9482,9 @@ pub const EP8_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -9588,6 +9735,9 @@ pub const EP8_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -9840,6 +9990,9 @@ pub const EP9_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -10090,6 +10243,9 @@ pub const EP9_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -10342,6 +10498,9 @@ pub const EP10_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -10592,6 +10751,9 @@ pub const EP10_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -10844,6 +11006,9 @@ pub const EP11_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -11094,6 +11259,9 @@ pub const EP11_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -11346,6 +11514,9 @@ pub const EP12_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -11596,6 +11767,9 @@ pub const EP12_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -11848,6 +12022,9 @@ pub const EP13_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -12098,6 +12275,9 @@ pub const EP13_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -12350,6 +12530,9 @@ pub const EP14_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -12600,6 +12783,9 @@ pub const EP14_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
@@ -12852,6 +13038,9 @@ pub const EP15_IN_BUFFER_CONTROL = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -13102,6 +13291,9 @@ pub const EP15_OUT_BUFFER_CONTROL = struct {
         content &= ~v.mask;
         content |= v.val;
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;

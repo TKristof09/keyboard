@@ -6,6 +6,9 @@ pub const CLKDIV_M1 = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u16) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwAtomicClear(self.reg, mask);
@@ -82,6 +85,9 @@ pub const SETUP_0 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
@@ -173,6 +179,9 @@ pub const SETUP_1 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -249,6 +258,9 @@ pub const CTRL = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
@@ -392,6 +404,9 @@ pub const IRQ_SETUP_0 = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
@@ -547,6 +562,9 @@ pub const IRQ_SETUP_1 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -586,6 +604,9 @@ pub const RTC_1 = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
@@ -633,6 +654,9 @@ pub const RTC_0 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -649,6 +673,9 @@ pub const INTR = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -670,6 +697,9 @@ pub const INTE = struct {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwAtomicClear(self.reg, mask);
@@ -690,6 +720,9 @@ pub const INTF = struct {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwAtomicClear(self.reg, mask);
@@ -709,6 +742,9 @@ pub const INTS = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);

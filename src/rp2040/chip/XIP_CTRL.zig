@@ -91,6 +91,9 @@ pub const CTRL = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -107,6 +110,9 @@ pub const FLUSH = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -150,6 +156,9 @@ pub const STAT = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
@@ -200,6 +209,9 @@ pub const STREAM_ADDR = struct {
         const mask = comptime helpers.generateMask(2, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 2, mask);
     }
+    pub fn writeOver(self: @This(), v: u30) void {
+        self.reg.* = (helpers.toU32(v) << 2);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(2, 32);
         helpers.hwAtomicClear(self.reg, mask);
@@ -220,6 +232,9 @@ pub const STREAM_CTR = struct {
         const mask = comptime helpers.generateMask(0, 22);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u22) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 22);
         helpers.hwAtomicClear(self.reg, mask);
@@ -239,6 +254,9 @@ pub const STREAM_FIFO = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 32);

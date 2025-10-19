@@ -260,6 +260,9 @@ pub const IC_CON = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -352,6 +355,9 @@ pub const IC_TAR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -368,6 +374,9 @@ pub const IC_SAR = struct {
     pub fn write(self: @This(), v: u10) void {
         const mask = comptime helpers.generateMask(0, 10);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u10) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 10);
@@ -508,6 +517,9 @@ pub const IC_DATA_CMD = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -524,6 +536,9 @@ pub const IC_SS_SCL_HCNT = struct {
     pub fn write(self: @This(), v: u16) void {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u16) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 16);
@@ -545,6 +560,9 @@ pub const IC_SS_SCL_LCNT = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u16) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwAtomicClear(self.reg, mask);
@@ -565,6 +583,9 @@ pub const IC_FS_SCL_HCNT = struct {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u16) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwAtomicClear(self.reg, mask);
@@ -584,6 +605,9 @@ pub const IC_FS_SCL_LCNT = struct {
     pub fn write(self: @This(), v: u16) void {
         const mask = comptime helpers.generateMask(0, 16);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u16) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 16);
@@ -744,6 +768,9 @@ pub const IC_INTR_STAT = struct {
     };
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
@@ -1098,6 +1125,9 @@ pub const IC_INTR_MASK = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -1255,6 +1285,9 @@ pub const IC_RAW_INTR_STAT = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -1271,6 +1304,9 @@ pub const IC_RX_TL = struct {
     pub fn write(self: @This(), v: u8) void {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u8) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 8);
@@ -1292,6 +1328,9 @@ pub const IC_TX_TL = struct {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u8) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwAtomicClear(self.reg, mask);
@@ -1311,6 +1350,9 @@ pub const IC_CLR_INTR = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -1332,6 +1374,9 @@ pub const IC_CLR_RX_UNDER = struct {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwAtomicClear(self.reg, mask);
@@ -1351,6 +1396,9 @@ pub const IC_CLR_RX_OVER = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -1372,6 +1420,9 @@ pub const IC_CLR_TX_OVER = struct {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwAtomicClear(self.reg, mask);
@@ -1391,6 +1442,9 @@ pub const IC_CLR_RD_REQ = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -1412,6 +1466,9 @@ pub const IC_CLR_TX_ABRT = struct {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwAtomicClear(self.reg, mask);
@@ -1431,6 +1488,9 @@ pub const IC_CLR_RX_DONE = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -1452,6 +1512,9 @@ pub const IC_CLR_ACTIVITY = struct {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwAtomicClear(self.reg, mask);
@@ -1471,6 +1534,9 @@ pub const IC_CLR_STOP_DET = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -1492,6 +1558,9 @@ pub const IC_CLR_START_DET = struct {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwAtomicClear(self.reg, mask);
@@ -1511,6 +1580,9 @@ pub const IC_CLR_GEN_CALL = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -1624,6 +1696,9 @@ pub const IC_ENABLE = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -1723,6 +1798,9 @@ pub const IC_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -1739,6 +1817,9 @@ pub const IC_TXFLR = struct {
     pub fn write(self: @This(), v: u5) void {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u5) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 5);
@@ -1759,6 +1840,9 @@ pub const IC_RXFLR = struct {
     pub fn write(self: @This(), v: u5) void {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u5) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 5);
@@ -1838,6 +1922,9 @@ pub const IC_SDA_HOLD = struct {
     }
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
+    }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
     }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
@@ -2043,6 +2130,9 @@ pub const IC_TX_ABRT_SOURCE = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -2067,6 +2157,9 @@ pub const IC_SLV_DATA_NACK_ONLY = struct {
     pub fn write(self: @This(), v: NACK_e) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: NACK_e) void {
+        self.reg.* = (helpers.toU32(@intFromEnum(v)) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -2141,6 +2234,9 @@ pub const IC_DMA_CR = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -2157,6 +2253,9 @@ pub const IC_DMA_TDLR = struct {
     pub fn write(self: @This(), v: u4) void {
         const mask = comptime helpers.generateMask(0, 4);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u4) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 4);
@@ -2177,6 +2276,9 @@ pub const IC_DMA_RDLR = struct {
     pub fn write(self: @This(), v: u4) void {
         const mask = comptime helpers.generateMask(0, 4);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u4) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 4);
@@ -2203,6 +2305,9 @@ pub const IC_SDA_SETUP = struct {
     pub fn write(self: @This(), v: u8) void {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u8) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 8);
@@ -2231,6 +2336,9 @@ pub const IC_ACK_GENERAL_CALL = struct {
     pub fn write(self: @This(), v: ACK_GEN_CALL_e) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: ACK_GEN_CALL_e) void {
+        self.reg.* = (helpers.toU32(@intFromEnum(v)) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -2298,6 +2406,9 @@ pub const IC_ENABLE_STATUS = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -2316,6 +2427,9 @@ pub const IC_FS_SPKLEN = struct {
     pub fn write(self: @This(), v: u8) void {
         const mask = comptime helpers.generateMask(0, 8);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u8) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 8);
@@ -2336,6 +2450,9 @@ pub const IC_CLR_RESTART_DET = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -2407,6 +2524,9 @@ pub const IC_COMP_PARAM_1 = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -2423,6 +2543,9 @@ pub const IC_COMP_VERSION = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 32);
@@ -2443,6 +2566,9 @@ pub const IC_COMP_TYPE = struct {
     pub fn write(self: @This(), v: u32) void {
         const mask = comptime helpers.generateMask(0, 32);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 32);

@@ -79,6 +79,9 @@ pub const BUS_PRIORITY = struct {
     pub fn write(self: @This(), v: Value) void {
         helpers.hwWriteMasked(self.reg, v.val, v.mask);
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         helpers.hwAtomicClear(self.reg, mask);
     }
@@ -95,6 +98,9 @@ pub const BUS_PRIORITY_ACK = struct {
     pub fn write(self: @This(), v: u1) void {
         const mask = comptime helpers.generateMask(0, 1);
         helpers.hwWriteMasked(self.reg, helpers.toU32(v) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: u1) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 1);
@@ -154,6 +160,9 @@ pub const PERFSEL0 = struct {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: PERFSEL0_e) void {
+        self.reg.* = (helpers.toU32(@intFromEnum(v)) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwAtomicClear(self.reg, mask);
@@ -211,6 +220,9 @@ pub const PERFSEL1 = struct {
     pub fn write(self: @This(), v: PERFSEL1_e) void {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: PERFSEL1_e) void {
+        self.reg.* = (helpers.toU32(@intFromEnum(v)) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 5);
@@ -270,6 +282,9 @@ pub const PERFSEL2 = struct {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
     }
+    pub fn writeOver(self: @This(), v: PERFSEL2_e) void {
+        self.reg.* = (helpers.toU32(@intFromEnum(v)) << 0);
+    }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwAtomicClear(self.reg, mask);
@@ -327,6 +342,9 @@ pub const PERFSEL3 = struct {
     pub fn write(self: @This(), v: PERFSEL3_e) void {
         const mask = comptime helpers.generateMask(0, 5);
         helpers.hwWriteMasked(self.reg, helpers.toU32(@intFromEnum(v)) << 0, mask);
+    }
+    pub fn writeOver(self: @This(), v: PERFSEL3_e) void {
+        self.reg.* = (helpers.toU32(@intFromEnum(v)) << 0);
     }
     pub fn clear(self: @This()) void {
         const mask = comptime helpers.generateMask(0, 5);

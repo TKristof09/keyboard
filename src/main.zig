@@ -31,7 +31,7 @@ const pins = GPIO.MakePins(pin_config);
 var led: GPIO.OutPin = pins.GPIO25;
 
 fn wait() void {
-    for (0..200000) |_| {
+    for (0..20000) |_| {
         rp.peripherals.XOSC.COUNT.write(0xFF);
         while (rp.peripherals.XOSC.COUNT.read() > 0) {
             std.mem.doNotOptimizeAway(0);
@@ -66,32 +66,81 @@ fn setupClocks() void {
     while (rp.peripherals.CLOCKS.CLK_SYS_SELECTED.read() == 0) {}
 }
 
-const device_descriptor = USB.DeviceDescriptor{
-    .bcd_usb = 0x0200,
-    .device_class = .unspecified,
-    .device_subclass = 0,
-    .device_protocol = 0,
-    .max_packet_size = 64,
-    .vendor_id = 0x1234,
-    .product_id = 0x5678,
-    .bcd_device = 0x0100,
-    .manufacturer_string_idx = 1,
-    .product_string_idx = 2,
-    .serial_number_string_idx = 3,
-    .num_configurations = 1,
-};
 
-const config_descriptor = USB.ConfigurationDescriptor{
-    .total_length = 9,
-    .num_interfaces = 0,
-    .configuration_value = 0,
-    .configuration_string_idx = 4,
-    .attributes = .{
-        .self_powered = 0,
-        .remote_wakeup = 0,
+const usb_config = USB.Configuration{
+    .device_descriptor = .{
+        .bcd_usb = 0x0200,
+        .device_class = .unspecified,
+        .device_subclass = 0,
+        .device_protocol = 0,
+        .max_packet_size = 64,
+        .vendor_id = 0x1234,
+        .product_id = 0x5678,
+        .bcd_device = 0x0100,
+        .manufacturer_string_idx = 1,
+        .product_string_idx = 2,
+        .serial_number_string_idx = 3,
+        .num_configurations = 1,
     },
-    .max_power = .from_mA(50),
+
+    .config_descriptor = .{
+        .total_length = 9,
+        .num_interfaces = 1,
+        .configuration_value = 1,
+        .configuration_string_idx = 4,
+        .attributes = .{
+            .self_powered = 0,
+            .remote_wakeup = 0,
+        },
+        .max_power = .from_mA(50),
+    },
+    .strings = &.{
+        "Kristof",
+        "Fancy pico stuff",
+        "v. -infinity",
+        "just the default config",
+        "test interface",
+    },
+
+    .endpoints = &.{
+        USB.EndpointConfig{ .endpoint = 1, .direction = .in, .endpoint_type = .Interrupt, .interval = 1 },
+    },
+    .hid_report = "",
 };
+const Usb = USB.UsbDevice(usb_config);
+
+var uart: Uart.Uart = undefined;
+
+
+export fn main() void {
+    rp.peripherals.RESETS.RESET.write(comptime rp.RESETS.RESET.IO_BANK0(0));
+
+    setupClocks();
+    Uart.initClock();
+
+    var usb = Usb.init();
+
+    GPIO.InitPins(pin_config);
+    uart = Uart.Uart.init(.uart0, 115200);
+
+    {
+        // clear screen of picom and send a separator to make it easier to see this run's messages
+        const esc = "\x1B";
+        const csi = esc ++ "[";
+        uart.sendString(csi ++ "2J");
+        uart.sendString(csi ++ "H");
+        uart.sendString("=" ** 100 ++ "\r\n");
+    }
+
+    std.log.info("Hello {s}", .{"logger"});
+    std.log.info("{any}", .{Report.report});
+
+    while (true) {
+        usb.poll();
+        led.toggle();
+        wait();
+    }
+}
 
 const LogError = error{};
 fn uartWriterFunc(ctx: Uart.Uart, bytes: []const u8) LogError!usize {
@@ -99,7 +148,6 @@ fn uartWriterFunc(ctx: Uart.Uart, bytes: []const u8) LogError!usize {
     return bytes.len;
 }
 const UartWriter = std.io.GenericWriter(Uart.Uart, LogError, uartWriterFunc);
-var uart: Uart.Uart = undefined;
 
 fn logFn(
     comptime level: std.log.Level,
@@ -124,34 +172,3 @@ fn logFn(
 pub const std_options: std.Options = .{
     .logFn = logFn,
 };
-
-export fn main() void {
-    rp.peripherals.RESETS.RESET.write(comptime rp.RESETS.RESET.IO_BANK0(0));
-
-    setupClocks();
-    Uart.initClock();
-
-    USB.init(.{
-        .device_descriptor = device_descriptor,
-        .config_descriptor = config_descriptor,
-        .strings = &.{
-            "Kristof",
-            "Fancy pico stuff",
-            "v. -infinity",
-            "just the default config",
-        },
-    });
-
-    GPIO.InitPins(pin_config);
-    uart = Uart.Uart.init(.uart0, 115200);
-
-    std.log.info("Hello {s}", .{"logger"});
-
-    while (true) {
-        const addr_endp = rp.peripherals.USB.ADDR_ENDP.read();
-        std.log.debug("Addr: {d}, endp: {d}", .{ addr_endp.ADDRESS(), addr_endp.ENDPOINT() });
-
-        led.toggle();
-        wait();
-    }
-}

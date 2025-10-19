@@ -8,6 +8,9 @@ pub const CPUID = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -31,6 +34,9 @@ pub const GPIO_IN = struct {
         content &= ~comptime helpers.generateMask(0, 30);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u30) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -56,6 +62,9 @@ pub const GPIO_HI_IN = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u6) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 6);
@@ -79,6 +88,9 @@ pub const GPIO_OUT = struct {
         content &= ~comptime helpers.generateMask(0, 30);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u30) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -104,6 +116,9 @@ pub const GPIO_OUT_SET = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u30) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 30);
@@ -127,6 +142,9 @@ pub const GPIO_OUT_CLR = struct {
         content &= ~comptime helpers.generateMask(0, 30);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u30) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -152,6 +170,9 @@ pub const GPIO_OUT_XOR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u30) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 30);
@@ -175,6 +196,9 @@ pub const GPIO_OE = struct {
         content &= ~comptime helpers.generateMask(0, 30);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u30) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -200,6 +224,9 @@ pub const GPIO_OE_SET = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u30) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 30);
@@ -223,6 +250,9 @@ pub const GPIO_OE_CLR = struct {
         content &= ~comptime helpers.generateMask(0, 30);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u30) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -248,6 +278,9 @@ pub const GPIO_OE_XOR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u30) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 30);
@@ -271,6 +304,9 @@ pub const GPIO_HI_OUT = struct {
         content &= ~comptime helpers.generateMask(0, 6);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u6) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -296,6 +332,9 @@ pub const GPIO_HI_OUT_SET = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u6) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 6);
@@ -319,6 +358,9 @@ pub const GPIO_HI_OUT_CLR = struct {
         content &= ~comptime helpers.generateMask(0, 6);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u6) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -344,6 +386,9 @@ pub const GPIO_HI_OUT_XOR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u6) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 6);
@@ -367,6 +412,9 @@ pub const GPIO_HI_OE = struct {
         content &= ~comptime helpers.generateMask(0, 6);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u6) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -392,6 +440,9 @@ pub const GPIO_HI_OE_SET = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u6) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 6);
@@ -416,6 +467,9 @@ pub const GPIO_HI_OE_CLR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u6) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 6);
@@ -439,6 +493,9 @@ pub const GPIO_HI_OE_XOR = struct {
         content &= ~comptime helpers.generateMask(0, 6);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u6) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -520,6 +577,9 @@ pub const FIFO_ST = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -542,6 +602,9 @@ pub const FIFO_WR = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -566,6 +629,9 @@ pub const FIFO_RD = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -592,6 +658,9 @@ pub const SPINLOCK_ST = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -621,6 +690,9 @@ pub const DIV_UDIVIDEND = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -649,6 +721,9 @@ pub const DIV_UDIVISOR = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -674,6 +749,9 @@ pub const DIV_SDIVIDEND = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -698,6 +776,9 @@ pub const DIV_SDIVISOR = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -729,6 +810,9 @@ pub const DIV_QUOTIENT = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -756,6 +840,9 @@ pub const DIV_REMAINDER = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -800,6 +887,9 @@ pub const DIV_CSR = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -822,6 +912,9 @@ pub const INTERP0_ACCUM0 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -847,6 +940,9 @@ pub const INTERP0_ACCUM1 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -870,6 +966,9 @@ pub const INTERP0_BASE0 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -895,6 +994,9 @@ pub const INTERP0_BASE1 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -918,6 +1020,9 @@ pub const INTERP0_BASE2 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -943,6 +1048,9 @@ pub const INTERP0_POP_LANE0 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -966,6 +1074,9 @@ pub const INTERP0_POP_LANE1 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -991,6 +1102,9 @@ pub const INTERP0_POP_FULL = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -1014,6 +1128,9 @@ pub const INTERP0_PEEK_LANE0 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -1039,6 +1156,9 @@ pub const INTERP0_PEEK_LANE1 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -1062,6 +1182,9 @@ pub const INTERP0_PEEK_FULL = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -1278,6 +1401,9 @@ pub const INTERP0_CTRL_LANE0 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -1449,6 +1575,9 @@ pub const INTERP0_CTRL_LANE1 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -1472,6 +1601,9 @@ pub const INTERP0_ACCUM0_ADD = struct {
         content &= ~comptime helpers.generateMask(0, 24);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u24) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -1498,6 +1630,9 @@ pub const INTERP0_ACCUM1_ADD = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u24) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 24);
@@ -1523,6 +1658,9 @@ pub const INTERP0_BASE_1AND0 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -1546,6 +1684,9 @@ pub const INTERP1_ACCUM0 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -1571,6 +1712,9 @@ pub const INTERP1_ACCUM1 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -1594,6 +1738,9 @@ pub const INTERP1_BASE0 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -1619,6 +1766,9 @@ pub const INTERP1_BASE1 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -1642,6 +1792,9 @@ pub const INTERP1_BASE2 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -1667,6 +1820,9 @@ pub const INTERP1_POP_LANE0 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -1690,6 +1846,9 @@ pub const INTERP1_POP_LANE1 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -1715,6 +1874,9 @@ pub const INTERP1_POP_FULL = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -1738,6 +1900,9 @@ pub const INTERP1_PEEK_LANE0 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -1763,6 +1928,9 @@ pub const INTERP1_PEEK_LANE1 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -1786,6 +1954,9 @@ pub const INTERP1_PEEK_FULL = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -1996,6 +2167,9 @@ pub const INTERP1_CTRL_LANE0 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -2167,6 +2341,9 @@ pub const INTERP1_CTRL_LANE1 = struct {
         content |= v.val;
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: Value) void {
+        self.reg.* = v.val;
+    }
     pub fn clear(self: @This(), mask: u32) void {
         var content = self.reg.*;
         content &= ~mask;
@@ -2190,6 +2367,9 @@ pub const INTERP1_ACCUM0_ADD = struct {
         content &= ~comptime helpers.generateMask(0, 24);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u24) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2216,6 +2396,9 @@ pub const INTERP1_ACCUM1_ADD = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u24) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 24);
@@ -2240,6 +2423,9 @@ pub const INTERP1_BASE_1AND0 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2271,6 +2457,9 @@ pub const SPINLOCK0 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2300,6 +2489,9 @@ pub const SPINLOCK1 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2331,6 +2523,9 @@ pub const SPINLOCK2 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2360,6 +2555,9 @@ pub const SPINLOCK3 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2391,6 +2589,9 @@ pub const SPINLOCK4 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2420,6 +2621,9 @@ pub const SPINLOCK5 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2451,6 +2655,9 @@ pub const SPINLOCK6 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2480,6 +2687,9 @@ pub const SPINLOCK7 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2511,6 +2721,9 @@ pub const SPINLOCK8 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2540,6 +2753,9 @@ pub const SPINLOCK9 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2571,6 +2787,9 @@ pub const SPINLOCK10 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2600,6 +2819,9 @@ pub const SPINLOCK11 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2631,6 +2853,9 @@ pub const SPINLOCK12 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2660,6 +2885,9 @@ pub const SPINLOCK13 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2691,6 +2919,9 @@ pub const SPINLOCK14 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2720,6 +2951,9 @@ pub const SPINLOCK15 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2751,6 +2985,9 @@ pub const SPINLOCK16 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2780,6 +3017,9 @@ pub const SPINLOCK17 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2811,6 +3051,9 @@ pub const SPINLOCK18 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2840,6 +3083,9 @@ pub const SPINLOCK19 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2871,6 +3117,9 @@ pub const SPINLOCK20 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2900,6 +3149,9 @@ pub const SPINLOCK21 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2931,6 +3183,9 @@ pub const SPINLOCK22 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -2960,6 +3215,9 @@ pub const SPINLOCK23 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -2991,6 +3249,9 @@ pub const SPINLOCK24 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -3020,6 +3281,9 @@ pub const SPINLOCK25 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -3051,6 +3315,9 @@ pub const SPINLOCK26 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -3080,6 +3347,9 @@ pub const SPINLOCK27 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -3111,6 +3381,9 @@ pub const SPINLOCK28 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -3140,6 +3413,9 @@ pub const SPINLOCK29 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
@@ -3171,6 +3447,9 @@ pub const SPINLOCK30 = struct {
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
     }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
+    }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
         content &= ~comptime helpers.generateMask(0, 32);
@@ -3200,6 +3479,9 @@ pub const SPINLOCK31 = struct {
         content &= ~comptime helpers.generateMask(0, 32);
         content |= (helpers.toU32(v) << 0);
         self.reg.* = content;
+    }
+    pub fn writeOver(self: @This(), v: u32) void {
+        self.reg.* = (helpers.toU32(v) << 0);
     }
     pub fn clear(self: @This()) void {
         var content = self.reg.*;
