@@ -12,6 +12,7 @@ const Xosc = @import("rp2040/xosc.zig").Xosc;
 const Pll = @import("rp2040/pll.zig");
 const USB = @import("rp2040/usb.zig");
 const Uart = @import("rp2040/uart.zig");
+const hid = @import("rp2040/usb/hid.zig");
 
 const pin_config = GPIO.GPIOConfig{
     .GPIO0 = .{
@@ -25,10 +26,20 @@ const pin_config = GPIO.GPIOConfig{
     .GPIO25 = .{
         .direction = .out,
     },
+    .GPIO24 = .{
+        .direction = .in,
+        .pull = .up,
+    },
+    .GPIO23 = .{
+        .direction = .in,
+        .pull = .up,
+    },
 };
 
 const pins = GPIO.MakePins(pin_config);
 var led: GPIO.OutPin = pins.GPIO25;
+const button1: GPIO.InPin = pins.GPIO24;
+const button2: GPIO.InPin = pins.GPIO23;
 
 fn wait() void {
     for (0..20000) |_| {
@@ -66,6 +77,7 @@ fn setupClocks() void {
     while (rp.peripherals.CLOCKS.CLK_SYS_SELECTED.read() == 0) {}
 }
 
+const Report = hid.MakeStruct(&hid.boot_keyboard);
 
 const usb_config = USB.Configuration{
     .device_descriptor = .{
@@ -103,16 +115,18 @@ const usb_config = USB.Configuration{
     },
 
     .endpoints = &.{
-        USB.EndpointConfig{ .endpoint = 1, .direction = .in, .endpoint_type = .Interrupt, .interval = 1 },
+        USB.EndpointConfig{ .address = .{ .endpoint = 1, .direction = .in }, .endpoint_type = .Interrupt, .interval = 1 },
     },
-    .hid_report = "",
+    .hid_report = Report.report,
 };
 const Usb = USB.UsbDevice(usb_config);
 
 var uart: Uart.Uart = undefined;
 
+var r = Report{};
 
 export fn main() void {
+    _ = r.data.modifiers;
     rp.peripherals.RESETS.RESET.write(comptime rp.RESETS.RESET.IO_BANK0(0));
 
     setupClocks();
@@ -133,11 +147,24 @@ export fn main() void {
     }
 
     std.log.info("Hello {s}", .{"logger"});
-    std.log.info("{any}", .{Report.report});
+    var report_buf: [256]u8 = undefined;
 
     while (true) {
         usb.poll();
-        led.toggle();
+        if (button1.read() == 0) {
+            r.data.keys = @splat(0);
+            r.data.modifiers = @splat(0);
+            const report_len = r.serialize(&report_buf);
+            usb.queueMessage(.{ .endpoint = 1, .direction = .in }, report_buf[0..report_len]);
+            led.toggle();
+        }
+        if (button2.read() == 0) {
+            r.data.modifiers[1] = 1;
+            r.data.keys[0] = 0x04;
+            const report_len = r.serialize(&report_buf);
+            usb.queueMessage(.{ .endpoint = 1, .direction = .in }, report_buf[0..report_len]);
+            led.toggle();
+        }
         wait();
     }
 }

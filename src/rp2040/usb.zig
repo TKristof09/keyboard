@@ -11,24 +11,46 @@ const descriptors = @import("usb/descriptors.zig");
 // common codegened registers
 
 pub const EndpointConfig = struct {
-    endpoint: u4,
-    direction: descriptors.Direction,
+    address: Address,
     endpoint_type: descriptors.Endpoint.TransferType,
     interval: u8 = 1,
+
+    const Address = struct {
+        endpoint: u4,
+        direction: descriptors.Direction,
+    };
 };
 
-const Request = enum(u8) {
-    get_status = 0,
-    clear_feature = 1,
-    set_feature = 3,
-    set_address = 5,
-    get_descriptor = 6,
-    set_descriptor = 7,
-    get_configuration = 8,
-    set_configuration = 9,
-    get_interface = 10,
-    set_interface = 11,
-    synch_frame = 12,
+const RequestType = enum(u2) {
+    standard = 0,
+    class = 1,
+    vendor = 2,
+    _,
+};
+
+const Request = union(enum) {
+    standard: enum(u8) {
+        get_status = 0,
+        clear_feature = 1,
+        set_feature = 3,
+        set_address = 5,
+        get_descriptor = 6,
+        set_descriptor = 7,
+        get_configuration = 8,
+        set_configuration = 9,
+        get_interface = 10,
+        set_interface = 11,
+        synch_frame = 12,
+    },
+    class: enum(u8) {
+        get_report = 0x01,
+        get_idle = 0x02,
+        get_protocol = 0x03,
+        set_report = 0x09,
+        set_idle = 0x0a,
+        set_protocol = 0x0b,
+        _,
+    },
 };
 
 pub const Configuration = struct {
@@ -109,8 +131,8 @@ fn makeConfigDescriptor(comptime config: Configuration) []const u8 {
     for (config.endpoints) |endp_conf| {
         const endp = descriptors.Endpoint{
             .address = .{
-                .direction = endp_conf.direction,
-                .endpoint = endp_conf.endpoint,
+                .direction = endp_conf.address.direction,
+                .endpoint = endp_conf.address.endpoint,
             },
             .attributes = .{
                 .transfer_type = endp_conf.endpoint_type,
@@ -188,7 +210,7 @@ pub fn UsbDevice(comptime config: Configuration) type {
             const buf_ctrls: [*]volatile BufCtrl = @ptrCast(rp.peripherals.USB_DPRAM.EP0_IN_BUFFER_CONTROL.reg);
             const endp_ctrls: [*]volatile EndpointCtrl = @ptrCast(rp.peripherals.USB_DPRAM.EP1_IN_CONTROL.reg);
             inline for (config.endpoints) |endp_conf| {
-                const idx = Endpoint.getIndex(endp_conf.endpoint, endp_conf.direction);
+                const idx = Endpoint.getIndex(endp_conf.address.endpoint, endp_conf.address.direction);
                 const buf_offset = (@as(u16, idx) - 1) * 64; // ep0 only has one buffer shared between in and out
                 endpoints[idx] = Endpoint{
                     .buf = @as([*]volatile u8, @ptrFromInt(@intFromPtr(rp.USB_DPRAM.USB_DPRAM.base_address) + buf_offset))[0..64],
@@ -222,7 +244,6 @@ pub fn UsbDevice(comptime config: Configuration) type {
             }
             if (status.BUFF_STATUS() == 1) {
                 const buffers = rp.peripherals.USB.BUFF_STATUS.read();
-                std.log.debug("Buffers ready: {b:0>32}", .{buffers.val});
                 if (buffers.EP0_OUT() == 1) {
                     rp.peripherals.USB.BUFF_STATUS.set(rp.USB.BUFF_STATUS.FieldMasks.EP0_OUT);
                 }
@@ -247,12 +268,19 @@ pub fn UsbDevice(comptime config: Configuration) type {
                         self.endpoints[0].?.next_pid ^= 1;
                     }
                 }
-                if (buffers.EP1_IN() == 1) {
-                    @breakpoint();
-                }
+                // if (buffers.EP1_IN() == 1) {
+                //     @breakpoint();
+                // }
             }
             if (status.BUS_RESET() == 1) {
                 self.handleBusReset();
+            }
+        }
+
+        pub fn queueMessage(self: *@This(), endp: EndpointConfig.Address, msg: []const u8) void {
+            const endp_idx = Endpoint.getIndex(endp.endpoint, endp.direction);
+            if (self.endpoints[endp_idx]) |*endpoint| {
+                initTransfer(endpoint, msg, 64);
             }
         }
 
@@ -292,58 +320,93 @@ pub fn UsbDevice(comptime config: Configuration) type {
             rp.peripherals.USB.SIE_STATUS.writeOver(rp.USB.SIE_STATUS.SETUP_REC(1));
             const packet_low = rp.peripherals.USB_DPRAM.SETUP_PACKET_LOW.read();
             const packet_high = rp.peripherals.USB_DPRAM.SETUP_PACKET_HIGH.read();
-            const req_type = packet_low.BMREQUESTTYPE();
-            const dir: descriptors.Direction = @enumFromInt(req_type >> 7);
+            const bm_req_type = packet_low.BMREQUESTTYPE();
+            const dir: descriptors.Direction = @enumFromInt(bm_req_type >> 7);
+            const req_type: RequestType = @enumFromInt((bm_req_type >> 5) & 0b11);
             const packet_req = packet_low.BREQUEST();
-            const req: Request = @enumFromInt(packet_req);
+            const request: Request = switch (req_type) {
+                .standard => .{ .standard = @enumFromInt(packet_req) },
+                .class => .{ .class = @enumFromInt(packet_req) },
+                else => unreachable,
+            };
             const max_len: u16 = packet_high.WLENGTH();
             // for some reason sdk always responds in the setup with pid = 1
             self.endpoints[0].?.next_pid = 1;
-            std.log.debug("Received: {t} {t}", .{ dir, req });
-            if (dir == .out) {
-                if (req == .set_address) {
-                    self.addr = @intCast(packet_low.WVALUE() & 0xff);
-                    std.log.debug("Set address with: {d}", .{packet_low.WVALUE()});
-                    self.should_set_addr = true;
-                    self.ackOutRequest();
-                } else if (req == .set_configuration) {
-                    std.debug.assert(packet_low.WVALUE() == 1);
-                    std.log.debug("Set configuration", .{});
-                    self.ackOutRequest();
-                } else {
-                    @breakpoint();
-                    self.ackOutRequest();
-                }
-            } else if (dir == .in) {
-                if (req == .get_descriptor) {
-                    const descriptor_type: descriptors.Type = @enumFromInt(packet_low.WVALUE() >> 8);
-                    std.log.debug("Descriptor type: {t}", .{descriptor_type});
-                    switch (descriptor_type) {
-                        .device => {
-                            initTransfer(&self.endpoints[0].?, &device_descriptor, max_len);
+            std.log.debug("Received: {t} {any}", .{ dir, request });
+            switch (request) {
+                .standard => |req| {
+                    switch (dir) {
+                        .out => {
+                            switch (req) {
+                                .set_address => {
+                                    self.addr = @intCast(packet_low.WVALUE() & 0xff);
+                                    std.log.debug("Set address with: {d}", .{packet_low.WVALUE()});
+                                    self.should_set_addr = true;
+                                    self.ackOutRequest();
+                                },
+                                .set_configuration => {
+                                    std.debug.assert(packet_low.WVALUE() == 1);
+                                    std.log.debug("Set configuration", .{});
+                                    self.ackOutRequest();
+                                },
+                                else => {
+                                    @breakpoint();
+                                    self.ackOutRequest();
+                                },
+                            }
                         },
-                        .device_qualifier => {
-                            rp.peripherals.USB_DPRAM.EP0_IN_BUFFER_CONTROL.write(rp.USB_DPRAM.EP0_IN_BUFFER_CONTROL.STALL(1));
-                            rp.peripherals.USB.EP_STALL_ARM.set(rp.USB.EP_STALL_ARM.FieldMasks.EP0_IN);
-                        },
-                        .configuration => {
-                            std.log.warn("Config length: {d}", .{config_descriptor.len});
-                            initTransfer(&self.endpoints[0].?, config_descriptor, max_len);
-                        },
-                        .string => {
-                            const index = packet_low.WVALUE() & 0xff;
-                            initTransfer(&self.endpoints[0].?, string_descriptors[index], max_len);
-                        },
-                        .report => {
-                            initTransfer(&self.endpoints[0].?, hid_report_descriptor, max_len);
-                        },
-                        else => {
-                            @breakpoint();
+                        .in => {
+                            switch (req) {
+                                .get_descriptor => {
+                                    const descriptor_type: descriptors.Type = @enumFromInt(packet_low.WVALUE() >> 8);
+                                    std.log.debug("Descriptor type: {t}", .{descriptor_type});
+                                    switch (descriptor_type) {
+                                        .device => {
+                                            initTransfer(&self.endpoints[0].?, &device_descriptor, max_len);
+                                        },
+                                        .device_qualifier => {
+                                            rp.peripherals.USB_DPRAM.EP0_IN_BUFFER_CONTROL.write(rp.USB_DPRAM.EP0_IN_BUFFER_CONTROL.STALL(1));
+                                            rp.peripherals.USB.EP_STALL_ARM.set(rp.USB.EP_STALL_ARM.FieldMasks.EP0_IN);
+                                        },
+                                        .configuration => {
+                                            std.log.warn("Config length: {d}", .{config_descriptor.len});
+                                            initTransfer(&self.endpoints[0].?, config_descriptor, max_len);
+                                        },
+                                        .string => {
+                                            const index = packet_low.WVALUE() & 0xff;
+                                            initTransfer(&self.endpoints[0].?, string_descriptors[index], max_len);
+                                        },
+                                        .report => {
+                                            initTransfer(&self.endpoints[0].?, hid_report_descriptor, max_len);
+                                        },
+                                        else => {
+                                            @breakpoint();
+                                        },
+                                    }
+                                },
+                                else => @breakpoint(),
+                            }
                         },
                     }
-                }
-            } else {
-                @breakpoint();
+                },
+                .class => |req| {
+                    switch (req) {
+                        .set_idle => {
+                            // dont quite understand the point of this, but the
+                            // host always seems to send duration 0 which as
+                            // far as i understand means only send reports if
+                            // data changes (and just NAK other requests)
+                            // instead of regularly on the defined intervals.
+                            // This seems logical to reduce usb traffic and i
+                            // dont want to think about how I would handle non
+                            // 0 idle durations so for now just assert
+                            const duration = packet_low.WVALUE() >> 8;
+                            std.debug.assert(duration == 0);
+                            self.ackOutRequest();
+                        },
+                        else => @breakpoint(),
+                    }
+                },
             }
         }
 

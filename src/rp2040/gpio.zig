@@ -71,6 +71,10 @@ pub const OutPin = struct {
 };
 pub const InPin = struct {
     pin: PinImpl,
+
+    pub fn read(self: InPin) u1 {
+        return self.pin.read();
+    }
 };
 
 const StructField = std.builtin.Type.StructField;
@@ -163,11 +167,10 @@ const PinImpl = enum(u5) {
     GPIO29 = 29,
 
     pub fn init(comptime self: PinImpl, comptime config: PinConfig) void {
-        // set input enable and unset output disable
-        self.setDir(.in);
-        self.set(0);
         self.selectFunction(config.fun);
         self.setDir(config.direction);
+        if (config.pull) |pull|
+            self.setPull(pull);
     }
     pub fn set(self: PinImpl, val: u1) void {
         if (val == 0) {
@@ -177,7 +180,7 @@ const PinImpl = enum(u5) {
         }
     }
     pub fn read(self: PinImpl) u1 {
-        return rp.peripherals.SIO.GPIO_IN.write(self.mask());
+        return if ((rp.peripherals.SIO.GPIO_IN.read() & self.mask()) == 0) 0 else 1;
     }
     pub fn toggle(self: PinImpl) void {
         rp.peripherals.SIO.GPIO_OUT_XOR.write(self.mask());
@@ -187,11 +190,11 @@ const PinImpl = enum(u5) {
         const name = std.fmt.comptimePrint("GPIO{d}", .{@intFromEnum(self)});
         switch (dir) {
             .out => {
-                @field(rp.peripherals.PADS_BANK0, name).write(@field(rp.PADS_BANK0, name).IE(1).OD(0));
+                @field(rp.peripherals.PADS_BANK0, name).write(@field(rp.PADS_BANK0, name).IE(0).OD(0));
                 rp.peripherals.SIO.GPIO_OE_SET.write(self.mask());
             },
             .in => {
-                @field(rp.peripherals.PADS_BANK0, name).write(@field(rp.PADS_BANK0, name).IE(1).OD(0));
+                @field(rp.peripherals.PADS_BANK0, name).write(@field(rp.PADS_BANK0, name).IE(1).OD(1));
                 rp.peripherals.SIO.GPIO_OE_CLR.write(self.mask());
             },
         }
@@ -202,6 +205,14 @@ const PinImpl = enum(u5) {
         // easily during codegen what registers need to be an array
         const name = std.fmt.comptimePrint("GPIO{d}_CTRL", .{@intFromEnum(self)});
         @field(rp.peripherals.IO_BANK0, name).write(@field(rp.IO_BANK0, name).FUNCSEL(@enumFromInt(@intFromEnum(fun))));
+    }
+    fn setPull(comptime self: PinImpl, pull: PinPullResistor) void {
+        const name = std.fmt.comptimePrint("GPIO{d}", .{@intFromEnum(self)});
+
+        switch (pull) {
+            .down => @field(rp.peripherals.PADS_BANK0, name).write(@field(rp.PADS_BANK0, name).PDE(1).PUE(0)),
+            .up => @field(rp.peripherals.PADS_BANK0, name).write(@field(rp.PADS_BANK0, name).PDE(0).PUE(1)),
+        }
     }
 
     fn mask(self: PinImpl) u30 {
