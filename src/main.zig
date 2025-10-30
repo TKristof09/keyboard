@@ -13,69 +13,162 @@ const Pll = @import("rp2040/pll.zig");
 const USB = @import("rp2040/usb.zig");
 const Uart = @import("rp2040/uart.zig");
 const hid = @import("rp2040/usb/hid.zig");
+const timer = @import("rp2040/timer.zig");
 
-const pin_config = GPIO.GPIOConfig{
-    .GPIO0 = .{
-        .direction = .out,
-        .fun = .uart,
+const keys = [_]@import("keyboard.zig").Key{
+    .{
+        .pin = .GPIO29,
+        .pos = .{
+            .x = 0,
+            .y = 0,
+        },
     },
-    .GPIO1 = .{
-        .direction = .in,
-        .fun = .uart,
+    .{
+        .pin = .GPIO28,
+        .pos = .{
+            .x = 1,
+            .y = 0,
+        },
     },
-    .GPIO25 = .{
-        .direction = .out,
+    .{
+        .pin = .GPIO27,
+        .pos = .{
+            .x = 2,
+            .y = 0,
+        },
     },
-    .GPIO24 = .{
-        .direction = .in,
-        .pull = .up,
+    .{
+        .pin = .GPIO26,
+        .pos = .{
+            .x = 3,
+            .y = 0,
+        },
     },
-    .GPIO23 = .{
-        .direction = .in,
-        .pull = .up,
+    .{
+        .pin = .GPIO7,
+        .pos = .{
+            .x = 4,
+            .y = 0,
+        },
+    },
+
+    .{
+        .pin = .GPIO0,
+        .pos = .{
+            .x = 0,
+            .y = 1,
+        },
+    },
+    .{
+        .pin = .GPIO21,
+        .pos = .{
+            .x = 1,
+            .y = 1,
+        },
+    },
+    .{
+        .pin = .GPIO23,
+        .pos = .{
+            .x = 2,
+            .y = 1,
+        },
+    },
+    .{
+        .pin = .GPIO20,
+        .pos = .{
+            .x = 3,
+            .y = 1,
+        },
+    },
+    .{
+        .pin = .GPIO22,
+        .pos = .{
+            .x = 4,
+            .y = 1,
+        },
+    },
+
+    .{
+        .pin = .GPIO6,
+        .pos = .{
+            .x = 0,
+            .y = 2,
+        },
+    },
+    .{
+        .pin = .GPIO5,
+        .pos = .{
+            .x = 1,
+            .y = 2,
+        },
+    },
+    .{
+        .pin = .GPIO4,
+        .pos = .{
+            .x = 2,
+            .y = 2,
+        },
+    },
+    .{
+        .pin = .GPIO3,
+        .pos = .{
+            .x = 3,
+            .y = 2,
+        },
+    },
+    .{
+        .pin = .GPIO2,
+        .pos = .{
+            .x = 4,
+            .y = 2,
+        },
+    },
+
+    .{
+        .pin = .GPIO9,
+        .pos = .{
+            .x = 0,
+            .y = 3,
+        },
+    },
+    .{
+        .pin = .GPIO8,
+        .pos = .{
+            .x = 1,
+            .y = 3,
+        },
     },
 };
 
+const layout: @import("keyboard.zig").Layout = &.{
+    &.{ .KC_a, .KC_f, .KC_o, .KC_u, .KC_j },
+    &.{ .KC_y, .KC_h, .KC_a, .KC_e, .KC_i },
+    &.{ .KC_k, .KC_p, .KC_dot, .KC_comm, .KC_dash },
+    &.{ .KC_shift, .KC_b },
+};
+
+const keyboard = @import("keyboard.zig").MakeKeyboard(&keys, layout);
+// const keyboard = @import("keyboard.zig").MakeKeyboard(&.{ .GPIO24, .GPIO23 });
+
+const base_config = GPIO.GPIOConfig{
+    // .GPIO0 = .{
+    //     .direction = .out,
+    //     .fun = .uart,
+    // },
+    // .GPIO1 = .{
+    //     .direction = .in,
+    //     .fun = .uart,
+    // },
+    .GPIO25 = .{
+        .direction = .out,
+    },
+};
+const pin_config = keyboard.makeGPIOConfig(base_config);
+
 const pins = GPIO.MakePins(pin_config);
 var led: GPIO.OutPin = pins.GPIO25;
-const button1: GPIO.InPin = pins.GPIO24;
+const button1: GPIO.InPin = pins.GPIO20;
 const button2: GPIO.InPin = pins.GPIO23;
-
-fn wait() void {
-    for (0..20000) |_| {
-        rp.peripherals.XOSC.COUNT.write(0xFF);
-        while (rp.peripherals.XOSC.COUNT.read() > 0) {
-            std.mem.doNotOptimizeAway(0);
-        }
-    }
-}
-
-fn setupClocks() void {
-    Xosc.init();
-
-    rp.peripherals.CLOCKS.CLK_REF_CTRL.write(comptime rp.CLOCKS.CLK_REF_CTRL.SRC(.xosc_clksrc));
-    while (rp.peripherals.CLOCKS.CLK_REF_SELECTED.read() == 0) {}
-
-    // rp.peripherals.RESETS.RESET.write(comptime rp.RESETS.RESET.PLL_SYS(0));
-    // // make sure aux source isnt selected
-    rp.peripherals.CLOCKS.CLK_SYS_CTRL.write(comptime rp.CLOCKS.CLK_SYS_CTRL.SRC(.clk_ref));
-    while (rp.peripherals.CLOCKS.CLK_SYS_SELECTED.read() == 0) {}
-
-    // // set up plls
-    // // see section 2.18.1 for the values
-    // // 125 mhz sys clock
-    Pll.setupSys(.{
-        .fbdiv = 125,
-        .post_div1 = 6,
-        .post_div2 = 2,
-    });
-
-    rp.peripherals.CLOCKS.CLK_SYS_CTRL.write(comptime rp.CLOCKS.CLK_SYS_CTRL.AUXSRC(.clksrc_pll_sys));
-    while (rp.peripherals.CLOCKS.CLK_SYS_SELECTED.read() == 0) {}
-
-    rp.peripherals.CLOCKS.CLK_SYS_CTRL.write(comptime rp.CLOCKS.CLK_SYS_CTRL.SRC(.clksrc_clk_sys_aux));
-    while (rp.peripherals.CLOCKS.CLK_SYS_SELECTED.read() == 0) {}
-}
 
 const Report = hid.MakeStruct(&hid.boot_keyboard);
 
@@ -126,16 +219,20 @@ var uart: Uart.Uart = undefined;
 var r = Report{};
 
 export fn main() void {
-    _ = r.data.modifiers;
     rp.peripherals.RESETS.RESET.write(comptime rp.RESETS.RESET.IO_BANK0(0));
 
     setupClocks();
+    initWatchdog();
     Uart.initClock();
+
+    rp.peripherals.RESETS.RESET.write(comptime rp.RESETS.RESET.TIMER(0));
+    rp.peripherals.TIMER.DBGPAUSE.write(comptime rp.TIMER.DBGPAUSE.DBG0(0).DBG1(0));
+    rp.peripherals.TIMER.PAUSE.clear();
 
     var usb = Usb.init();
 
     GPIO.InitPins(pin_config);
-    uart = Uart.Uart.init(.uart0, 115200);
+    // uart = Uart.Uart.init(.uart0, 115200);
 
     {
         // clear screen of picom and send a separator to make it easier to see this run's messages
@@ -149,24 +246,64 @@ export fn main() void {
     std.log.info("Hello {s}", .{"logger"});
     var report_buf: [256]u8 = undefined;
 
+    const wd = rp.peripherals.WATCHDOG.TICK.read();
+    std.log.debug("watchdog: enable: {d}, running: {d}", .{ wd.ENABLE(), wd.RUNNING() });
+
     while (true) {
         usb.poll();
-        if (button1.read() == 0) {
-            r.data.keys = @splat(0);
-            r.data.modifiers = @splat(0);
+        r.data.keys = @splat(0);
+        r.data.modifiers = @splat(0);
+        if (keyboard.task(&r)) {
             const report_len = r.serialize(&report_buf);
             usb.queueMessage(.{ .endpoint = 1, .direction = .in }, report_buf[0..report_len]);
-            led.toggle();
         }
-        if (button2.read() == 0) {
-            r.data.modifiers[1] = 1;
-            r.data.keys[0] = 0x04;
-            const report_len = r.serialize(&report_buf);
-            usb.queueMessage(.{ .endpoint = 1, .direction = .in }, report_buf[0..report_len]);
-            led.toggle();
-        }
-        wait();
+        // if (button1.read() == 0) {
+        //     r.data.keys = @splat(0);
+        //     r.data.modifiers = @splat(0);
+        //     const report_len = r.serialize(&report_buf);
+        //     usb.queueMessage(.{ .endpoint = 1, .direction = .in }, report_buf[0..report_len]);
+        //     led.toggle();
+        // }
+        // if (button2.read() == 0) {
+        //     r.data.modifiers[1] = 1;
+        //     r.data.keys[0] = 0x04;
+        //     const report_len = r.serialize(&report_buf);
+        //     usb.queueMessage(.{ .endpoint = 1, .direction = .in }, report_buf[0..report_len]);
+        //     led.toggle();
+        // }
+        // led.toggle();
+        timer.busyWait(1);
     }
+}
+
+fn initWatchdog() void {
+    rp.peripherals.WATCHDOG.TICK.write(rp.WATCHDOG.TICK.ENABLE(1).CYCLES(12));
+}
+fn setupClocks() void {
+    Xosc.init();
+
+    rp.peripherals.CLOCKS.CLK_REF_CTRL.write(comptime rp.CLOCKS.CLK_REF_CTRL.SRC(.xosc_clksrc));
+    while (rp.peripherals.CLOCKS.CLK_REF_SELECTED.read() == 0) {}
+
+    // rp.peripherals.RESETS.RESET.write(comptime rp.RESETS.RESET.PLL_SYS(0));
+    // // make sure aux source isnt selected
+    rp.peripherals.CLOCKS.CLK_SYS_CTRL.write(comptime rp.CLOCKS.CLK_SYS_CTRL.SRC(.clk_ref));
+    while (rp.peripherals.CLOCKS.CLK_SYS_SELECTED.read() == 0) {}
+
+    // // set up plls
+    // // see section 2.18.1 for the values
+    // // 125 mhz sys clock
+    Pll.setupSys(.{
+        .fbdiv = 125,
+        .post_div1 = 6,
+        .post_div2 = 2,
+    });
+
+    rp.peripherals.CLOCKS.CLK_SYS_CTRL.write(comptime rp.CLOCKS.CLK_SYS_CTRL.AUXSRC(.clksrc_pll_sys));
+    while (rp.peripherals.CLOCKS.CLK_SYS_SELECTED.read() == 0) {}
+
+    rp.peripherals.CLOCKS.CLK_SYS_CTRL.write(comptime rp.CLOCKS.CLK_SYS_CTRL.SRC(.clksrc_clk_sys_aux));
+    while (rp.peripherals.CLOCKS.CLK_SYS_SELECTED.read() == 0) {}
 }
 
 const LogError = error{};
@@ -182,18 +319,20 @@ fn logFn(
     comptime fmt: []const u8,
     args: anytype,
 ) void {
-    const level_str = comptime switch (level) {
-        .debug => "[DEBUG]",
-        .info => "[INFO ]",
-        .warn => "[WARN ]",
-        .err => "[ERROR]",
-    };
-    const scope_str = if (scope == .default) ":" else "(" ++ @tagName(scope) ++ "):";
-    std.fmt.format(
-        UartWriter{ .context = uart },
-        level_str ++ " " ++ scope_str ++ " " ++ fmt ++ "\r\n",
-        args,
-    ) catch unreachable;
+    if (false) {
+        const level_str = comptime switch (level) {
+            .debug => "[DEBUG]",
+            .info => "[INFO ]",
+            .warn => "[WARN ]",
+            .err => "[ERROR]",
+        };
+        const scope_str = if (scope == .default) ":" else "(" ++ @tagName(scope) ++ "):";
+        std.fmt.format(
+            UartWriter{ .context = uart },
+            level_str ++ " " ++ scope_str ++ " " ++ fmt ++ "\r\n",
+            args,
+        ) catch unreachable;
+    }
 }
 
 pub const std_options: std.Options = .{

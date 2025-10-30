@@ -230,6 +230,7 @@ pub fn UsbDevice(comptime config: Configuration) type {
                     .interrupt_stall = 1,
                 };
                 initTransfer(&endpoints[idx].?, &.{}, 0);
+                @memset(endpoints[idx].?.buf, 0);
             }
 
             return .{
@@ -416,7 +417,10 @@ pub fn UsbDevice(comptime config: Configuration) type {
                 std.log.warn("usb.initTransfer called with too much data (data.len = {d}, max_len = {d})", .{ data.len, max_len });
             }
 
-            while (endp.buf_ctrl.available_0 == 1) {}
+            // FIXME: we probably don't want to do this, it can easily lead to
+            // infinite looping. Better way would probably be to return an
+            // error and let the caller decide what to do
+            // while (endp.buf_ctrl.available_0 == 1) {}
             std.log.debug("Sending {d} bytes", .{data.len});
             @memcpy(endp.buf[0..data.len], data);
 
