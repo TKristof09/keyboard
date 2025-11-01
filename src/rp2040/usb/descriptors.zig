@@ -21,10 +21,10 @@ pub const Direction = enum(u1) {
 };
 
 pub const Device = extern struct {
-    length: u8 = 18,
+    length: u8 = @sizeOf(@This()),
     descriptor_type: Type = .device,
     bcd_usb: u16 align(1), // usb hid spec release??
-    device_class: DeviceClassCode,
+    device_class: ClassCode,
     device_subclass: u8,
     device_protocol: u8,
     max_packet_size: u8,
@@ -36,6 +36,14 @@ pub const Device = extern struct {
     serial_number_string_idx: u8,
     num_configurations: u8,
 
+    // https://www.usb.org/defined-class-codes
+
+    pub const ClassCode = enum(u8) {
+        unspecified = 0,
+        cdc = 0x2,
+        hid = 3,
+        _,
+    };
     comptime {
         std.debug.assert(@sizeOf(@This()) == 18);
         std.debug.assert(@alignOf(@This()) == 1);
@@ -43,10 +51,10 @@ pub const Device = extern struct {
 };
 
 pub const DeviceQualifier = extern struct {
-    length: u8 = 10,
+    length: u8 = @sizeOf(@This()),
     descriptor_type: Type = .device_qualifier,
     bcd_usb: u16, // usb hid spec release??
-    device_class: DeviceClassCode,
+    device_class: Device.ClassCode,
     device_subclass: u8,
     device_protocol: u8,
     max_packet_size: u8,
@@ -60,7 +68,7 @@ pub const DeviceQualifier = extern struct {
 };
 
 pub const Configuration = extern struct {
-    length: u8 = 9,
+    length: u8 = @sizeOf(@This()),
     descriptor_type: Type = .configuration,
     /// Total length of data returned for this configuration. Includes the
     /// combined length of all descriptors (configuration, interface, endpoint,
@@ -94,15 +102,34 @@ pub const Configuration = extern struct {
     }
 };
 pub const Interface = extern struct {
-    length: u8 = 9,
+    length: u8 = @sizeOf(@This()),
     descriptor_type: Type = .interface,
     interface_idx: u8,
     alternate_setting: u8,
     num_endpoints: u8,
-    interface_class: InterfaceClassCode,
-    interface_subclass: InterfaceSubclass,
-    interface_protocol: InterfaceProtocol,
+    interface_class: ClassCode,
+    interface_subclass: Subclass,
+    interface_protocol: Protocol,
     interface_string_idx: u8,
+
+    pub const ClassCode = enum(u8) {
+        hid = 0x3,
+        _,
+    };
+
+    pub const Subclass = enum(u8) {
+        none = 0,
+        boot_interface = 1,
+        _,
+    };
+
+    pub const Protocol = enum(u8) {
+        none = 0,
+        keyboard = 1,
+        mouse = 2,
+        _,
+    };
+
     comptime {
         std.debug.assert(@sizeOf(@This()) == 9);
         std.debug.assert(@alignOf(@This()) == 1);
@@ -110,7 +137,7 @@ pub const Interface = extern struct {
 };
 
 pub const Endpoint = extern struct {
-    length: u8 = 7,
+    length: u8 = @sizeOf(@This()),
     descriptor_type: Type = .endpoint,
     address: Address,
     attributes: Attributes,
@@ -168,9 +195,9 @@ pub fn makeString(comptime str: []const u8) []const u8 {
 }
 
 pub const HID = extern struct {
-    length: u8 = 9,
+    length: u8 = @sizeOf(@This()),
     descriptor_type: Type = .hid,
-    bcd_hid: u16 align(1),
+    bcd_hid: u16 align(1) = 0x101,
     country_code: u8,
     num_descriptors: u8,
     report_type: Type = .report,
@@ -182,27 +209,7 @@ pub const HID = extern struct {
     }
 };
 
-// https://www.usb.org/defined-class-codes
 
-pub const DeviceClassCode = enum(u8) {
-    unspecified = 0,
-    hid = 3,
-    _,
-};
-pub const InterfaceClassCode = enum(u8) {
-    hid = 3,
-    _,
-};
 
-pub const InterfaceSubclass = enum(u8) {
-    none = 0,
-    boot_interface = 1,
-    _,
-};
 
-pub const InterfaceProtocol = enum(u8) {
-    none = 0,
-    keyboard = 1,
-    mouse = 2,
-    _,
 };

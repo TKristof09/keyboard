@@ -1,5 +1,19 @@
 const std = @import("std");
 const packed_int = @import("../../packed_int_array.zig");
+const Usb = @import("../usb.zig");
+const Descriptors = @import("descriptors.zig");
+
+const InterfaceRequest = enum(u8) {
+    get_report = 0x01,
+    get_idle = 0x02,
+    get_protocol = 0x03,
+    get_descriptor = 0x06,
+    set_descriptor = 0x07,
+    set_report = 0x09,
+    set_idle = 0x0a,
+    set_protocol = 0x0b,
+    _,
+};
 
 const Usage = enum(u8) {
     keyboard = 0x06,
@@ -191,7 +205,7 @@ fn getFields(comptime items: []const Item) []const StructField {
     }
     return fields;
 }
-pub fn MakeStruct(comptime items: []const Item) type {
+pub fn Make(comptime endpoints: []const Usb.EndpointConfig, comptime items: []const Item) type {
     const Data = @Type(.{
         .@"struct" = .{
             .layout = .auto,
@@ -200,16 +214,18 @@ pub fn MakeStruct(comptime items: []const Item) type {
             .decls = &.{},
         },
     });
+
+    const hid_report = blk: {
+        var report_desc: []const u8 = "";
+
+        for (items) |item| {
+            report_desc = report_desc ++ item.serialize();
+        }
+        break :blk report_desc;
+    };
+
     return struct {
-        pub const report = blk: {
-            var report_desc: []const u8 = "";
-
-            for (items) |item| {
-                report_desc = report_desc ++ item.serialize();
-            }
-            break :blk report_desc;
-        };
-
+        pub const report = hid_report;
         // zero out the data arrays by default so the user can default init the struct
         data: Data = std.mem.zeroes(Data),
 
@@ -226,6 +242,88 @@ pub fn MakeStruct(comptime items: []const Item) type {
             }
             std.debug.assert(curr_offset % 8 == 0);
             return curr_offset / 8;
+        }
+
+        pub fn driver() Usb.DriverInterface {
+            return .{
+                .num_interfaces = 1,
+                .endpoints = endpoints,
+                .fn_handle_interface_setup_req = &handleInterfaceSetupReq,
+                .fn_get_descriptors = &getDescriptors,
+            };
+        }
+
+        fn getDescriptors(comptime first_interface: u8) []const u8 {
+            var descriptors: []const u8 = "";
+            const interface = Descriptors.Interface{
+                .interface_idx = first_interface,
+                .alternate_setting = 0,
+                .num_endpoints = endpoints.len,
+                .interface_class = .hid,
+                .interface_subclass = .boot_interface,
+                .interface_protocol = .keyboard,
+                .interface_string_idx = 5,
+            };
+            descriptors = descriptors ++ std.mem.toBytes(interface);
+            const hid = Descriptors.HID{
+                .country_code = 0,
+                .num_descriptors = 1,
+                .report_length = hid_report.len,
+            };
+            descriptors = descriptors ++ std.mem.toBytes(hid);
+            for (endpoints) |endp_conf| {
+                const endp = Descriptors.Endpoint{
+                    .address = .{
+                        .direction = endp_conf.address.direction,
+                        .endpoint = endp_conf.address.endpoint,
+                    },
+                    .attributes = .{
+                        .transfer_type = endp_conf.endpoint_type,
+                    },
+                    .interval = endp_conf.interval,
+                    .max_packet_size = 64,
+                };
+
+                descriptors = descriptors ++ std.mem.toBytes(endp);
+            }
+
+            return descriptors;
+        }
+
+        fn handleInterfaceSetupReq(setup_packet: Usb.SetupPacket) ?[]const u8 {
+            const request: InterfaceRequest = @enumFromInt(setup_packet.request);
+            switch (request) {
+                .get_descriptor => {
+                    const descriptor_type: Descriptors.Type = @enumFromInt(setup_packet.value >> 8);
+                    std.log.debug("HID Descriptor type: {t}", .{descriptor_type});
+                    switch (descriptor_type) {
+                        .report => {
+                            return report;
+                        },
+                        else => {
+                            @breakpoint();
+                            return null;
+                        },
+                    }
+                },
+                .set_idle => {
+                    // dont quite understand the point of this, but the
+                    // host always seems to send duration 0 which as
+                    // far as i understand means only send reports if
+                    // data changes (and just NAK other requests)
+                    // instead of regularly on the defined intervals.
+                    // This seems logical to reduce usb traffic and i
+                    // dont want to think about how I would handle non
+                    // 0 idle durations so for now just assert
+                    const duration = setup_packet.value >> 8;
+                    std.debug.assert(duration == 0);
+                    return Usb.ACK;
+                },
+                else => {
+                    @breakpoint();
+                    return null;
+                },
+            }
         }
     };
 }

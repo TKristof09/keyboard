@@ -12,8 +12,8 @@ const Xosc = @import("rp2040/xosc.zig").Xosc;
 const Pll = @import("rp2040/pll.zig");
 const USB = @import("rp2040/usb.zig");
 const Uart = @import("rp2040/uart.zig");
-const hid = @import("rp2040/usb/hid.zig");
-const timer = @import("rp2040/timer.zig");
+const Hid = @import("rp2040/usb/hid.zig");
+const Timer = @import("rp2040/timer.zig");
 
 const keys = [_]@import("keyboard.zig").Key{
     .{
@@ -147,18 +147,36 @@ const layout: @import("keyboard.zig").Layout = &.{
     &.{ .KC_shift, .KC_b },
 };
 
-const keyboard = @import("keyboard.zig").MakeKeyboard(&keys, layout);
-// const keyboard = @import("keyboard.zig").MakeKeyboard(&.{ .GPIO24, .GPIO23 });
+// const keyboard = @import("keyboard.zig").MakeKeyboard(&keys, layout);
+
+const keyboard = @import("keyboard.zig").MakeKeyboard(&.{
+    .{
+        .pin = .GPIO23,
+        .pos = .{
+            .x = 0,
+            .y = 0,
+        },
+    },
+    .{
+        .pin = .GPIO24,
+        .pos = .{
+            .x = 1,
+            .y = 0,
+        },
+    },
+}, &.{
+    &.{ .KC_a, .KC_b },
+});
 
 const base_config = GPIO.GPIOConfig{
-    // .GPIO0 = .{
-    //     .direction = .out,
-    //     .fun = .uart,
-    // },
-    // .GPIO1 = .{
-    //     .direction = .in,
-    //     .fun = .uart,
-    // },
+    .GPIO0 = .{
+        .direction = .out,
+        .fun = .uart,
+    },
+    .GPIO1 = .{
+        .direction = .in,
+        .fun = .uart,
+    },
     .GPIO25 = .{
         .direction = .out,
     },
@@ -170,7 +188,12 @@ var led: GPIO.OutPin = pins.GPIO25;
 const button1: GPIO.InPin = pins.GPIO20;
 const button2: GPIO.InPin = pins.GPIO23;
 
-const Report = hid.MakeStruct(&hid.boot_keyboard);
+const HID = Hid.Make(
+    &.{
+        USB.EndpointConfig{ .address = .{ .endpoint = 1, .direction = .in }, .endpoint_type = .Interrupt, .interval = 1 },
+    },
+    &Hid.boot_keyboard,
+);
 
 const usb_config = USB.Configuration{
     .device_descriptor = .{
@@ -206,17 +229,15 @@ const usb_config = USB.Configuration{
         "just the default config",
         "test interface",
     },
-
-    .endpoints = &.{
-        USB.EndpointConfig{ .address = .{ .endpoint = 1, .direction = .in }, .endpoint_type = .Interrupt, .interval = 1 },
+    .drivers = &.{
+        HID.driver(),
     },
-    .hid_report = Report.report,
 };
 const Usb = USB.UsbDevice(usb_config);
 
 var uart: Uart.Uart = undefined;
 
-var r = Report{};
+var hid = HID{};
 
 export fn main() void {
     rp.peripherals.RESETS.RESET.write(comptime rp.RESETS.RESET.IO_BANK0(0));
@@ -232,7 +253,7 @@ export fn main() void {
     var usb = Usb.init();
 
     GPIO.InitPins(pin_config);
-    // uart = Uart.Uart.init(.uart0, 115200);
+    uart = Uart.Uart.init(.uart0, 115200);
 
     {
         // clear screen of picom and send a separator to make it easier to see this run's messages
@@ -251,10 +272,11 @@ export fn main() void {
 
     while (true) {
         usb.poll();
-        r.data.keys = @splat(0);
-        r.data.modifiers = @splat(0);
-        if (keyboard.task(&r)) {
-            const report_len = r.serialize(&report_buf);
+        hid.data.keys = @splat(0);
+        hid.data.modifiers = @splat(0);
+        if (keyboard.task(&hid)) {
+            const report_len = hid.serialize(&report_buf);
+            std.log.debug("Queuing keyboard report ({d} bytes)", .{report_len});
             usb.queueMessage(.{ .endpoint = 1, .direction = .in }, report_buf[0..report_len]);
         }
         // if (button1.read() == 0) {
@@ -272,7 +294,7 @@ export fn main() void {
         //     led.toggle();
         // }
         // led.toggle();
-        timer.busyWait(1);
+        Timer.busyWait(1);
     }
 }
 
@@ -319,7 +341,7 @@ fn logFn(
     comptime fmt: []const u8,
     args: anytype,
 ) void {
-    if (false) {
+    if (true) {
         const level_str = comptime switch (level) {
             .debug => "[DEBUG]",
             .info => "[INFO ]",
