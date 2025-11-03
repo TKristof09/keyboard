@@ -24,7 +24,7 @@ pub const EndpointConfig = struct {
 pub const DriverInterface = struct {
     endpoints: []const EndpointConfig,
     num_interfaces: u8,
-    fn_handle_interface_setup_req: *const fn (setup_packet: SetupPacket) ?[]const u8,
+    fn_handle_interface_setup_req: *const fn (setup_packet: SetupPacket, data: ?[]const u8) ?[]const u8,
     fn_get_descriptors: *const fn (comptime first_interface: u8) []const u8,
 };
 
@@ -64,8 +64,6 @@ pub const SetupPacket = struct {
         in = 1,
     };
 };
-
-pub const ACK: []const u8 = "";
 
 const DeviceRequest = enum(u8) {
     get_status = 0,
@@ -142,7 +140,7 @@ const Endpoint = struct {
 };
 const Driver = struct {
     descriptor: []const u8,
-    fn_handle_interface_setup_req: *const fn (setup_packet: SetupPacket) ?[]const u8,
+    fn_handle_interface_setup_req: *const fn (setup_packet: SetupPacket, data: ?[]const u8) ?[]const u8,
 };
 
 const max_num_endpoints = 2 * 16; // 16 in,out endpoints
@@ -163,11 +161,22 @@ fn makeConfigDescriptor(comptime config: Configuration, drivers: []const Driver)
     return &std.mem.toBytes(conf) ++ driver_descriptors;
 }
 
+const State = enum {
+    idle,
+    data_in,
+    data_out,
+    status_in,
+    status_out,
+};
+
 pub fn UsbDevice(comptime config: Configuration) type {
     return struct {
         addr: u8 = 0,
         should_set_addr: bool = false,
         endpoints: [max_num_endpoints]?Endpoint, // ep0 + whatever is in config
+        state: State = .idle,
+        setup_req: SetupPacket = undefined,
+        setup_data: [64]u8 = undefined,
 
         const device_descriptor: [18]u8 = @bitCast(config.device_descriptor);
         const config_descriptor: []const u8 = makeConfigDescriptor(config, &drivers);
@@ -266,38 +275,31 @@ pub fn UsbDevice(comptime config: Configuration) type {
         }
 
         pub fn poll(self: *@This()) void {
+            checkErrors();
+
             const status = rp.peripherals.USB.INTS.read();
+
+            if (status.BUS_RESET() == 1) {
+                self.handleBusReset();
+                return;
+            }
+
             if (status.SETUP_REQ() == 1) {
                 self.handleSetup();
+                return;
             }
+
             if (status.BUFF_STATUS() == 1) {
                 const buffers = rp.peripherals.USB.BUFF_STATUS.read();
                 if (buffers.EP0_OUT() == 1) {
+                    self.handleEp0OutComplete();
                     rp.peripherals.USB.BUFF_STATUS.set(rp.USB.BUFF_STATUS.FieldMasks.EP0_OUT);
                 }
                 if (buffers.EP0_IN() == 1) {
                     rp.peripherals.USB.BUFF_STATUS.set(rp.USB.BUFF_STATUS.FieldMasks.EP0_IN);
-                    if (self.should_set_addr) {
-                        self.should_set_addr = false;
-                        rp.peripherals.USB.ADDR_ENDP.write(rp.USB.ADDR_ENDP.ADDRESS(@intCast(self.addr)));
-                    } else {
-                        rp.peripherals.USB_DPRAM.EP0_OUT_BUFFER_CONTROL.write(rp.USB_DPRAM.EP0_OUT_BUFFER_CONTROL
-                            .LENGTH_0(0)
-                            .PID_1(self.endpoints[0].?.next_pid)
-                            .FULL_0(0));
-
-                        asm volatile (
-                            \\ nop
-                            \\ nop
-                            \\ nop
-                        );
-                        rp.peripherals.USB_DPRAM.EP0_OUT_BUFFER_CONTROL.write(rp.USB_DPRAM.EP0_OUT_BUFFER_CONTROL.AVAILABLE_0(1));
-                        self.endpoints[0].?.next_pid ^= 1;
-                    }
+                    self.handleEp0InComplete();
                 }
-            }
-            if (status.BUS_RESET() == 1) {
-                self.handleBusReset();
+                return;
             }
         }
 
@@ -338,7 +340,7 @@ pub fn UsbDevice(comptime config: Configuration) type {
 
         fn ackOutRequest(self: *@This()) void {
             std.log.debug("Acking OUT request", .{});
-            initTransfer(&self.endpoints[0].?, ACK, 0);
+            initTransfer(&self.endpoints[0].?, "", 0);
         }
         fn handleSetup(self: *@This()) void {
             rp.peripherals.USB.SIE_STATUS.writeOver(rp.USB.SIE_STATUS.SETUP_REC(1));
@@ -346,7 +348,7 @@ pub fn UsbDevice(comptime config: Configuration) type {
             const packet_high = rp.peripherals.USB_DPRAM.SETUP_PACKET_HIGH.read();
             const bm_req_type = packet_low.BMREQUESTTYPE();
 
-            const setup_req = SetupPacket{
+            self.setup_req = SetupPacket{
                 .dir = @enumFromInt(bm_req_type >> 7),
                 .request_type = @enumFromInt((bm_req_type >> 5) & 0b11),
                 .recipient = @enumFromInt(bm_req_type & 0b1111),
@@ -355,72 +357,158 @@ pub fn UsbDevice(comptime config: Configuration) type {
                 .request = packet_low.BREQUEST(),
                 .value = packet_low.WVALUE(),
             };
-            // for some reason sdk always responds in the setup with pid = 1
+
+            // Reset PIDs, it always starts with PID 1 for setup packets
             self.endpoints[0].?.next_pid = 1;
-            switch (setup_req.recipient) {
+            self.endpoints[1].?.next_pid = 1;
+
+            if (self.setup_req.dir == .out and self.setup_req.length > 0) {
+                std.log.debug("Setup request with data phase: {d} bytes", .{self.setup_req.length});
+                self.prepareEp0RX(@intCast(self.setup_req.length));
+
+                std.debug.assert(self.setup_req.length <= 64); // don't want to deal with more data for now.
+
+                self.state = .data_out;
+                // if data phase we will handle it after the data has arrived
+                return;
+            }
+
+            // if no data phase we can already handle it
+            self.processSetupRequest(null);
+        }
+        fn processSetupRequest(self: *@This(), data: ?[]const u8) void {
+            switch (self.setup_req.recipient) {
                 .device => {
-                    const req: DeviceRequest = @enumFromInt(setup_req.request);
-                    std.log.debug("Received: {t} {t}", .{ setup_req.dir, req });
+                    const req: DeviceRequest = @enumFromInt(self.setup_req.request);
+                    std.log.debug("Received: {t} {t}", .{ self.setup_req.dir, req });
                     switch (req) {
                         .set_address => {
-                            self.addr = @intCast(packet_low.WVALUE() & 0xff);
-                            std.log.debug("Set address with: {d}", .{packet_low.WVALUE()});
+                            self.addr = @intCast(self.setup_req.value & 0xff);
                             self.should_set_addr = true;
+
+                            self.state = .status_in;
                             self.ackOutRequest();
                         },
                         .set_configuration => {
-                            std.debug.assert(packet_low.WVALUE() == 1);
+                            std.debug.assert(self.setup_req.value == 1);
                             std.log.debug("Set configuration", .{});
+                            self.state = .status_in;
                             self.ackOutRequest();
                         },
                         .get_descriptor => {
-                            const descriptor_type: descriptors.Type = @enumFromInt(packet_low.WVALUE() >> 8);
+                            const descriptor_type: descriptors.Type = @enumFromInt(self.setup_req.value >> 8);
                             std.log.debug("Descriptor type: {t}", .{descriptor_type});
+                            self.state = .data_in;
                             switch (descriptor_type) {
                                 .device => {
-                                    initTransfer(&self.endpoints[0].?, &device_descriptor, setup_req.length);
+                                    initTransfer(&self.endpoints[0].?, &device_descriptor, self.setup_req.length);
                                 },
                                 .device_qualifier => {
                                     rp.peripherals.USB_DPRAM.EP0_IN_BUFFER_CONTROL.write(rp.USB_DPRAM.EP0_IN_BUFFER_CONTROL.STALL(1));
                                     rp.peripherals.USB.EP_STALL_ARM.set(rp.USB.EP_STALL_ARM.FieldMasks.EP0_IN);
                                 },
                                 .configuration => {
-                                    std.log.warn("Config length: {d}", .{config_descriptor.len});
+                                    std.log.info("Config length: {d}", .{config_descriptor.len});
                                     // in the usb protocol the host first asks
                                     // for the "header" of the config
                                     // descriptor which tells it how long it
                                     // is, then it asks for the entire config
                                     // descriptor
-                                    if (setup_req.length == 9) {
-                                        initTransfer(&self.endpoints[0].?, config_descriptor[0..9], setup_req.length);
+                                    if (self.setup_req.length == 9) {
+                                        initTransfer(&self.endpoints[0].?, config_descriptor[0..9], self.setup_req.length);
                                     } else {
-                                        initTransfer(&self.endpoints[0].?, config_descriptor, setup_req.length);
+                                        initTransfer(&self.endpoints[0].?, config_descriptor, self.setup_req.length);
                                     }
                                 },
                                 .string => {
-                                    const index = packet_low.WVALUE() & 0xff;
-                                    initTransfer(&self.endpoints[0].?, string_descriptors[index], setup_req.length);
+                                    const index = self.setup_req.value & 0xff;
+                                    initTransfer(&self.endpoints[0].?, string_descriptors[index], self.setup_req.length);
                                 },
                                 else => {
-                                    @breakpoint();
+                                    std.log.err("Unknown descriptor type", .{});
                                 },
                             }
                         },
                         else => {
-                            @breakpoint();
+                            std.log.warn("Unhandled device request: {}", .{req});
                             self.ackOutRequest();
                         },
                     }
                 },
                 .interface => {
-                    std.log.debug("Received: {t} {any}", .{ setup_req.dir, setup_req.request });
-                    const idx = setup_req.index;
-                    if (drivers[idx].fn_handle_interface_setup_req(setup_req)) |data| {
-                        initTransfer(&self.endpoints[0].?, data, setup_req.length);
+                    std.log.debug("Interface request: {t} {any}", .{ self.setup_req.dir, self.setup_req.request });
+                    const idx = self.setup_req.index;
+                    if (drivers[idx].fn_handle_interface_setup_req(self.setup_req, data)) |response_data| {
+                        initTransfer(&self.endpoints[0].?, response_data, self.setup_req.length);
+                        self.state = .data_in;
+                    } else {
+                        std.debug.assert(self.setup_req.dir == .out); // IN requests should always send back data
+                        self.state = .status_in;
+                        self.ackOutRequest();
                     }
                 },
                 else => unreachable,
             }
+        }
+
+        fn handleEp0InComplete(self: *@This()) void {
+            switch (self.state) {
+                .data_in => {
+                    self.prepareEp0RX(0);
+                    self.state = .status_out;
+                },
+                .status_in => {
+                    std.log.debug("Status IN complete", .{});
+                    self.state = .idle;
+                    if (self.should_set_addr) {
+                        self.should_set_addr = false;
+                        rp.peripherals.USB.ADDR_ENDP.write(rp.USB.ADDR_ENDP.ADDRESS(@intCast(self.addr)));
+                        std.log.debug("Address set to {d}", .{self.addr});
+                    }
+                },
+                else => {
+                    std.log.err("Unexpected EP0 IN in state {}", .{self.state});
+                },
+            }
+        }
+        fn handleEp0OutComplete(self: *@This()) void {
+            switch (self.state) {
+                .data_out => {
+                    const len = self.setup_req.length;
+                    @memcpy(self.setup_data[0..len], self.endpoints[1].?.buf[0..len]);
+                    std.log.debug("Received {d} bytes", .{len});
+                    self.processSetupRequest(&self.setup_data);
+                },
+                .status_out => {
+                    std.log.debug("Status OUT complete", .{});
+                    self.state = .idle;
+                    if (self.should_set_addr) {
+                        self.should_set_addr = false;
+                        rp.peripherals.USB.ADDR_ENDP.write(rp.USB.ADDR_ENDP.ADDRESS(@intCast(self.addr)));
+                        std.log.debug("Address set to {d}", .{self.addr});
+                    }
+                },
+                else => {
+                    std.log.err("Unexpected EP0 OUT in state {}", .{self.state});
+                },
+            }
+        }
+
+        fn prepareEp0RX(self: *@This(), length: u10) void {
+            @memset(self.endpoints[1].?.buf, 0);
+            self.endpoints[1].?.buf_ctrl.* = .{
+                .full_0 = 0,
+                .length_0 = length,
+                .pid_0 = self.endpoints[1].?.next_pid,
+            };
+
+            asm volatile (
+                \\ nop
+                \\ nop
+                \\ nop
+            );
+            self.endpoints[1].?.buf_ctrl.available_0 = 1;
+            self.endpoints[1].?.next_pid ^= 1;
         }
 
         fn initTransfer(endp: *Endpoint, data: []const u8, max_len: u16) void {
@@ -490,6 +578,22 @@ pub fn UsbDevice(comptime config: Configuration) type {
                     endp.buf_ctrl.available_0 = 1;
                     endp.next_pid ^= 1;
                 }
+            }
+        }
+
+        fn checkErrors() void {
+            const sie = rp.peripherals.USB.SIE_STATUS.read();
+            if (sie.DATA_SEQ_ERROR() == 1) {
+                rp.peripherals.USB.SIE_STATUS.writeOver(rp.USB.SIE_STATUS.DATA_SEQ_ERROR(1));
+                std.log.err("USB Data Sequence error", .{});
+            }
+            if (sie.RX_OVERFLOW() == 1) {
+                rp.peripherals.USB.SIE_STATUS.writeOver(rp.USB.SIE_STATUS.RX_OVERFLOW(1));
+                std.log.err("USB RX Overflow error", .{});
+            }
+            if (sie.RX_TIMEOUT() == 1) {
+                rp.peripherals.USB.SIE_STATUS.writeOver(rp.USB.SIE_STATUS.RX_TIMEOUT(1));
+                std.log.err("USB RX Timeout error", .{});
             }
         }
     };

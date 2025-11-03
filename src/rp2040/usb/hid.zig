@@ -290,8 +290,10 @@ pub fn Make(comptime endpoints: []const Usb.EndpointConfig, comptime items: []co
             return descriptors;
         }
 
-        fn handleInterfaceSetupReq(setup_packet: Usb.SetupPacket) ?[]const u8 {
+        fn handleInterfaceSetupReq(setup_packet: Usb.SetupPacket, _: ?[]const u8) ?[]const u8 {
             const request: InterfaceRequest = @enumFromInt(setup_packet.request);
+
+            std.log.debug("Received: {t} {t}", .{ setup_packet.dir, request });
             switch (request) {
                 .get_descriptor => {
                     const descriptor_type: Descriptors.Type = @enumFromInt(setup_packet.value >> 8);
@@ -317,10 +319,10 @@ pub fn Make(comptime endpoints: []const Usb.EndpointConfig, comptime items: []co
                     // 0 idle durations so for now just assert
                     const duration = setup_packet.value >> 8;
                     std.debug.assert(duration == 0);
-                    return Usb.ACK;
+                    return null;
                 },
                 else => {
-                    @breakpoint();
+                    std.log.err("Unhandled HID request: {t}", .{request});
                     return null;
                 },
             }
