@@ -264,7 +264,10 @@ export fn main() void {
         uart.sendString("=" ** 100 ++ "\r\n");
     }
 
-    std.log.info("Hello {s}", .{"logger"});
+    std.log.info("Hello {s}", .{"info"});
+    std.log.debug("Hello {s}", .{"debug"});
+    std.log.warn("Hello {s}", .{"warning"});
+    std.log.err("Hello {s}", .{"error"});
     var report_buf: [256]u8 = undefined;
 
     const wd = rp.peripherals.WATCHDOG.TICK.read();
@@ -342,6 +345,14 @@ fn logFn(
     args: anytype,
 ) void {
     if (true) {
+        const color_prefix = comptime switch (level) {
+            .debug => "\x1b[37m", // white
+            .info => "\x1b[32m", // green
+            .warn => "\x1b[33m", // yellow
+            .err => "\x1b[31m", // red
+        };
+        const color_reset = "\x1b[0m";
+
         const level_str = comptime switch (level) {
             .debug => "[DEBUG]",
             .info => "[INFO ]",
@@ -349,9 +360,10 @@ fn logFn(
             .err => "[ERROR]",
         };
         const scope_str = if (scope == .default) ":" else "(" ++ @tagName(scope) ++ "):";
+
         std.fmt.format(
             UartWriter{ .context = uart },
-            level_str ++ " " ++ scope_str ++ " " ++ fmt ++ "\r\n",
+            color_prefix ++ level_str ++ " " ++ scope_str ++ " " ++ fmt ++ color_reset ++ "\r\n",
             args,
         ) catch unreachable;
     }
